@@ -1,0 +1,245 @@
+/*
+Theme Name: ATHIS UFSC
+Description: Tema do esboço da plataforma ATHIS UFSC
+Version: 0.1
+Text Domain: athis-ufsc
+*/
+
+/* ==========================================================
+   CSS vindo do protótipo HTML (UFSC ATHIS - Mockup_site.html)
+   ========================================================== */
+    /* RESET & VARS */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --blue: #1B365D;
+      --blue-mid: #2563A8;
+      --terra: #D95C37;
+      --terra-hover: #C85A32;
+      --bg: #F8F9FA;
+      --text: #2D3748;
+      --text-lt: #4A5568;
+      --white: #FFFFFF;
+      --shadow-sm: 0 4px 6px -1px rgba(27, 54, 93, 0.05), 0 2px 4px -1px rgba(27, 54, 93, 0.03);
+      --shadow-md: 0 10px 15px -3px rgba(27, 54, 93, 0.1), 0 4px 6px -2px rgba(27, 54, 93, 0.05);
+      --shadow-lg: 0 20px 25px -5px rgba(27, 54, 93, 0.1), 0 10px 10px -5px rgba(27, 54, 93, 0.04);
+      --radius: 12px;
+      --radius-sm: 8px;
+      /* variáveis que o protótipo usava mas não definia */
+      --gray-md: #CBD5E0;
+      --gray-lt: #E2E8F0;
+      --gray-bg: #F1F5F9;
+    }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Inter', sans-serif; color: var(--text); background: var(--bg); line-height: 1.6; }
+    a { text-decoration: none; color: inherit; transition: all 0.2s ease; }
+    ul { list-style: none; }
+    img { max-width: 100%; display: block; }
+    .container { width: 100%; max-width: 1280px; margin: 0 auto; padding: 0 24px; }
+    .section-title { font-size: 2.5rem; font-weight: 800; color: var(--blue); margin-bottom: 1rem; line-height: 1.2; letter-spacing: -0.02em; }
+    .section-sub { font-size: 1.125rem; color: var(--text-lt); max-width: 700px; margin-bottom: 3rem; }
+    
+    .btn { display: inline-flex; align-items: center; justify-content: center; padding: 12px 24px; border-radius: 6px; font-weight: 600; font-size: 0.9375rem; cursor: pointer; transition: all 0.2s ease; }
+    .btn-primary { background: var(--terra); color: var(--white); border: none; }
+    .btn-primary:hover { background: var(--terra-hover); transform: translateY(-2px); box-shadow: var(--shadow-md); }
+    .btn-outline { background: transparent; border: 2px solid var(--white); color: var(--white); }
+    .btn-outline:hover { background: rgba(255,255,255,0.1); }
+    
+    .tag { display: inline-block; padding: 4px 10px; background: rgba(217, 92, 55, 0.1); color: var(--terra); border-radius: 20px; font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 1rem; }
+    .tag-blue { background: rgba(27, 54, 93, 0.1); color: var(--blue); }
+
+    /* NAVBAR */
+    .navbar { position: fixed; top: 0; left: 0; width: 100%; background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); z-index: 1000; border-bottom: 1px solid rgba(27, 54, 93, 0.05); }
+    .navbar .container { display: flex; align-items: center; justify-content: space-between; height: 80px; }
+    .logo { font-size: 1.25rem; font-weight: 800; color: var(--blue); letter-spacing: -0.02em; display: flex; align-items: center; gap: 8px; }
+    .logo span { color: var(--terra); }
+    .nav-links { display: flex; gap: 32px; align-items: center; }
+    .nav-links a { font-weight: 500; font-size: 0.9375rem; color: var(--text-lt); }
+    .nav-links a:hover { color: var(--terra); }
+    
+    /* HERO SECTION */
+    .hero { position: relative; padding: 180px 0 120px; background: var(--blue); overflow: hidden; }
+    .hero::before {
+      content: ''; position: absolute; inset: 0;
+      background: linear-gradient(90deg, rgba(27,54,93,0.95) 0%, rgba(27,54,93,0.7) 100%), 
+                  url('https://images.unsplash.com/photo-1541888086225-ee531502b4d5?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80') center/cover;
+      z-index: 0;
+    }
+    .hero .container { position: relative; z-index: 1; }
+    .hero-content { max-width: 750px; }
+    .hero-tag { display: inline-flex; align-items: center; gap: 8px; padding: 6px 16px; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); border-radius: 30px; color: var(--white); font-size: 0.875rem; font-weight: 500; margin-bottom: 24px; }
+    .hero h1 { font-size: 4rem; font-weight: 800; color: var(--white); line-height: 1.1; margin-bottom: 24px; letter-spacing: -0.02em; }
+    .hero h1 span { color: var(--terra); }
+    .hero p { font-size: 1.25rem; color: rgba(255,255,255,0.85); margin-bottom: 40px; font-weight: 300; line-height: 1.5; }
+    .hero-btns { display: flex; gap: 16px; }
+
+    /* O QUE É ATHIS */
+    .about { padding: 100px 0; background: var(--bg); }
+    .about-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; margin-top: 40px; }
+    .about-card { background: var(--white); padding: 40px 32px; border-radius: var(--radius); box-shadow: var(--shadow-sm); transition: transform 0.3s ease, box-shadow 0.3s ease; border: 1px solid rgba(27, 54, 93, 0.05); }
+    .about-card:hover { transform: translateY(-5px); box-shadow: var(--shadow-lg); }
+    .about-card-icon { width: 56px; height: 56px; border-radius: 12px; background: rgba(27, 54, 93, 0.05); display: flex; align-items: center; justify-content: center; font-size: 24px; margin-bottom: 24px; color: var(--blue); }
+    .about-card.highlight .about-card-icon { background: rgba(217, 92, 55, 0.1); color: var(--terra); }
+    .about-card h3 { font-size: 1.25rem; font-weight: 700; color: var(--blue); margin-bottom: 12px; }
+    .about-card p { font-size: 0.9375rem; color: var(--text-lt); }
+
+    /* GUARDA-CHUVA ATHIS: ATLAS DE TERRITÓRIOS */
+    .atlas { padding: 100px 0; background: var(--white); }
+    .atlas-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; align-items: stretch; }
+    
+    .atlas-card { background: var(--blue); border-radius: var(--radius); overflow: hidden; box-shadow: var(--shadow-md); color: var(--white); display: flex; flex-direction: column; transition: transform 0.3s ease; }
+    .atlas-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-lg); }
+    
+    .atlas-img { height: 240px; background-size: cover; background-position: center; position: relative; }
+    .atlas-img::after { content: ''; position: absolute; inset: 0; background: linear-gradient(to top, var(--blue), transparent); }
+    
+    .atlas-content { padding: 32px; display: flex; flex-direction: column; flex: 1; }
+    .atlas-tag { font-size: 0.75rem; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; color: var(--terra); margin-bottom: 8px; }
+    .atlas-content h3 { font-size: 1.75rem; font-weight: 800; margin-bottom: 16px; line-height: 1.2; }
+    .atlas-content p { font-size: 0.9375rem; color: rgba(255,255,255,0.7); margin-bottom: 24px; line-height: 1.5; }
+    .atlas-meta { display: flex; gap: 16px; margin-bottom: 32px; flex-wrap: wrap; }
+    .atlas-meta span { display: flex; align-items: center; gap: 6px; font-size: 0.875rem; font-weight: 600; color: rgba(255,255,255,0.9); background: rgba(255,255,255,0.1); padding: 4px 12px; border-radius: 20px; }
+    .atlas-content .btn { margin-top: auto; align-self: flex-start; }
+    
+    .atlas-expansion { grid-column: span 2; background: rgba(27, 54, 93, 0.03); border: 2px dashed rgba(27, 54, 93, 0.15); border-radius: var(--radius); padding: 40px; text-align: center; color: var(--text-lt); display: flex; flex-direction: column; align-items: center; justify-content: center; transition: background 0.3s ease; }
+    .atlas-expansion:hover { background: rgba(27, 54, 93, 0.06); }
+    .atlas-expansion h4 { font-size: 1.25rem; font-weight: 700; color: var(--blue); margin-bottom: 8px; }
+    .atlas-expansion p { font-size: 0.9375rem; max-width: 500px; }
+
+    /* ÁRVORE DE ESTRUTURAÇÃO DO ACERVO */
+    .tree-section { padding: 100px 0; background: var(--bg); }
+    .tree-container { background: var(--white); border-radius: var(--radius); box-shadow: var(--shadow-sm); padding: 60px 40px; overflow-x: auto; }
+    
+    .tree { display: flex; flex-direction: column; align-items: center; }
+    .tree-root { background: var(--blue); color: var(--white); padding: 16px 32px; border-radius: var(--radius-sm); font-weight: 800; font-size: 1.25rem; z-index: 2; position: relative; box-shadow: var(--shadow-md); text-align: center; }
+    
+    .tree-level-1 { display: flex; justify-content: center; gap: 80px; margin-top: 40px; position: relative; width: 100%; }
+    /* Connecting lines */
+    .tree-level-1::before { content: ''; position: absolute; top: -40px; left: calc(50% - 1px); width: 2px; height: 40px; background: var(--gray-md); }
+    .tree-level-1::after { content: ''; position: absolute; top: 0; left: 25%; width: 50%; height: 2px; background: var(--gray-md); }
+    
+    .tree-node { display: flex; flex-direction: column; align-items: center; position: relative; width: 350px; }
+    .tree-node::before { content: ''; position: absolute; top: 0; left: calc(50% - 1px); width: 2px; height: 20px; background: var(--gray-md); }
+    
+    .tree-territory { background: var(--white); border: 2px solid var(--terra); color: var(--blue); padding: 12px 24px; border-radius: var(--radius-sm); font-weight: 700; font-size: 1.125rem; margin-top: 20px; z-index: 2; box-shadow: var(--shadow-sm); text-align: center; width: 100%; }
+    
+    .tree-projects { margin-top: 20px; display: flex; flex-direction: column; gap: 8px; width: 100%; position: relative; padding-left: 20px; }
+    .tree-projects::before { content: ''; position: absolute; top: 0; left: 20px; width: 2px; height: calc(100% - 20px); background: var(--gray-md); }
+    
+    .tree-project { background: var(--gray-bg); padding: 10px 16px; border-radius: 6px; font-size: 0.875rem; font-weight: 600; color: var(--text); border: 1px solid var(--gray-lt); position: relative; margin-left: 20px; }
+    .tree-project::before { content: ''; position: absolute; top: 50%; left: -20px; width: 20px; height: 2px; background: var(--gray-md); }
+    .tree-project span { display: inline-block; padding: 2px 6px; border-radius: 4px; background: var(--gray-lt); font-size: 0.65rem; color: var(--text-lt); margin-left: 8px; text-transform: uppercase; }
+
+    /* FILTERS */
+    .filter-bar { display: flex; gap: 12px; margin-bottom: 40px; flex-wrap: wrap; }
+    .filter-btn { padding: 8px 16px; border-radius: 20px; font-size: 0.875rem; font-weight: 600; border: 1px solid var(--gray-lt); background: var(--white); color: var(--text-lt); cursor: pointer; transition: all 0.2s ease; }
+    .filter-btn:hover { border-color: var(--blue-mid); color: var(--blue-mid); }
+    .filter-btn.active { background: var(--blue); border-color: var(--blue); color: var(--white); }
+
+    /* EXPERIÊNCIAS */
+    .experiences { padding: 100px 0; background: var(--white); }
+    .exp-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; }
+    .exp-card { background: var(--white); border-radius: var(--radius); overflow: hidden; box-shadow: var(--shadow-sm); transition: transform 0.3s ease, opacity 0.3s ease; border: 1px solid rgba(27,54,93,0.05); }
+    .exp-card:hover { transform: translateY(-5px); box-shadow: var(--shadow-lg); }
+    .exp-img { height: 220px; background-size: cover; background-position: center; position: relative; }
+    .exp-img::after { content: ''; position: absolute; inset: 0; background: linear-gradient(to top, rgba(0,0,0,0.5), transparent); }
+    .exp-status { position: absolute; bottom: 16px; left: 16px; z-index: 1; padding: 4px 12px; border-radius: 20px; font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; background: var(--terra); color: var(--white); }
+    .exp-terr { position: absolute; top: 16px; right: 16px; z-index: 1; padding: 4px 10px; border-radius: 4px; font-size: 0.7rem; font-weight: 600; background: rgba(0,0,0,0.6); color: var(--white); backdrop-filter: blur(4px); }
+    .exp-content { padding: 24px; }
+    .exp-title { font-size: 1.25rem; font-weight: 700; color: var(--blue); margin-bottom: 8px; }
+    .exp-desc { font-size: 0.9375rem; color: var(--text-lt); margin-bottom: 20px; }
+    .exp-link { font-size: 0.875rem; font-weight: 600; color: var(--terra); display: inline-flex; align-items: center; gap: 4px; cursor: pointer; }
+    .exp-link:hover { gap: 8px; }
+    
+    .hidden { display: none !important; }
+
+    /* BIBLIOTECA */
+    .library { padding: 100px 0; background: var(--blue); color: var(--white); }
+    .library .section-title { color: var(--white); }
+    .library .section-sub { color: rgba(255,255,255,0.7); }
+    
+    .lib-filter-btn { background: rgba(255,255,255,0.1); border-color: rgba(255,255,255,0.2); color: rgba(255,255,255,0.8); }
+    .lib-filter-btn:hover { background: rgba(255,255,255,0.2); border-color: rgba(255,255,255,0.3); color: var(--white); }
+    .lib-filter-btn.active { background: var(--terra); border-color: var(--terra); color: var(--white); }
+
+    .lib-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; }
+    .lib-card { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: var(--radius-sm); padding: 24px; transition: background 0.2s ease; position: relative; }
+    .lib-card:hover { background: rgba(255,255,255,0.1); }
+    .lib-card-terr { font-size: 0.65rem; padding: 2px 6px; background: rgba(255,255,255,0.1); border-radius: 4px; display: inline-block; margin-bottom: 8px; color: rgba(255,255,255,0.7); }
+    .lib-card-type { font-size: 0.75rem; color: var(--terra); font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 12px; }
+    .lib-card h4 { font-size: 1.125rem; font-weight: 600; margin-bottom: 8px; line-height: 1.3; }
+    .lib-card p { font-size: 0.875rem; color: rgba(255,255,255,0.6); margin-bottom: 20px; }
+    .lib-download { display: inline-flex; align-items: center; gap: 8px; font-size: 0.875rem; font-weight: 500; color: var(--white); cursor: pointer; }
+    .lib-download:hover { color: var(--terra); }
+
+    /* FOOTER */
+    .footer { background: #0A192F; color: rgba(255,255,255,0.7); padding: 80px 0 40px; }
+    .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 48px; margin-bottom: 60px; }
+    .footer-logo { font-size: 1.5rem; font-weight: 800; color: var(--white); margin-bottom: 16px; display: flex; align-items: center; gap: 8px; }
+    .footer-logo span { color: var(--terra); }
+    .footer h5 { font-size: 1rem; font-weight: 700; color: var(--white); margin-bottom: 24px; }
+    .footer-links { display: flex; flex-direction: column; gap: 12px; }
+    .footer-links a:hover { color: var(--white); }
+    .footer-bottom { padding-top: 32px; border-top: 1px solid rgba(255,255,255,0.1); display: flex; justify-content: space-between; align-items: center; font-size: 0.875rem; }
+    .footer-partners { display: flex; gap: 24px; align-items: center; flex-wrap: wrap; }
+    .partner-ph { padding: 8px 16px; background: rgba(255,255,255,0.05); border-radius: 4px; font-weight: 600; font-size: 0.75rem; letter-spacing: 0.05em; }
+
+    @media (max-width: 1024px) {
+      .about-grid, .exp-grid, .lib-grid, .atlas-grid { grid-template-columns: repeat(2, 1fr); gap: 24px; }
+      .footer-grid { grid-template-columns: 1fr 1fr; }
+      .hero h1 { font-size: 3rem; }
+      .tree-level-1 { flex-direction: column; gap: 40px; align-items: center; margin-top: 20px; }
+      .tree-level-1::before, .tree-level-1::after { display: none; }
+      .tree-node::before { display: none; }
+    }
+    @media (max-width: 768px) {
+      .nav-links { display: none; }
+      .about-grid, .exp-grid, .lib-grid, .atlas-grid, .footer-grid { grid-template-columns: 1fr; }
+      .atlas-expansion { grid-column: span 1; }
+      .hero h1 { font-size: 2.5rem; }
+      .atlas-content { padding: 24px; }
+      .footer-bottom { flex-direction: column; gap: 24px; text-align: center; }
+      .tree-node { width: 100%; max-width: 350px; }
+    }
+  
+
+/* ==========================================================
+   Acréscimos do tema WordPress
+   ========================================================== */
+
+/* Barra de admin do WordPress empurra a navbar fixa */
+body.admin-bar .navbar { top: 32px; }
+@media (max-width: 782px) { body.admin-bar .navbar { top: 46px; } }
+
+/* Links do atlas e dos cards */
+.atlas-card .atlas-content a.btn { margin-top: auto; align-self: flex-start; }
+.atlas-content .btn-outline { color: var(--white); border-color: rgba(255,255,255,0.3); }
+.atlas-card.is-alt { background: #2D3748; }
+.atlas-card.is-alt .atlas-img::after { background: linear-gradient(to top, #2D3748, transparent); }
+
+/* Cards sem imagem: fundo em degradê no lugar da foto */
+.atlas-img.no-img, .exp-img.no-img { background-image: linear-gradient(135deg, var(--blue) 0%, var(--blue-mid) 100%); }
+
+/* Selo do território com cor alternativa */
+.exp-terr.is-alt { background: #2D3748; }
+.exp-status.is-info { background: var(--blue-mid); }
+
+/* Card de projeto é um <a>: garante o bloco e a cor do texto */
+a.exp-card { display: block; color: inherit; }
+
+/* Download de acervo sem PDF cadastrado */
+.lib-download.is-disabled { opacity: .5; cursor: default; pointer-events: none; }
+
+/* Aviso para administradores quando ainda não há conteúdo */
+.empty-note { padding: 24px; border: 2px dashed rgba(27,54,93,.2); border-radius: var(--radius); color: var(--text-lt); background: rgba(27,54,93,.03); grid-column: 1 / -1; }
+.library .empty-note { color: rgba(255,255,255,.7); border-color: rgba(255,255,255,.25); background: rgba(255,255,255,.05); }
+
+/* Páginas internas (index.php) */
+.page-wrap { padding: 140px 0 80px; min-height: 60vh; }
+.page-wrap h1 { font-size: 2.5rem; font-weight: 800; color: var(--blue); line-height: 1.2; margin-bottom: 1rem; letter-spacing: -0.02em; }
+.page-wrap .entry-meta { margin-bottom: 1.5rem; display: flex; gap: 8px; flex-wrap: wrap; }
+.page-wrap .entry-meta span { padding: 4px 10px; border-radius: 20px; background: rgba(217,92,55,.1); color: var(--terra); font-size: .75rem; font-weight: 700; text-transform: uppercase; letter-spacing: .05em; }
+.page-wrap .entry-thumb img { width: 100%; max-height: 420px; object-fit: cover; border-radius: var(--radius); margin-bottom: 2rem; }
+.page-wrap .entry-content { max-width: 800px; }
+.page-wrap .entry-content p { margin-bottom: 1.25rem; }
+.page-wrap .entry-content a { color: var(--terra); text-decoration: underline; }
+.nav-links a.btn-primary { color: var(--white); }
