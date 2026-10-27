@@ -303,4 +303,5 @@ function athis_icone_download() {
 }
 
 /* Dados de exemplo para a apresentação */
+add_action( 'after_switch_theme', 'flush_rewrite_rules' );
 require_once get_template_directory() . '/inc/demo-data.php';
