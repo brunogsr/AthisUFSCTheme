@@ -29,3 +29,30 @@
   setupFilters('#exp-filters .filter-btn', '#exp-grid .exp-card');
   setupFilters('#lib-filters .filter-btn', '#lib-grid .lib-card');
 })();
+
+/**
+ * Menu do celular: abre e fecha o painel de links.
+ */
+(function () {
+  var nav = document.querySelector('.navbar');
+  var btn = document.querySelector('.nav-toggle');
+  if (!nav || !btn) { return; }
+
+  function definir(aberto) {
+    nav.classList.toggle('open', aberto);
+    btn.setAttribute('aria-expanded', aberto ? 'true' : 'false');
+    btn.setAttribute('aria-label', aberto ? 'Fechar menu' : 'Abrir menu');
+  }
+
+  btn.addEventListener('click', function () {
+    definir(!nav.classList.contains('open'));
+  });
+
+  nav.querySelectorAll('.nav-links a').forEach(function (a) {
+    a.addEventListener('click', function () { definir(false); });
+  });
+
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape') { definir(false); }
+  });
+})();

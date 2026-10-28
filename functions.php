@@ -303,5 +303,13 @@ function athis_icone_download() {
 }
 
 /* Dados de exemplo para a apresentação */
-add_action( 'after_switch_theme', 'flush_rewrite_rules' );
+/* Atualiza as URLs dos tipos de conteúdo quando a versão do tema muda */
+add_action( 'init', function () {
+	if ( get_option( 'athis_rewrite_version' ) !== ATHIS_VERSION ) {
+		flush_rewrite_rules();
+		update_option( 'athis_rewrite_version', ATHIS_VERSION );
+	}
+}, 99 );
+
+/* Dados de exemplo para a apresentação */
 require_once get_template_directory() . '/inc/demo-data.php';

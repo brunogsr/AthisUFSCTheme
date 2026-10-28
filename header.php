@@ -25,7 +25,10 @@ $athis_home = is_front_page() ? '' : home_url( '/' );
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color:var(--terra)"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
         ATHIS <span>UFSC</span>
       </a>
-      <div class="nav-links">
+      <button class="nav-toggle" type="button" aria-label="Abrir menu" aria-expanded="false" aria-controls="menu-principal">
+        <span></span><span></span><span></span>
+      </button>
+      <div class="nav-links" id="menu-principal">
         <a href="<?php echo esc_url( $athis_home . '#sobre' ); ?>">O Programa</a>
         <a href="<?php echo esc_url( $athis_home . '#territorios' ); ?>">Atlas de Territórios</a>
         <a href="<?php echo esc_url( $athis_home . '#experiencias' ); ?>">Projetos</a>

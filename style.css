@@ -243,3 +243,63 @@ a.exp-card { display: block; color: inherit; }
 .page-wrap .entry-content p { margin-bottom: 1.25rem; }
 .page-wrap .entry-content a { color: var(--terra); text-decoration: underline; }
 .nav-links a.btn-primary { color: var(--white); }
+
+/* ==========================================================
+   Celular e tablet
+   ========================================================== */
+
+/* Botão do menu (só aparece em telas pequenas) */
+.nav-toggle { display: none; background: none; border: 0; padding: 10px; margin-right: -10px; cursor: pointer; }
+.nav-toggle span { display: block; width: 24px; height: 2px; margin: 5px 0; background: var(--blue); border-radius: 2px; transition: transform .2s ease, opacity .2s ease; }
+.navbar.open .nav-toggle span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+.navbar.open .nav-toggle span:nth-child(2) { opacity: 0; }
+.navbar.open .nav-toggle span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+@media (max-width: 768px) {
+  /* Menu em painel que abre sob a barra */
+  .navbar .container { height: 64px; }
+  .nav-toggle { display: block; }
+  .nav-links { position: absolute; top: 100%; left: 0; right: 0; flex-direction: column; align-items: stretch; gap: 0; padding: 8px 24px 20px; background: var(--white); border-bottom: 1px solid rgba(27,54,93,.08); box-shadow: var(--shadow-md); }
+  .navbar.open .nav-links { display: flex; }
+  .nav-links a { padding: 14px 0; border-bottom: 1px solid rgba(27,54,93,.06); }
+  .nav-links a.btn { margin-top: 12px; padding: 12px 24px; border-bottom: 0; text-align: center; }
+
+  /* Espaçamentos e títulos menores */
+  .hero { padding: 120px 0 72px; }
+  .hero h1 { font-size: clamp(1.75rem, 9vw, 2.5rem); overflow-wrap: break-word; }
+  .hero p { font-size: 1.0625rem; }
+  .about, .atlas, .tree-section, .experiences, .library { padding: 64px 0; }
+  .section-title { font-size: 2rem; }
+  .page-wrap { padding: 110px 0 56px; }
+  .page-wrap h1 { font-size: 2rem; }
+
+  /* Ecossistema: árvore compacta, territórios empilhados */
+  .tree-container { padding: 28px 16px; }
+  .tree-root { width: 100%; padding: 12px 16px; font-size: 1rem; }
+  .tree-level-1 { margin-top: 28px; gap: 32px; }
+  .tree-node { width: 100%; max-width: none; }
+  .tree-territory { margin-top: 0; padding: 10px 14px; font-size: 1rem; }
+  .tree-projects { padding-left: 0; margin-top: 12px; gap: 8px; }
+  .tree-projects::before { display: none; }
+  .tree-project { margin-left: 24px; padding: 8px 12px; }
+  .tree-project a { display: block; }
+  .tree-project span { display: block; width: fit-content; margin: 4px 0 0; }
+  /* Conector em "L" de cada projeto, que também continua até o próximo */
+  .tree-project::before { top: -8px; left: -12px; width: 12px; height: calc(50% + 8px); background: none; border-left: 2px solid var(--gray-md); border-bottom: 2px solid var(--gray-md); border-bottom-left-radius: 6px; }
+  .tree-project:first-child::before { top: -12px; height: calc(50% + 12px); }
+  .tree-project:not(:last-child)::after { content: ''; position: absolute; left: -12px; top: 50%; bottom: -8px; border-left: 2px solid var(--gray-md); }
+}
+
+@media (max-width: 600px) {
+  /* Em telas pequenas a barra do WordPress rola junto com a página.
+     Para quem está logado, o cabeçalho também rola, em vez de ficar fixo
+     (visitantes comuns continuam com o cabeçalho fixo). */
+  body.admin-bar .navbar { position: absolute; top: 46px; }
+}
+
+@media (max-width: 480px) {
+  .hero-btns { flex-direction: column; }
+  .hero-btns .btn { width: 100%; }
+  .about-card { padding: 28px 24px; }
+  .atlas-content .btn, .atlas-content a.btn { align-self: stretch; text-align: center; }
+}
