@@ -1,7 +1,7 @@
 /*
 Theme Name: ATHIS UFSC
 Description: Tema do esboço da plataforma ATHIS UFSC
-Version: 0.1
+Version: 0.3
 Text Domain: athis-ufsc
 */
 
@@ -302,4 +302,44 @@ a.exp-card { display: block; color: inherit; }
   .hero-btns .btn { width: 100%; }
   .about-card { padding: 28px 24px; }
   .atlas-content .btn, .atlas-content a.btn { align-self: stretch; text-align: center; }
+}
+
+
+/* ==========================================================
+   Página do território
+   ========================================================== */
+.terr-hero { --terr-cor: var(--blue); position: relative; padding: 150px 0 72px; background: var(--terr-cor); color: var(--white); overflow: hidden; }
+.terr-hero.is-alt { --terr-cor: #2D3748; }
+.terr-hero-bg { position: absolute; inset: 0; background-size: cover; background-position: center; opacity: .45; }
+.terr-hero-bg.no-img { display: none; }
+.terr-hero::after { content: ''; position: absolute; inset: 0; background: linear-gradient(90deg, var(--terr-cor) 18%, rgba(0,0,0,0) 100%); }
+.terr-hero .container { position: relative; z-index: 1; }
+.terr-back { display: inline-block; margin-bottom: 24px; font-size: .875rem; font-weight: 600; color: rgba(255,255,255,.8); }
+.terr-back:hover { color: var(--white); }
+.terr-hero .atlas-tag { margin-bottom: 12px; }
+.terr-hero h1 { max-width: 820px; margin-bottom: 16px; font-size: clamp(2rem, 6vw, 3.5rem); font-weight: 800; line-height: 1.1; letter-spacing: -0.02em; }
+.terr-lead { max-width: 720px; margin-bottom: 24px; font-size: 1.125rem; font-weight: 300; line-height: 1.5; color: rgba(255,255,255,.85); }
+.terr-hero .atlas-meta { margin-bottom: 0; }
+.terr-contagem { margin-top: 24px; font-size: .875rem; font-weight: 600; color: rgba(255,255,255,.7); }
+
+.terr-sobre { padding: 72px 0; background: var(--bg); }
+
+/* Texto escrito no editor do WordPress (listas e títulos que o reset do protótipo zerou) */
+.entry-content h2, .entry-content h3 { margin: 2rem 0 .75rem; font-weight: 700; line-height: 1.25; color: var(--blue); }
+.entry-content ul, .entry-content ol { margin: 0 0 1.25rem 1.5rem; }
+.entry-content ul { list-style: disc; }
+.entry-content ol { list-style: decimal; }
+.entry-content a { color: var(--terra); text-decoration: underline; }
+.entry-content img { border-radius: var(--radius-sm); }
+.terr-sobre .entry-content { max-width: 760px; }
+.terr-sobre .entry-content p { margin-bottom: 1.25rem; }
+
+/* Link de volta ao território, nas páginas de projeto e acervo */
+.page-wrap .terr-back { margin-bottom: 16px; color: var(--terra); }
+.page-wrap .terr-back:hover { color: var(--terra-hover); }
+
+@media (max-width: 768px) {
+  .terr-hero { padding: 120px 0 56px; }
+  .terr-hero::after { background: linear-gradient(180deg, var(--terr-cor) 30%, rgba(0,0,0,0) 140%); }
+  .terr-sobre { padding: 56px 0; }
 }

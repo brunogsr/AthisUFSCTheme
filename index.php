@@ -26,6 +26,12 @@ get_header();
             }
             $img = athis_imagem_url( get_the_ID(), 'large' );
             ?>
+            <?php
+            $terr_id = (int) athis_meta( get_the_ID(), 'territorio_id' );
+            $terr    = $terr_id ? get_post( $terr_id ) : null;
+            if ( $terr && 'territorio' === $terr->post_type ) : ?>
+              <a class="terr-back" href="<?php echo esc_url( get_permalink( $terr ) ); ?>">← <?php echo esc_html( get_the_title( $terr ) ); ?></a>
+            <?php endif; ?>
             <h1><?php the_title(); ?></h1>
             <?php if ( $chips ) : ?>
               <div class="entry-meta">
@@ -41,7 +47,7 @@ get_header();
               <?php
               if ( 'acervo' === get_post_type() ) {
                 echo wp_kses_post( wpautop( get_the_excerpt() ) );
-                $arquivo = athis_meta( get_the_ID(), 'arquivo_url' );
+                $arquivo = athis_pdf_url( get_the_ID() );
                 if ( $arquivo ) {
                   echo '<p><a href="' . esc_url( $arquivo ) . '" target="_blank" rel="noopener">Baixar PDF</a></p>';
                 }

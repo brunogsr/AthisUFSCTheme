@@ -184,27 +184,11 @@ $demo_url = admin_url( 'tools.php?page=athis-demo' );
       <div class="exp-grid" id="exp-grid">
         <?php if ( $projetos ) : ?>
           <?php foreach ( $projetos as $p ) :
-            $terr   = $terr_por_id[ (int) athis_meta( $p->ID, 'territorio_id' ) ] ?? null;
-            $img    = athis_imagem_url( $p->ID, 'large' );
-            $status = athis_meta( $p->ID, 'status' );
-            $alt    = $terr && ( 'cinza' === athis_meta( $terr->ID, 'visual', 'azul' ) );
-            ?>
-            <a class="exp-card" href="<?php echo esc_url( get_permalink( $p ) ); ?>" data-terr="<?php echo esc_attr( $terr ? $terr->post_name : '' ); ?>">
-              <div class="exp-img<?php echo $img ? '' : ' no-img'; ?>"<?php echo athis_bg_style( $img ); // phpcs:ignore WordPress.Security.EscapeOutput ?>>
-                <?php if ( $terr ) : ?>
-                  <div class="exp-terr<?php echo $alt ? ' is-alt' : ''; ?>"><?php echo esc_html( get_the_title( $terr ) ); ?></div>
-                <?php endif; ?>
-                <?php if ( $status ) : ?>
-                  <div class="exp-status<?php echo ( 'Concluído' === $status ) ? '' : ' is-info'; ?>"><?php echo esc_html( $status ); ?></div>
-                <?php endif; ?>
-              </div>
-              <div class="exp-content">
-                <h3 class="exp-title"><?php echo esc_html( get_the_title( $p ) ); ?></h3>
-                <p class="exp-desc"><?php echo esc_html( get_the_excerpt( $p ) ); ?></p>
-                <span class="exp-link"><?php echo esc_html( athis_meta( $p->ID, 'texto_link', 'Ver projeto' ) ); ?> →</span>
-              </div>
-            </a>
-          <?php endforeach; ?>
+            get_template_part( 'template-parts/card', 'projeto', array(
+              'post' => $p,
+              'terr' => $terr_por_id[ (int) athis_meta( $p->ID, 'territorio_id' ) ] ?? null,
+            ) );
+          endforeach; ?>
         <?php elseif ( current_user_can( 'manage_options' ) ) : ?>
           <div class="empty-note">Nenhum projeto cadastrado ainda. Use <strong>Projetos &gt; Adicionar</strong>.</div>
         <?php endif; ?>
@@ -229,33 +213,11 @@ $demo_url = admin_url( 'tools.php?page=athis-demo' );
       <div class="lib-grid" id="lib-grid">
         <?php if ( $acervo ) : ?>
           <?php foreach ( $acervo as $a ) :
-            $terr    = $terr_por_id[ (int) athis_meta( $a->ID, 'territorio_id' ) ] ?? null;
-            $tipo    = athis_meta( $a->ID, 'tipo' );
-            $ano     = athis_meta( $a->ID, 'ano' );
-            $autoria = athis_meta( $a->ID, 'autoria' );
-            $orient  = athis_meta( $a->ID, 'orientacao' );
-            $arquivo = athis_meta( $a->ID, 'arquivo_url' );
-
-            if ( $autoria ) {
-              $resumo = 'Autoria: ' . $autoria . ( $orient ? '. Orientação: ' . $orient . '.' : '.' );
-            } else {
-              $resumo = get_the_excerpt( $a );
-            }
-            ?>
-            <div class="lib-card" data-terr="<?php echo esc_attr( $terr ? $terr->post_name : '' ); ?>">
-              <?php if ( $terr ) : ?>
-                <div class="lib-card-terr">📍 <?php echo esc_html( get_the_title( $terr ) ); ?></div>
-              <?php endif; ?>
-              <div class="lib-card-type"><?php echo esc_html( trim( $tipo . ( $ano ? ' · ' . $ano : '' ) ) ); ?></div>
-              <h4><?php echo esc_html( get_the_title( $a ) ); ?></h4>
-              <p><?php echo esc_html( $resumo ); ?></p>
-              <?php if ( $arquivo ) : ?>
-                <a class="lib-download" href="<?php echo esc_url( $arquivo ); ?>" target="_blank" rel="noopener"><?php echo athis_icone_download(); // phpcs:ignore WordPress.Security.EscapeOutput ?> Baixar PDF</a>
-              <?php else : ?>
-                <span class="lib-download is-disabled"><?php echo athis_icone_download(); // phpcs:ignore WordPress.Security.EscapeOutput ?> PDF indisponível</span>
-              <?php endif; ?>
-            </div>
-          <?php endforeach; ?>
+            get_template_part( 'template-parts/card', 'acervo', array(
+              'post' => $a,
+              'terr' => $terr_por_id[ (int) athis_meta( $a->ID, 'territorio_id' ) ] ?? null,
+            ) );
+          endforeach; ?>
         <?php elseif ( current_user_can( 'manage_options' ) ) : ?>
           <div class="empty-note">Nenhum item no acervo ainda. Use <strong>Acervo &gt; Adicionar</strong>.</div>
         <?php endif; ?>

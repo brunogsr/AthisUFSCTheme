@@ -11,7 +11,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define( 'ATHIS_VERSION', '0.1' );
+define( 'ATHIS_VERSION', '0.3' );
+define( 'ATHIS_LIMITE_PDF_MB', 50 );
 
 /* ------------------------------------------------------------------
  * Configuração básica do tema
@@ -102,6 +103,7 @@ function athis_campos() {
 				'destaque_2'  => array( 'label' => 'Destaque 2', 'type' => 'text', 'maxlength' => 30, 'help' => 'Ex.: 75 hectares' ),
 				'texto_botao' => array( 'label' => 'Texto do botão', 'type' => 'text', 'maxlength' => 50, 'help' => 'Ex.: Explorar território' ),
 				'visual'      => array( 'label' => 'Cor do card', 'type' => 'select', 'options' => array( 'azul' => 'Azul', 'cinza' => 'Cinza escuro' ) ),
+				'titulo_texto' => array( 'label' => 'Título do texto', 'type' => 'text', 'maxlength' => 40, 'help' => 'Título acima do texto do território (ex.: Sobre o território). Deixe em branco para não mostrar título.' ),
 			),
 		),
 		'projeto'    => array(
@@ -134,7 +136,7 @@ function athis_campos() {
 				'ano'           => array( 'label' => 'Ano', 'type' => 'number', 'min' => 1990, 'max' => 2100 ),
 				'autoria'       => array( 'label' => 'Autoria', 'type' => 'text', 'maxlength' => 80 ),
 				'orientacao'    => array( 'label' => 'Orientação', 'type' => 'text', 'maxlength' => 80 ),
-				'arquivo_url'   => array( 'label' => 'Endereço do PDF', 'type' => 'url', 'help' => 'Cole o link do arquivo enviado em Mídia. Na versão final isto vira um campo de upload.' ),
+				'arquivo_id'    => array( 'label' => 'Arquivo PDF', 'type' => 'pdf', 'help' => 'Envie ou escolha um PDF de até ' . ATHIS_LIMITE_PDF_MB . ' MB. Sem PDF, o card mostra "PDF indisponível".' ),
 			),
 		),
 	);
@@ -210,6 +212,17 @@ function athis_render_metabox( $post ) {
 				printf( '<input type="url" class="large-text" name="%s" id="%s" value="%s">', esc_attr( $nome ), esc_attr( $nome ), esc_url( $valor ) );
 				break;
 
+			case 'pdf':
+				$id_pdf   = absint( $valor );
+				$nome_pdf = ( $id_pdf && 'application/pdf' === get_post_mime_type( $id_pdf ) ) ? wp_basename( get_attached_file( $id_pdf ) ) : '';
+				echo '<div class="athis-pdf">';
+				printf( '<input type="hidden" name="%s" id="%s" value="%s">', esc_attr( $nome ), esc_attr( $nome ), $nome_pdf ? $id_pdf : '' );
+				echo '<button type="button" class="button athis-pdf-escolher">Escolher ou enviar PDF</button> ';
+				echo '<span class="athis-pdf-nome">' . esc_html( $nome_pdf ? $nome_pdf : 'Nenhum arquivo selecionado' ) . '</span> ';
+				echo '<a href="#" class="athis-pdf-remover" style="display:none">Remover</a>';
+				echo '</div>';
+				break;
+
 			default: // text
 				printf(
 					'<input type="text" class="regular-text" name="%s" id="%s" value="%s" maxlength="%d">',
@@ -260,6 +273,12 @@ add_action( 'save_post', function ( $post_id ) {
 			case 'url':
 				$valor = esc_url_raw( $bruto );
 				break;
+			case 'pdf':
+				$valor = absint( $bruto );
+				if ( $valor && 'application/pdf' !== get_post_mime_type( $valor ) ) {
+					$valor = '';
+				}
+				break;
 			default:
 				$valor = sanitize_text_field( $bruto );
 				$valor = mb_substr( $valor, 0, (int) $campo['maxlength'] );
@@ -267,22 +286,28 @@ add_action( 'save_post', function ( $post_id ) {
 		update_post_meta( $post_id, '_athis_' . $chave, $valor );
 	}
 } );
-
 /* ------------------------------------------------------------------
- * Regras de imagem de destaque (limite de tamanho)
+ * Regras de upload (limite de tamanho)
  * ---------------------------------------------------------------- */
 add_filter( 'wp_handle_upload_prefilter', function ( $file ) {
 	$limite_mb = 2;
 	if ( 0 === strpos( $file['type'], 'image/' ) && $file['size'] > $limite_mb * 1024 * 1024 ) {
 		$file['error'] = 'Imagens podem ter no máximo ' . $limite_mb . ' MB. Reduza o arquivo e envie novamente.';
 	}
+	if ( 'application/pdf' === $file['type'] && $file['size'] > ATHIS_LIMITE_PDF_MB * 1024 * 1024 ) {
+		$file['error'] = 'PDFs podem ter no máximo ' . ATHIS_LIMITE_PDF_MB . ' MB. Comprima o arquivo e envie novamente.';
+	}
 	return $file;
+} );
+
+/* Faz a biblioteca de mídia mostrar o mesmo limite do tema */
+add_filter( 'upload_size_limit', function ( $tamanho ) {
+	return min( $tamanho, ATHIS_LIMITE_PDF_MB * 1024 * 1024 );
 } );
 
 /* ------------------------------------------------------------------
  * Funções de apoio para os templates
  * ---------------------------------------------------------------- */
-
 /* Endereço da imagem do post: destaque, ou o link de exemplo dos dados de demonstração */
 function athis_imagem_url( $post_id, $tamanho = 'large' ) {
 	$url = get_the_post_thumbnail_url( $post_id, $tamanho );
@@ -297,12 +322,45 @@ function athis_bg_style( $url ) {
 	return $url ? ' style="background-image:url(\'' . esc_url( $url ) . '\')"' : '';
 }
 
+/* Endereço do PDF do item: arquivo enviado ou, em dados antigos, o link colado */
+function athis_pdf_url( $post_id ) {
+	$id = absint( athis_meta( $post_id, 'arquivo_id' ) );
+	if ( $id && 'application/pdf' === get_post_mime_type( $id ) ) {
+		$url = wp_get_attachment_url( $id );
+		if ( $url ) {
+			return $url;
+		}
+	}
+	return athis_meta( $post_id, 'arquivo_url' );
+}
+
+/* Script do campo de PDF (só na tela de edição do Acervo) */
+add_action( 'admin_enqueue_scripts', function ( $hook ) {
+	$tela = get_current_screen();
+	if ( ! $tela || 'acervo' !== $tela->post_type || ! in_array( $hook, array( 'post.php', 'post-new.php' ), true ) ) {
+		return;
+	}
+	wp_enqueue_media();
+	wp_enqueue_script( 'athis-admin-pdf', get_template_directory_uri() . '/assets/js/admin-pdf.js', array( 'jquery' ), ATHIS_VERSION, true );
+} );
+
 /* Ícone de download usado nos cards do acervo */
 function athis_icone_download() {
 	return '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>';
 }
 
-/* Dados de exemplo para a apresentação */
+/* Projetos ou itens de acervo ligados a um território */
+function athis_posts_do_territorio( $tipo, $territorio_id, $ordem = 'ASC' ) {
+	return get_posts( array(
+		'post_type'      => $tipo,
+		'posts_per_page' => -1,
+		'orderby'        => 'date',
+		'order'          => $ordem,
+		'meta_key'       => '_athis_territorio_id',
+		'meta_value'     => (int) $territorio_id,
+	) );
+}
+
 /* Atualiza as URLs dos tipos de conteúdo quando a versão do tema muda */
 add_action( 'init', function () {
 	if ( get_option( 'athis_rewrite_version' ) !== ATHIS_VERSION ) {
