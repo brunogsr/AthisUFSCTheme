@@ -19,7 +19,8 @@ while ( have_posts() ) :
 	// Território do projeto (se ainda existir e for mesmo um território)
 	$terr = null;
 	$tid  = absint( athis_meta( $p->ID, 'territorio_id' ) );
-	if ( $tid && 'territorio' === get_post_type( $tid ) ) {
+	// Só usa o território se estiver publicado (quem edita o vê também em rascunho)
+	if ( $tid && 'territorio' === get_post_type( $tid ) && ( 'publish' === get_post_status( $tid ) || current_user_can( 'edit_post', $tid ) ) ) {
 		$terr = get_post( $tid );
 	}
 	$alt = $terr && ( 'cinza' === athis_meta( $terr->ID, 'visual', 'azul' ) );

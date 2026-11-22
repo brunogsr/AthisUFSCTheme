@@ -288,7 +288,11 @@ add_action( 'save_post', function ( $post_id ) {
 				$valor = array_key_exists( $bruto, $campo['options'] ) ? $bruto : '';
 				break;
 			case 'territorio':
+				// Só aceita o ID de um território de verdade (vazio se inválido)
 				$valor = absint( $bruto );
+				if ( ! $valor || 'territorio' !== get_post_type( $valor ) ) {
+					$valor = '';
+				}
 				break;
 			case 'number':
 				$valor = ( '' === $bruto ) ? '' : max( $campo['min'], min( $campo['max'], absint( $bruto ) ) );
@@ -297,8 +301,9 @@ add_action( 'save_post', function ( $post_id ) {
 				$valor = esc_url_raw( $bruto );
 				break;
 			case 'projeto':
+				// Opcional: vazio se não escolheu ou se o ID não for de um projeto
 				$valor = absint( $bruto );
-				if ( $valor && 'projeto' !== get_post_type( $valor ) ) {
+				if ( ! $valor || 'projeto' !== get_post_type( $valor ) ) {
 					$valor = '';
 				}
 				break;
