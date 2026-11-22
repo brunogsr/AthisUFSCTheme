@@ -24,6 +24,7 @@ while ( have_posts() ) :
   <!-- APRESENTAÇÃO DO TERRITÓRIO -->
   <header class="terr-hero <?php echo esc_attr( $cor ); ?>">
     <div class="terr-hero-bg<?php echo $img ? '' : ' no-img'; ?>"<?php echo athis_bg_style( $img ); // phpcs:ignore WordPress.Security.EscapeOutput ?>></div>
+    <div class="terr-casa"><?php echo athis_casa_svg( $cor ); // phpcs:ignore WordPress.Security.EscapeOutput ?></div>
     <div class="container">
       <a class="terr-back" href="<?php echo esc_url( home_url( '/#territorios' ) ); ?>">← Atlas de Territórios</a>
       <?php if ( athis_meta( $t->ID, 'localidade' ) ) : ?>

@@ -9,9 +9,12 @@
     var items = document.querySelectorAll(itemSelector);
 
     btns.forEach(function (btn) {
+      // Leitores de tela anunciam qual filtro está ligado
+      btn.setAttribute('aria-pressed', btn.classList.contains('active') ? 'true' : 'false');
       btn.addEventListener('click', function () {
-        btns.forEach(function (b) { b.classList.remove('active'); });
+        btns.forEach(function (b) { b.classList.remove('active'); b.setAttribute('aria-pressed', 'false'); });
         btn.classList.add('active');
+        btn.setAttribute('aria-pressed', 'true');
 
         var filterValue = btn.getAttribute('data-filter');
 

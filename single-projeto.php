@@ -41,6 +41,7 @@ while ( have_posts() ) :
   <!-- APRESENTAÇÃO DO PROJETO -->
   <header class="terr-hero <?php echo esc_attr( $cor ); ?>">
     <div class="terr-hero-bg<?php echo $img ? '' : ' no-img'; ?>"<?php echo athis_bg_style( $img ); // phpcs:ignore WordPress.Security.EscapeOutput ?>></div>
+    <div class="terr-casa"><?php echo athis_casa_svg( $cor ); // phpcs:ignore WordPress.Security.EscapeOutput ?></div>
     <div class="container">
       <?php if ( $terr ) : ?>
         <a class="terr-back" href="<?php echo esc_url( get_permalink( $terr ) ); ?>">← <?php echo esc_html( get_the_title( $terr ) ); ?></a>

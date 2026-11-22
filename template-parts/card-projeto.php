@@ -32,6 +32,15 @@ $cor        = athis_cor_classe( $terr );
     <?php endif; ?>
   </div>
   <div class="exp-content">
+    <?php /* Linha de apoio: aparece só no celular (no computador, território e status ficam sobre a foto) */ ?>
+    <div class="exp-meta">
+      <?php if ( $terr && $mostra_ter ) : ?>
+        <span class="exp-meta-terr"><?php echo esc_html( get_the_title( $terr ) ); ?></span>
+      <?php endif; ?>
+      <?php if ( $status ) : ?>
+        <span class="exp-meta-status"><?php echo esc_html( $status ); ?></span>
+      <?php endif; ?>
+    </div>
     <h3 class="exp-title"><?php echo esc_html( get_the_title( $p ) ); ?></h3>
     <p class="exp-desc"><?php echo esc_html( get_the_excerpt( $p ) ); ?></p>
     <span class="exp-link"><?php echo esc_html( athis_meta( $p->ID, 'texto_link', 'Ver projeto' ) ); ?> →</span>

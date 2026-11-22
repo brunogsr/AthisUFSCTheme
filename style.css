@@ -98,9 +98,9 @@ a:focus-visible, button:focus-visible { outline: 3px solid var(--focus); outline
 .btn-outline { background: transparent; border: 2px solid rgba(255,255,255,0.7); color: var(--white); }
 .btn-outline:hover { background: rgba(255,255,255,0.12); border-color: var(--white); }
 
-/* Etiqueta de seção: barrinha de quatro cores + texto */
+/* Etiqueta de seção: quatro mini-casas de formas diferentes (telhado inclinado, arco, empena e quarto de círculo) + texto */
 .tag { display: inline-flex; align-items: center; gap: 12px; margin-bottom: 1rem; font-size: 0.8125rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: var(--ink); }
-.tag::before { content: ''; width: 36px; height: 10px; background: var(--faixa); flex: none; }
+.tag::before { content: ''; width: 65px; height: 14px; flex: none; background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 65 14'%3E%3Cpolygon points='0,14 0,5 13,0 13,14' fill='%23FF0000'/%3E%3Cpath d='M17 14V7a6.5 6.5 0 0 1 13 0V14Z' fill='%230096FF'/%3E%3Cpolygon points='34,14 34,6 40.5,0 47,6 47,14' fill='%2300D200'/%3E%3Cpath d='M51 14V0A14 14 0 0 1 65 14Z' fill='%23F5C800'/%3E%3C/svg%3E") no-repeat center / contain; }
 .library .tag, .hero .tag { color: var(--white); }
 
 /* ==========================================================
@@ -125,10 +125,14 @@ a:focus-visible, button:focus-visible { outline: 3px solid var(--focus); outline
 /* ==========================================================
    Hero da Home
    ========================================================== */
-.hero { position: relative; padding: 184px 0 120px; background: var(--ink); overflow: hidden; }
+/* Base inclinada, como um telhado de uma água (mesma ideia da casa azul do logo) */
+.hero { position: relative; padding: 184px 0 168px; background: var(--ink); overflow: hidden; clip-path: polygon(0 0, 100% 0, 100% calc(100% - 48px), 0 100%); }
 .hero::before {
 	content: ''; position: absolute; inset: 0; z-index: 0;
 	background:
+		/* formas geométricas suaves ao fundo: quarto de círculo (arco) e triângulo (empena) */
+		radial-gradient(circle at 100% 100%, rgba(245, 200, 0, 0.10) 0 280px, transparent 281px),
+		linear-gradient(45deg, rgba(0, 150, 255, 0.10) 0 50%, transparent 50%) 0 100% / 420px 420px no-repeat,
 		radial-gradient(55% 80% at 88% 25%, rgba(0, 150, 255, 0.22), transparent 62%),
 		radial-gradient(45% 60% at 8% 105%, rgba(245, 200, 0, 0.12), transparent 60%);
 }
@@ -169,6 +173,9 @@ a:focus-visible, button:focus-visible { outline: 3px solid var(--focus); outline
 .about-card:hover { transform: translateY(-5px) rotate(-0.4deg); box-shadow: var(--shadow-lg); }
 /* Ícone dentro de uma casinha de telhado inclinado */
 .about-card-icon { width: 60px; height: 60px; background: var(--c); color: var(--c-on); display: flex; align-items: center; justify-content: center; margin-bottom: 24px; clip-path: polygon(0 14%, 100% 0, 100% 100%, 0 100%); padding-top: 6px; }
+/* Cada ícone tem um formato de casa diferente: telhado inclinado, arco e empena */
+.about-card:nth-child(2) .about-card-icon { clip-path: none; border-radius: 30px 30px 0 0; padding-top: 0; }
+.about-card:nth-child(3) .about-card-icon { clip-path: polygon(50% 0, 100% 26%, 100% 100%, 0 100%, 0 26%); }
 .about-card h3 { font-size: 1.375rem; font-weight: 700; color: var(--ink); margin-bottom: 12px; }
 .about-card p { font-size: 0.9375rem; color: var(--text-lt); }
 
@@ -202,7 +209,7 @@ a:focus-visible, button:focus-visible { outline: 3px solid var(--focus); outline
    Ecossistema (árvore território > projetos)
    ========================================================== */
 .tree-section { padding: 100px 0; background: var(--paper); }
-.tree-container { background: var(--white); border-radius: var(--radius); box-shadow: var(--shadow-sm); padding: 60px 40px; overflow-x: auto; }
+.tree-container { position: relative; background: var(--white); border-radius: var(--radius); box-shadow: var(--shadow-sm); padding: 60px 40px; overflow-x: auto; }
 
 .tree { display: flex; flex-direction: column; align-items: center; }
 .tree-root { background: var(--ink); color: var(--white); padding: 16px 32px 20px; border-radius: var(--radius-sm); font-family: var(--font-titulo); font-weight: 700; font-size: 1.25rem; z-index: 2; position: relative; box-shadow: var(--shadow-md); text-align: center; overflow: hidden; }
@@ -247,10 +254,14 @@ a:focus-visible, button:focus-visible { outline: 3px solid var(--focus); outline
 .exp-card { background: var(--white); border-radius: var(--radius); overflow: hidden; box-shadow: var(--shadow-sm); transition: transform 0.3s ease, box-shadow 0.3s ease; border: 1px solid rgba(11,31,58,0.08); border-top: 8px solid var(--c); }
 .exp-card:hover { transform: translateY(-5px) rotate(-0.4deg); box-shadow: var(--shadow-lg); }
 a.exp-card { display: block; color: inherit; }
+/* A base da foto muda de forma de card em card: telhado, arco, telhado invertido */
+.exp-card:nth-child(3n+1) .exp-img { clip-path: polygon(0 0, 100% 0, 100% 90%, 0 100%); }
+.exp-card:nth-child(3n+2) .exp-img { border-bottom-right-radius: 72px; }
+.exp-card:nth-child(3n) .exp-img { clip-path: polygon(0 0, 100% 0, 100% 100%, 0 90%); }
+.exp-status { position: absolute; top: 16px; left: 16px; z-index: 1; padding: 5px 14px 5px 12px; border-radius: 0 14px 0 14px; border-left: 4px solid var(--c); font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; background: var(--white); color: var(--ink); }
+
 .exp-img { height: 220px; background-size: cover; background-position: center; position: relative; }
 .exp-img::after { content: ''; position: absolute; inset: 0; background: linear-gradient(to top, rgba(7,20,40,0.55), transparent); }
-.exp-status { position: absolute; bottom: 16px; left: 16px; z-index: 1; display: inline-flex; align-items: center; gap: 8px; padding: 4px 12px 4px 10px; border-radius: 20px; font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; background: var(--white); color: var(--ink); }
-.exp-status::before { content: ''; width: 9px; height: 9px; background: var(--c); flex: none; }
 .exp-terr { position: absolute; top: 16px; right: 16px; z-index: 1; padding: 4px 10px; border-radius: 4px; font-size: 0.75rem; font-weight: 600; background: rgba(7,20,40,0.78); color: var(--white); backdrop-filter: blur(4px); border-left: 4px solid var(--c); }
 .exp-content { padding: 24px; }
 .exp-title { font-size: 1.25rem; font-weight: 700; color: var(--ink); margin-bottom: 8px; }
@@ -261,7 +272,9 @@ a.exp-card { display: block; color: inherit; }
 /* ==========================================================
    Biblioteca / acervo (fundo escuro)
    ========================================================== */
-.library { padding: 100px 0; background: var(--ink); color: var(--white); }
+.library { padding: 100px 0; background: radial-gradient(circle at 0 0, rgba(0, 150, 255, 0.10) 0 240px, transparent 241px), var(--ink); color: var(--white); }
+/* Quando vem logo após a Vitrine de projetos, o topo é inclinado como um telhado */
+.experiences + .library { margin-top: -48px; padding-top: 148px; clip-path: polygon(0 48px, 100% 0, 100% 100%, 0 100%); }
 .library .section-title { color: var(--white); }
 .library .section-sub { color: rgba(255,255,255,0.8); }
 
@@ -273,10 +286,10 @@ a.exp-card { display: block; color: inherit; }
 .library .filter-btn[data-filter]:not([data-filter="all"]).active::before { background: var(--c-on); }
 
 .lib-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; }
-.lib-card { background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.12); border-left: 6px solid var(--c); border-radius: var(--radius-sm); padding: 24px; transition: background 0.2s ease, transform 0.2s ease; position: relative; }
+.lib-card { background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.12); border-left: 6px solid var(--c); border-radius: var(--radius-sm); padding: 24px; transition: background 0.2s ease, transform 0.2s ease; position: relative; clip-path: polygon(0 0, calc(100% - 26px) 0, 100% 26px, 100% 100%, 0 100%); }
+.lib-card-type { font-size: 0.75rem; color: var(--c-lite); font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 12px; }
 .lib-card:hover { background: rgba(255,255,255,0.12); transform: translateY(-3px); }
 .lib-card-terr { font-size: 0.75rem; padding: 2px 8px; background: rgba(255,255,255,0.1); border-radius: 4px; display: inline-block; margin-bottom: 8px; color: rgba(255,255,255,0.85); }
-.lib-card-type { font-size: 0.75rem; color: var(--c-lite); font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 12px; }
 .lib-card h4 { font-size: 1.125rem; font-weight: 600; margin-bottom: 8px; line-height: 1.3; }
 .lib-card p { font-size: 0.875rem; color: rgba(255,255,255,0.78); margin-bottom: 20px; }
 .lib-download { display: inline-flex; align-items: center; gap: 8px; font-size: 0.875rem; font-weight: 600; color: var(--white); cursor: pointer; text-decoration: underline; text-decoration-color: var(--c); text-decoration-thickness: 2px; text-underline-offset: 4px; }
@@ -310,8 +323,10 @@ a.exp-card { display: block; color: inherit; }
 .terr-hero-bg { position: absolute; inset: 0; z-index: 0; background-size: cover; background-position: center; opacity: 0.4; }
 .terr-hero-bg.no-img { display: none; }
 .terr-hero::after { content: ''; position: absolute; inset: 0; z-index: 0; background: linear-gradient(90deg, var(--ink) 20%, rgba(11,31,58,0) 100%); }
-/* A "casa" do território, na cor dele (telhado inclinado + janela vazada) */
-.terr-hero::before { content: ''; position: absolute; z-index: 1; right: 7%; bottom: 0; width: clamp(120px, 16vw, 210px); aspect-ratio: 1 / 1.15; background: linear-gradient(var(--ink), var(--ink)) 62% 26% / 26% 22% no-repeat, var(--c); clip-path: polygon(0 12%, 100% 0, 100% 100%, 0 100%); }
+/* A "casa" do território, na cor dele: o formato muda conforme a cor (telhado inclinado, empena, arco, escada) */
+.terr-casa { position: absolute; z-index: 1; right: 6%; bottom: 0; width: clamp(140px, 18vw, 240px); }
+.terr-casa-svg { display: block; width: 100%; height: auto; overflow: visible; }
+.terr-casa .casa { fill: var(--c); }
 .terr-hero .container { position: relative; z-index: 2; }
 .terr-back { display: inline-block; margin-bottom: 24px; font-size: 0.875rem; font-weight: 600; color: rgba(255,255,255,0.88); }
 .terr-back:hover { color: var(--white); text-decoration: underline; }
@@ -392,7 +407,8 @@ body.admin-bar .navbar { top: 32px; }
 	.nav-links a.btn { margin-top: 16px; padding: 12px 24px; border-bottom: 0; text-align: center; }
 
 	/* Espaçamentos e títulos menores */
-	.hero { padding: 124px 0 72px; }
+	.hero { padding: 124px 0 100px; clip-path: polygon(0 0, 100% 0, 100% calc(100% - 28px), 0 100%); }
+	.experiences + .library { margin-top: -28px; padding-top: 92px; clip-path: polygon(0 28px, 100% 0, 100% 100%, 0 100%); }
 	.hero h1 { font-size: clamp(1.75rem, 9vw, 2.5rem); overflow-wrap: break-word; }
 	.hero p { font-size: 1.0625rem; }
 	.about, .atlas, .tree-section, .experiences, .library { padding: 64px 0; }
@@ -403,7 +419,7 @@ body.admin-bar .navbar { top: 32px; }
 
 	.terr-hero { padding: 124px 0 56px; }
 	.terr-hero::after { background: linear-gradient(180deg, var(--ink) 30%, rgba(11,31,58,0) 140%); }
-	.terr-hero::before { width: 90px; opacity: 0.5; right: 4%; }
+	.terr-casa { width: 100px; opacity: 0.45; right: 4%; }
 	.terr-sobre { padding: 56px 0; }
 
 	/* Ecossistema: árvore compacta, territórios empilhados */
@@ -435,6 +451,99 @@ body.admin-bar .navbar { top: 32px; }
 	.hero-btns .btn { width: 100%; }
 	.about-card { padding: 28px 24px; }
 	.atlas-content .btn, .atlas-content a.btn { align-self: stretch; text-align: center; }
+}
+
+/* ==========================================================
+   Acessibilidade: botões do menu (tamanho do texto)
+   O script fica em assets/js/acessibilidade.js
+   ========================================================== */
+.acess { display: flex; gap: 6px; margin-left: 8px; padding-left: 16px; border-left: 1px solid rgba(255,255,255,0.25); }
+.acess button { min-width: 38px; height: 38px; padding: 0 10px; border: 1px solid rgba(255,255,255,0.5); border-radius: 6px; background: transparent; color: var(--white); font-family: var(--font-titulo); font-weight: 700; font-size: 0.875rem; cursor: pointer; transition: background 0.2s ease; }
+.acess button:hover { background: rgba(255,255,255,0.16); }
+.acess button:disabled { opacity: 0.4; cursor: default; }
+
+@media (max-width: 1180px) and (min-width: 769px) {
+	.nav-links { gap: 20px; }
+}
+@media (max-width: 768px) {
+	.acess { margin: 16px 0 0; padding: 16px 0 0; border-left: 0; border-top: 1px solid rgba(255,255,255,0.15); }
+	.acess button { flex: 1; height: 44px; }
+}
+@media (max-width: 1100px) { .terr-casa { opacity: 0.4; } }
+
+/* ==========================================================
+   Celular: layout próprio (não é o desktop espremido)
+   - Conteúdo fixo e curto (Conceito, Atlas) vira carrossel de deslizar.
+   - Conteúdo que cresce (projetos, acervo) vira lista compacta.
+   - Filtros em uma linha que rola para o lado; rodapé em duas colunas.
+   ========================================================== */
+.exp-meta { display: none; }
+
+@media (max-width: 768px) {
+	.container { padding: 0 20px; }
+	.about, .atlas, .tree-section, .experiences, .library { padding: 48px 0; }
+	.experiences + .library { padding-top: 76px; }
+	.section-title { font-size: 1.75rem; }
+	.section-sub { font-size: 1rem; margin-bottom: 1.5rem; }
+	.tag { margin-bottom: 0.75rem; }
+
+	/* Menu: links maiores para o dedo */
+	.nav-links a:not(.btn) { padding: 16px 0; font-size: 1.0625rem; }
+
+	/* Hero: as casas do logo aparecem abaixo do texto, em vez de sumirem ao fundo */
+	.hero { padding: 116px 0 84px; }
+	.hero .container { gap: 36px; }
+	.hero-art { position: static; width: 70%; max-width: 270px; margin: 0 auto; opacity: 1; justify-self: center; pointer-events: auto; }
+
+	/* Carrossel: cada card ocupa ~84% da tela e o próximo aparece um pouco ("convite" para deslizar) */
+	.about-grid, .atlas-grid { display: grid; grid-auto-flow: column; grid-template-columns: none; grid-auto-columns: 84%; gap: 14px; margin: 24px -20px 0; padding: 6px 20px 18px; overflow-x: auto; scroll-snap-type: x mandatory; scroll-padding: 0 20px; scrollbar-width: none; -webkit-overflow-scrolling: touch; }
+	.about-grid::-webkit-scrollbar, .atlas-grid::-webkit-scrollbar { display: none; }
+	.about-card, .atlas-card, .atlas-expansion { scroll-snap-align: start; }
+	.about-card { padding: 24px 22px; }
+	.atlas-img { height: 170px; }
+	.atlas-content { padding: 20px; }
+	.atlas-content h3 { font-size: 1.5rem; margin-bottom: 10px; }
+	.atlas-meta { margin-bottom: 20px; gap: 8px; }
+	.atlas-content .btn { padding: 12px 14px; font-size: 0.875rem; }
+	.atlas-expansion { padding: 24px; }
+
+	/* Filtros: uma linha que desliza */
+	.filter-bar { flex-wrap: nowrap; gap: 8px; margin: 0 -20px 20px; padding: 2px 20px 10px; overflow-x: auto; scrollbar-width: none; scroll-snap-type: x proximity; }
+	.filter-bar::-webkit-scrollbar { display: none; }
+	.filter-btn { flex: none; min-height: 44px; scroll-snap-align: start; }
+
+	/* Projetos: lista compacta (miniatura + texto) */
+	.exp-grid { grid-template-columns: 1fr; gap: 12px; }
+	a.exp-card { display: grid; grid-template-columns: 112px 1fr; border-top: 1px solid rgba(11, 31, 58, 0.08); border-left: 6px solid var(--c); border-radius: var(--radius-sm); }
+	a.exp-card:hover { transform: none; }
+	.exp-img { height: auto; min-height: 132px; clip-path: none !important; border-radius: 0 !important; }
+	.exp-terr, .exp-status { display: none; }
+	.exp-content { display: flex; flex-direction: column; justify-content: center; padding: 12px 14px; }
+	.exp-meta { display: flex; flex-wrap: wrap; align-items: center; gap: 2px 8px; margin-bottom: 4px; font-size: 0.75rem; font-weight: 600; color: var(--text-lt); }
+	.exp-meta-status { color: var(--c-ink); text-transform: uppercase; letter-spacing: 0.04em; font-weight: 700; }
+	.exp-title { font-size: 1.0625rem; line-height: 1.25; margin-bottom: 4px; }
+	.exp-desc { margin-bottom: 8px; font-size: 0.875rem; display: -webkit-box; -webkit-line-clamp: 2; line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+	.exp-link { font-size: 0.875rem; }
+
+	/* Acervo: lista compacta */
+	.lib-grid { gap: 12px; }
+	.lib-card { padding: 18px 18px 16px 20px; }
+	.lib-card p { margin-bottom: 12px; }
+	.lib-download { min-height: 44px; }
+
+	/* Páginas de território e projeto */
+	.terr-hero { padding: 108px 0 44px; }
+	.terr-lead { font-size: 1rem; margin-bottom: 18px; }
+	.terr-contagem { margin-top: 16px; }
+
+	/* Rodapé em duas colunas, marca e último grupo ocupando a largura toda */
+	.footer { padding: 56px 0 calc(28px + env(safe-area-inset-bottom, 0px)); }
+	.footer-grid { grid-template-columns: 1fr 1fr; gap: 28px 20px; margin-bottom: 32px; }
+	.footer-grid > div:first-child, .footer-grid > div:last-child { grid-column: 1 / -1; }
+	.footer-links { gap: 4px; }
+	.footer-links a { display: block; padding: 6px 0; }
+	.footer h5 { margin-bottom: 12px; }
+	.footer-partners { justify-content: center; gap: 8px; }
 }
 
 /* Quem prefere menos movimento não vê animações */

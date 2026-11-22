@@ -28,12 +28,13 @@ add_action( 'after_setup_theme', function () {
 add_action( 'wp_enqueue_scripts', function () {
 	wp_enqueue_style(
 		'athis-fonte-inter',
-		'https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@500;600;700&display=swap',
+		'https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap',
 		array(),
 		null
 	);
 	wp_enqueue_style( 'athis-style', get_stylesheet_uri(), array( 'athis-fonte-inter' ), ATHIS_VERSION );
 	wp_enqueue_script( 'athis-filtros', get_template_directory_uri() . '/assets/js/filters.js', array(), ATHIS_VERSION, true );
+	wp_enqueue_script( 'athis-acessibilidade', get_template_directory_uri() . '/assets/js/acessibilidade.js', array(), ATHIS_VERSION, true );
 } );
 
 /* ------------------------------------------------------------------
@@ -377,6 +378,20 @@ function athis_casas_svg( $classe = '' ) {
 	return $svg . '</svg>';
 }
 
+/* A casa do território, na cor dele. O formato muda conforme a cor, como as casas do logo:
+   azul = telhado de uma água, vermelho = empena com janela redonda, verde = arco, amarelo = escada.
+   Recebe a classe de cor (resultado de athis_cor_classe). */
+function athis_casa_svg( $cor = 'cor-azul' ) {
+	$formas = array(
+		'cor-azul'     => 'M20 70 L200 34 L200 270 L92 270 L92 206 L52 206 L52 270 L20 270 Z M118 118 L168 118 L168 168 L118 168 Z',
+		'cor-vermelho' => 'M20 270 V96 L110 24 L200 96 V270 H134 V206 H86 V270 Z M84 120 a26 26 0 1 0 52 0 a26 26 0 1 0 -52 0 Z',
+		'cor-verde'    => 'M20 270 V120 A90 90 0 0 1 200 120 V270 H132 V208 A22 22 0 0 0 88 208 V270 Z M90 100 H130 V140 H90 Z',
+		'cor-amarelo'  => 'M20 270 V160 H78 V98 H138 V34 H200 V270 H132 V208 H88 V270 Z M150 80 H182 V112 H150 Z',
+	);
+	$d = $formas[ $cor ] ?? $formas['cor-azul'];
+	return '<svg class="terr-casa-svg" viewBox="0 0 240 270" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg"><path class="casa" fill-rule="evenodd" d="' . esc_attr( $d ) . '"/></svg>';
+}
+
 /* Atributo style com a imagem de fundo (vazio se não houver imagem) */
 function athis_bg_style( $url ) {
 	return $url ? ' style="background-image:url(\'' . esc_url( $url ) . '\')"' : '';
@@ -440,6 +455,7 @@ add_action( 'init', function () {
 		update_option( 'athis_rewrite_version', ATHIS_VERSION );
 	}
 }, 99 );
+
 
 /* Dados de exemplo para a apresentação */
 require_once get_template_directory() . '/inc/demo-data.php';

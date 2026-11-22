@@ -15,6 +15,10 @@ $athis_home = is_front_page() ? '' : home_url( '/' );
   <meta charset="<?php bloginfo( 'charset' ); ?>" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="theme-color" content="#0B1F3A" />
+  <script>
+    /* Aplica cedo o tamanho de texto escolhido (evita "piscar"). Veja assets/js/acessibilidade.js */
+    (function(){try{var e=JSON.parse(localStorage.getItem('athis-acess'))||{},p=[100,112.5,125,137.5],d=document.documentElement;if(e.t>0&&p[e.t]){d.style.fontSize=p[e.t]+'%';}}catch(x){}})();
+  </script>
   <?php wp_head(); ?>
 </head>
 <body <?php body_class(); ?>>
@@ -37,6 +41,10 @@ $athis_home = is_front_page() ? '' : home_url( '/' );
         <a href="<?php echo esc_url( $athis_home . '#experiencias' ); ?>">Projetos</a>
         <a href="<?php echo esc_url( $athis_home . '#conhecimento' ); ?>">Acervo</a>
         <a href="<?php echo esc_url( $athis_home . '#conhecimento' ); ?>" class="btn btn-primary">Acessar Hub</a>
+        <div class="acess" role="group" aria-label="Tamanho do texto">
+          <button type="button" data-acess="menos" aria-label="Diminuir o tamanho do texto">A&minus;</button>
+          <button type="button" data-acess="mais" aria-label="Aumentar o tamanho do texto">A+</button>
+        </div>
       </div>
     </div>
   </nav>
