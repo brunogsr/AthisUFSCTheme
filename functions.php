@@ -11,7 +11,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define( 'ATHIS_VERSION', '0.5' );
+define( 'ATHIS_VERSION', '0.6' );
 define( 'ATHIS_LIMITE_PDF_MB', 50 );
 
 /* ------------------------------------------------------------------
@@ -35,6 +35,7 @@ add_action( 'wp_enqueue_scripts', function () {
 	wp_enqueue_style( 'athis-style', get_stylesheet_uri(), array( 'athis-fonte-inter' ), ATHIS_VERSION );
 	wp_enqueue_script( 'athis-filtros', get_template_directory_uri() . '/assets/js/filters.js', array(), ATHIS_VERSION, true );
 	wp_enqueue_script( 'athis-acessibilidade', get_template_directory_uri() . '/assets/js/acessibilidade.js', array(), ATHIS_VERSION, true );
+	wp_enqueue_script( 'athis-carrossel', get_template_directory_uri() . '/assets/js/carrossel.js', array(), ATHIS_VERSION, true );
 } );
 
 /* ------------------------------------------------------------------

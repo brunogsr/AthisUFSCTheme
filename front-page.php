@@ -42,6 +42,8 @@ $demo_url = admin_url( 'tools.php?page=athis-demo' );
 
   <!-- HERO -->
   <header class="hero">
+    <!-- Fundo: ilustração "Capa Site" (moradores caminhando), espelhada, à esquerda. Decorativa; o escurecimento sob o texto o mantém legível e o lado direito é azul sólido (onde ficam as casas). -->
+    <img class="hero-bg" src="<?php echo esc_url( get_template_directory_uri() . '/assets/img/capa-inicio.jpg' ); ?>" width="1800" height="1058" alt="" fetchpriority="high">
     <div class="container">
       <div class="hero-content">
         <div class="hero-tag">Laboratório / Guarda-Chuva Institucional ATHIS UFSC</div>
