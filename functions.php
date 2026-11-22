@@ -11,7 +11,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define( 'ATHIS_VERSION', '0.3' );
+define( 'ATHIS_VERSION', '0.4' );
 define( 'ATHIS_LIMITE_PDF_MB', 50 );
 
 /* ------------------------------------------------------------------
@@ -125,6 +125,7 @@ function athis_campos() {
 			'titulo' => 'Dados do item do acervo',
 			'campos' => array(
 				'territorio_id' => array( 'label' => 'Território', 'type' => 'territorio' ),
+				'projeto_id'    => array( 'label' => 'Projeto relacionado', 'type' => 'projeto', 'help' => 'Opcional. Se escolhido, o item também aparece na página desse projeto.' ),
 				'tipo'          => array( 'label' => 'Tipo', 'type' => 'select', 'options' => array(
 					'TCC'       => 'TCC',
 					'Pesquisa'  => 'Pesquisa',
@@ -146,6 +147,17 @@ function athis_campos() {
 function athis_lista_territorios() {
 	return get_posts( array(
 		'post_type'      => 'territorio',
+		'posts_per_page' => -1,
+		'orderby'        => 'title',
+		'order'          => 'ASC',
+		'post_status'    => array( 'publish', 'draft', 'pending', 'private' ),
+	) );
+}
+
+/* Lista de projetos para o campo "Projeto relacionado" */
+function athis_lista_projetos() {
+	return get_posts( array(
+		'post_type'      => 'projeto',
 		'posts_per_page' => -1,
 		'orderby'        => 'title',
 		'order'          => 'ASC',
@@ -197,6 +209,17 @@ function athis_render_metabox( $post ) {
 				echo '<option value="">— escolha —</option>';
 				foreach ( athis_lista_territorios() as $t ) {
 					printf( '<option value="%d"%s>%s</option>', $t->ID, selected( (int) $valor, $t->ID, false ), esc_html( $t->post_title ) );
+				}
+				echo '</select>';
+				break;
+
+			case 'projeto':
+				echo '<select name="' . esc_attr( $nome ) . '" id="' . esc_attr( $nome ) . '">';
+				echo '<option value="">— nenhum —</option>';
+				foreach ( athis_lista_projetos() as $pj ) {
+					$tid_pj = absint( athis_meta( $pj->ID, 'territorio_id' ) );
+					$rotulo = $pj->post_title . ( $tid_pj ? ' (' . get_the_title( $tid_pj ) . ')' : '' );
+					printf( '<option value="%d"%s>%s</option>', $pj->ID, selected( (int) $valor, $pj->ID, false ), esc_html( $rotulo ) );
 				}
 				echo '</select>';
 				break;
@@ -272,6 +295,12 @@ add_action( 'save_post', function ( $post_id ) {
 				break;
 			case 'url':
 				$valor = esc_url_raw( $bruto );
+				break;
+			case 'projeto':
+				$valor = absint( $bruto );
+				if ( $valor && 'projeto' !== get_post_type( $valor ) ) {
+					$valor = '';
+				}
 				break;
 			case 'pdf':
 				$valor = absint( $bruto );
@@ -358,6 +387,18 @@ function athis_posts_do_territorio( $tipo, $territorio_id, $ordem = 'ASC' ) {
 		'order'          => $ordem,
 		'meta_key'       => '_athis_territorio_id',
 		'meta_value'     => (int) $territorio_id,
+	) );
+}
+
+/* Itens do acervo ligados a um projeto */
+function athis_posts_do_projeto( $projeto_id ) {
+	return get_posts( array(
+		'post_type'      => 'acervo',
+		'posts_per_page' => -1,
+		'orderby'        => 'date',
+		'order'          => 'DESC',
+		'meta_key'       => '_athis_projeto_id',
+		'meta_value'     => (int) $projeto_id,
 	) );
 }
 
