@@ -13,7 +13,7 @@ while ( have_posts() ) :
 
 	$t        = get_post();
 	$img      = athis_imagem_url( $t->ID, 'full' );
-	$alt      = ( 'cinza' === athis_meta( $t->ID, 'visual', 'azul' ) );
+	$cor      = athis_cor_classe( $t );
 	$projetos = athis_posts_do_territorio( 'projeto', $t->ID, 'ASC' );
 	$acervo   = athis_posts_do_territorio( 'acervo', $t->ID, 'DESC' );
 	$n_proj   = count( $projetos );
@@ -22,7 +22,7 @@ while ( have_posts() ) :
 	?>
 
   <!-- APRESENTAÇÃO DO TERRITÓRIO -->
-  <header class="terr-hero<?php echo $alt ? ' is-alt' : ''; ?>">
+  <header class="terr-hero <?php echo esc_attr( $cor ); ?>">
     <div class="terr-hero-bg<?php echo $img ? '' : ' no-img'; ?>"<?php echo athis_bg_style( $img ); // phpcs:ignore WordPress.Security.EscapeOutput ?>></div>
     <div class="container">
       <a class="terr-back" href="<?php echo esc_url( home_url( '/#territorios' ) ); ?>">← Atlas de Territórios</a>
@@ -91,7 +91,7 @@ while ( have_posts() ) :
   <!-- ACERVO DO TERRITÓRIO -->
   <section id="acervo" class="library">
     <div class="container">
-      <span class="tag" style="background:rgba(255,255,255,0.1); color:var(--white); border:1px solid rgba(255,255,255,0.3);">Hub de Documentos</span>
+      <span class="tag">Hub de Documentos</span>
       <h2 class="section-title">Acervo de <?php echo esc_html( get_the_title( $t ) ); ?></h2>
 
       <div class="lib-grid">

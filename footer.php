@@ -1,6 +1,6 @@
 <?php
 /**
- * Rodapé: fecha o HTML.
+ * Rodapé: fecha o <main> aberto no header.php e o HTML.
  */
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
@@ -8,14 +8,15 @@ if ( ! defined( 'ABSPATH' ) ) {
 $athis_home = is_front_page() ? '' : home_url( '/' );
 ?>
 
+</main>
+
   <!-- FOOTER -->
   <footer class="footer">
     <div class="container">
       <div class="footer-grid">
         <div>
           <a class="footer-logo" href="<?php echo esc_url( home_url( '/' ) ); ?>">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color:var(--terra)"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
-            ATHIS <span>UFSC</span>
+            <img src="<?php echo esc_url( get_template_directory_uri() . '/assets/img/logo-athis.png' ); ?>" width="900" height="295" alt="ATHIS UFSC - Residência em Arquitetura e Urbanismo" loading="lazy">
           </a>
           <p style="font-size:0.875rem; margin-bottom:24px; max-width:300px;">Plataforma Institucional em Arquitetura, Urbanismo e Assessoria Técnica. Universidade Federal de Santa Catarina.</p>
           <p style="font-size:0.875rem;">Contato: athis@contato.ufsc.br<br>Florianópolis, SC - Brasil</p>

@@ -1,6 +1,7 @@
 <?php
 /**
  * Cabeçalho: abre o HTML e mostra a barra de navegação.
+ * Termina abrindo o <main id="conteudo">, que o footer.php fecha.
  */
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
@@ -13,17 +14,19 @@ $athis_home = is_front_page() ? '' : home_url( '/' );
 <head>
   <meta charset="<?php bloginfo( 'charset' ); ?>" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#0B1F3A" />
   <?php wp_head(); ?>
 </head>
 <body <?php body_class(); ?>>
 <?php wp_body_open(); ?>
 
+  <a class="skip-link" href="#conteudo">Pular para o conteúdo</a>
+
   <!-- NAVBAR -->
-  <nav class="navbar">
+  <nav class="navbar" aria-label="Menu principal">
     <div class="container">
       <a href="<?php echo esc_url( home_url( '/' ) ); ?>" class="logo">
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color:var(--terra)"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
-        ATHIS <span>UFSC</span>
+        <img src="<?php echo esc_url( get_template_directory_uri() . '/assets/img/logo-athis.png' ); ?>" width="900" height="295" alt="ATHIS UFSC - Residência em Arquitetura e Urbanismo (página inicial)">
       </a>
       <button class="nav-toggle" type="button" aria-label="Abrir menu" aria-expanded="false" aria-controls="menu-principal">
         <span></span><span></span><span></span>
@@ -37,3 +40,5 @@ $athis_home = is_front_page() ? '' : home_url( '/' );
       </div>
     </div>
   </nav>
+
+<main id="conteudo">

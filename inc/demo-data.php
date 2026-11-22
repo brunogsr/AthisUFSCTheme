@@ -44,7 +44,7 @@ function athis_demo_dados() {
 					'destaque_1'  => '👥 31 famílias',
 					'destaque_2'  => '🌳 Proteção Ambiental',
 					'texto_botao' => 'Explorar território e projetos',
-					'visual'      => 'cinza',
+					'visual'      => 'verde',
 				),
 			),
 		),

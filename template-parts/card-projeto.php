@@ -20,15 +20,15 @@ $terr       = $args['terr'] ?? null;
 $mostra_ter = $args['show_terr'] ?? true;
 $img        = athis_imagem_url( $p->ID, 'large' );
 $status     = athis_meta( $p->ID, 'status' );
-$alt        = $terr && ( 'cinza' === athis_meta( $terr->ID, 'visual', 'azul' ) );
+$cor        = athis_cor_classe( $terr );
 ?>
-<a class="exp-card" href="<?php echo esc_url( get_permalink( $p ) ); ?>" data-terr="<?php echo esc_attr( $terr ? $terr->post_name : '' ); ?>">
+<a class="exp-card <?php echo esc_attr( $cor ); ?>" href="<?php echo esc_url( get_permalink( $p ) ); ?>" data-terr="<?php echo esc_attr( $terr ? $terr->post_name : '' ); ?>">
   <div class="exp-img<?php echo $img ? '' : ' no-img'; ?>"<?php echo athis_bg_style( $img ); // phpcs:ignore WordPress.Security.EscapeOutput ?>>
     <?php if ( $terr && $mostra_ter ) : ?>
-      <div class="exp-terr<?php echo $alt ? ' is-alt' : ''; ?>"><?php echo esc_html( get_the_title( $terr ) ); ?></div>
+      <div class="exp-terr"><?php echo esc_html( get_the_title( $terr ) ); ?></div>
     <?php endif; ?>
     <?php if ( $status ) : ?>
-      <div class="exp-status<?php echo ( 'Concluído' === $status ) ? '' : ' is-info'; ?>"><?php echo esc_html( $status ); ?></div>
+      <div class="exp-status"><?php echo esc_html( $status ); ?></div>
     <?php endif; ?>
   </div>
   <div class="exp-content">

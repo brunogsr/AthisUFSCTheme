@@ -1,248 +1,355 @@
 /*
 Theme Name: ATHIS UFSC
-Description: Tema do esboço da plataforma ATHIS UFSC
-Version: 0.4
+Description: Tema da plataforma ATHIS UFSC
+Version: 0.5
 Text Domain: athis-ufsc
 */
 
 /* ==========================================================
-   CSS vindo do protótipo HTML (UFSC ATHIS - Mockup_site.html)
+   IDENTIDADE VISUAL
+   Vem do logo: casas empilhadas e levemente tortas, cada uma de uma
+   cor (vermelho, azul, verde, amarelo), com janelas e portas vazadas.
+   Regras do design:
+   - Nenhuma das quatro cores domina: juntas representam a comunidade.
+   - Cada território é uma "casa" com a sua cor (campo "Cor do território").
+     Cards, hero, filtros e árvore daquele território herdam essa cor.
+   - Elementos institucionais (menu, rodapé, títulos de seção) usam as
+     quatro cores juntas (variável --faixa).
+   - Cor viva só em fundos e detalhes. Texto usa as versões escuras
+     (--c-ink, sobre fundo claro) ou claras (--c-lite, sobre fundo escuro)
+     para manter o contraste legível.
    ========================================================== */
-    /* RESET & VARS */
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    :root {
-      --blue: #1B365D;
-      --blue-mid: #2563A8;
-      --terra: #D95C37;
-      --terra-hover: #C85A32;
-      --bg: #F8F9FA;
-      --text: #2D3748;
-      --text-lt: #4A5568;
-      --white: #FFFFFF;
-      --shadow-sm: 0 4px 6px -1px rgba(27, 54, 93, 0.05), 0 2px 4px -1px rgba(27, 54, 93, 0.03);
-      --shadow-md: 0 10px 15px -3px rgba(27, 54, 93, 0.1), 0 4px 6px -2px rgba(27, 54, 93, 0.05);
-      --shadow-lg: 0 20px 25px -5px rgba(27, 54, 93, 0.1), 0 10px 10px -5px rgba(27, 54, 93, 0.04);
-      --radius: 12px;
-      --radius-sm: 8px;
-      /* variáveis que o protótipo usava mas não definia */
-      --gray-md: #CBD5E0;
-      --gray-lt: #E2E8F0;
-      --gray-bg: #F1F5F9;
-    }
-    html { scroll-behavior: smooth; }
-    body { font-family: 'Inter', sans-serif; color: var(--text); background: var(--bg); line-height: 1.6; }
-    a { text-decoration: none; color: inherit; transition: all 0.2s ease; }
-    ul { list-style: none; }
-    img { max-width: 100%; display: block; }
-    .container { width: 100%; max-width: 1280px; margin: 0 auto; padding: 0 24px; }
-    .section-title { font-size: 2.5rem; font-weight: 800; color: var(--blue); margin-bottom: 1rem; line-height: 1.2; letter-spacing: -0.02em; }
-    .section-sub { font-size: 1.125rem; color: var(--text-lt); max-width: 700px; margin-bottom: 3rem; }
-    
-    .btn { display: inline-flex; align-items: center; justify-content: center; padding: 12px 24px; border-radius: 6px; font-weight: 600; font-size: 0.9375rem; cursor: pointer; transition: all 0.2s ease; }
-    .btn-primary { background: var(--terra); color: var(--white); border: none; }
-    .btn-primary:hover { background: var(--terra-hover); transform: translateY(-2px); box-shadow: var(--shadow-md); }
-    .btn-outline { background: transparent; border: 2px solid var(--white); color: var(--white); }
-    .btn-outline:hover { background: rgba(255,255,255,0.1); }
-    
-    .tag { display: inline-block; padding: 4px 10px; background: rgba(217, 92, 55, 0.1); color: var(--terra); border-radius: 20px; font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 1rem; }
-    .tag-blue { background: rgba(27, 54, 93, 0.1); color: var(--blue); }
 
-    /* NAVBAR */
-    .navbar { position: fixed; top: 0; left: 0; width: 100%; background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); z-index: 1000; border-bottom: 1px solid rgba(27, 54, 93, 0.05); }
-    .navbar .container { display: flex; align-items: center; justify-content: space-between; height: 80px; }
-    .logo { font-size: 1.25rem; font-weight: 800; color: var(--blue); letter-spacing: -0.02em; display: flex; align-items: center; gap: 8px; }
-    .logo span { color: var(--terra); }
-    .nav-links { display: flex; gap: 32px; align-items: center; }
-    .nav-links a { font-weight: 500; font-size: 0.9375rem; color: var(--text-lt); }
-    .nav-links a:hover { color: var(--terra); }
-    
-    /* HERO SECTION */
-    .hero { position: relative; padding: 180px 0 120px; background: var(--blue); overflow: hidden; }
-    .hero::before {
-      content: ''; position: absolute; inset: 0;
-      background: linear-gradient(90deg, rgba(27,54,93,0.95) 0%, rgba(27,54,93,0.7) 100%), 
-                  url('https://images.unsplash.com/photo-1541888086225-ee531502b4d5?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80') center/cover;
-      z-index: 0;
-    }
-    .hero .container { position: relative; z-index: 1; }
-    .hero-content { max-width: 750px; }
-    .hero-tag { display: inline-flex; align-items: center; gap: 8px; padding: 6px 16px; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); border-radius: 30px; color: var(--white); font-size: 0.875rem; font-weight: 500; margin-bottom: 24px; }
-    .hero h1 { font-size: 4rem; font-weight: 800; color: var(--white); line-height: 1.1; margin-bottom: 24px; letter-spacing: -0.02em; }
-    .hero h1 span { color: var(--terra); }
-    .hero p { font-size: 1.25rem; color: rgba(255,255,255,0.85); margin-bottom: 40px; font-weight: 300; line-height: 1.5; }
-    .hero-btns { display: flex; gap: 16px; }
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-    /* O QUE É ATHIS */
-    .about { padding: 100px 0; background: var(--bg); }
-    .about-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; margin-top: 40px; }
-    .about-card { background: var(--white); padding: 40px 32px; border-radius: var(--radius); box-shadow: var(--shadow-sm); transition: transform 0.3s ease, box-shadow 0.3s ease; border: 1px solid rgba(27, 54, 93, 0.05); }
-    .about-card:hover { transform: translateY(-5px); box-shadow: var(--shadow-lg); }
-    .about-card-icon { width: 56px; height: 56px; border-radius: 12px; background: rgba(27, 54, 93, 0.05); display: flex; align-items: center; justify-content: center; font-size: 24px; margin-bottom: 24px; color: var(--blue); }
-    .about-card.highlight .about-card-icon { background: rgba(217, 92, 55, 0.1); color: var(--terra); }
-    .about-card h3 { font-size: 1.25rem; font-weight: 700; color: var(--blue); margin-bottom: 12px; }
-    .about-card p { font-size: 0.9375rem; color: var(--text-lt); }
+:root {
+	/* Cores exatas do logo */
+	--casa-vermelho: #FF0000;
+	--casa-azul: #0096FF;
+	--casa-verde: #00D200;
+	--casa-amarelo: #F5C800;
+	--faixa: linear-gradient(90deg, var(--casa-vermelho) 0 25%, var(--casa-azul) 25% 50%, var(--casa-verde) 50% 75%, var(--casa-amarelo) 75% 100%);
 
-    /* GUARDA-CHUVA ATHIS: ATLAS DE TERRITÓRIOS */
-    .atlas { padding: 100px 0; background: var(--white); }
-    .atlas-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; align-items: stretch; }
-    
-    .atlas-card { background: var(--blue); border-radius: var(--radius); overflow: hidden; box-shadow: var(--shadow-md); color: var(--white); display: flex; flex-direction: column; transition: transform 0.3s ease; }
-    .atlas-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-lg); }
-    
-    .atlas-img { height: 240px; background-size: cover; background-position: center; position: relative; }
-    .atlas-img::after { content: ''; position: absolute; inset: 0; background: linear-gradient(to top, var(--blue), transparent); }
-    
-    .atlas-content { padding: 32px; display: flex; flex-direction: column; flex: 1; }
-    .atlas-tag { font-size: 0.75rem; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; color: var(--terra); margin-bottom: 8px; }
-    .atlas-content h3 { font-size: 1.75rem; font-weight: 800; margin-bottom: 16px; line-height: 1.2; }
-    .atlas-content p { font-size: 0.9375rem; color: rgba(255,255,255,0.7); margin-bottom: 24px; line-height: 1.5; }
-    .atlas-meta { display: flex; gap: 16px; margin-bottom: 32px; flex-wrap: wrap; }
-    .atlas-meta span { display: flex; align-items: center; gap: 6px; font-size: 0.875rem; font-weight: 600; color: rgba(255,255,255,0.9); background: rgba(255,255,255,0.1); padding: 4px 12px; border-radius: 20px; }
-    .atlas-content .btn { margin-top: auto; align-self: flex-start; }
-    
-    .atlas-expansion { grid-column: span 2; background: rgba(27, 54, 93, 0.03); border: 2px dashed rgba(27, 54, 93, 0.15); border-radius: var(--radius); padding: 40px; text-align: center; color: var(--text-lt); display: flex; flex-direction: column; align-items: center; justify-content: center; transition: background 0.3s ease; }
-    .atlas-expansion:hover { background: rgba(27, 54, 93, 0.06); }
-    .atlas-expansion h4 { font-size: 1.25rem; font-weight: 700; color: var(--blue); margin-bottom: 8px; }
-    .atlas-expansion p { font-size: 0.9375rem; max-width: 500px; }
+	/* Base neutra (o logo foi feito para fundo escuro) */
+	--ink: #0B1F3A;
+	--ink-soft: #14305A;
+	--ink-deep: #071428;
+	--paper: #FBFAF6;
+	--white: #FFFFFF;
+	--text: #1F2A40;
+	--text-lt: #4A5568;
+	--link: #0062B3;
+	--focus: #0062B3;
+	--gray-md: #CBD5E0;
+	--gray-lt: #E2E8F0;
+	--gray-bg: #F1F5F9;
 
-    /* ÁRVORE DE ESTRUTURAÇÃO DO ACERVO */
-    .tree-section { padding: 100px 0; background: var(--bg); }
-    .tree-container { background: var(--white); border-radius: var(--radius); box-shadow: var(--shadow-sm); padding: 60px 40px; overflow-x: auto; }
-    
-    .tree { display: flex; flex-direction: column; align-items: center; }
-    .tree-root { background: var(--blue); color: var(--white); padding: 16px 32px; border-radius: var(--radius-sm); font-weight: 800; font-size: 1.25rem; z-index: 2; position: relative; box-shadow: var(--shadow-md); text-align: center; }
-    
-    .tree-level-1 { display: flex; justify-content: center; gap: 80px; margin-top: 40px; position: relative; width: 100%; }
-    /* Connecting lines */
-    .tree-level-1::before { content: ''; position: absolute; top: -40px; left: calc(50% - 1px); width: 2px; height: 40px; background: var(--gray-md); }
-    .tree-level-1::after { content: ''; position: absolute; top: 0; left: 25%; width: 50%; height: 2px; background: var(--gray-md); }
-    
-    .tree-node { display: flex; flex-direction: column; align-items: center; position: relative; width: 350px; }
-    .tree-node::before { content: ''; position: absolute; top: 0; left: calc(50% - 1px); width: 2px; height: 20px; background: var(--gray-md); }
-    
-    .tree-territory { background: var(--white); border: 2px solid var(--terra); color: var(--blue); padding: 12px 24px; border-radius: var(--radius-sm); font-weight: 700; font-size: 1.125rem; margin-top: 20px; z-index: 2; box-shadow: var(--shadow-sm); text-align: center; width: 100%; }
-    
-    .tree-projects { margin-top: 20px; display: flex; flex-direction: column; gap: 8px; width: 100%; position: relative; padding-left: 20px; }
-    .tree-projects::before { content: ''; position: absolute; top: 0; left: 20px; width: 2px; height: calc(100% - 20px); background: var(--gray-md); }
-    
-    .tree-project { background: var(--gray-bg); padding: 10px 16px; border-radius: 6px; font-size: 0.875rem; font-weight: 600; color: var(--text); border: 1px solid var(--gray-lt); position: relative; margin-left: 20px; }
-    .tree-project::before { content: ''; position: absolute; top: 50%; left: -20px; width: 20px; height: 2px; background: var(--gray-md); }
-    .tree-project span { display: inline-block; padding: 2px 6px; border-radius: 4px; background: var(--gray-lt); font-size: 0.65rem; color: var(--text-lt); margin-left: 8px; text-transform: uppercase; }
+	--shadow-sm: 0 4px 6px -1px rgba(11, 31, 58, 0.06), 0 2px 4px -1px rgba(11, 31, 58, 0.04);
+	--shadow-md: 0 10px 15px -3px rgba(11, 31, 58, 0.12), 0 4px 6px -2px rgba(11, 31, 58, 0.06);
+	--shadow-lg: 0 20px 25px -5px rgba(11, 31, 58, 0.14), 0 10px 10px -5px rgba(11, 31, 58, 0.05);
+	--radius: 12px;
+	--radius-sm: 8px;
 
-    /* FILTERS */
-    .filter-bar { display: flex; gap: 12px; margin-bottom: 40px; flex-wrap: wrap; }
-    .filter-btn { padding: 8px 16px; border-radius: 20px; font-size: 0.875rem; font-weight: 600; border: 1px solid var(--gray-lt); background: var(--white); color: var(--text-lt); cursor: pointer; transition: all 0.2s ease; }
-    .filter-btn:hover { border-color: var(--blue-mid); color: var(--blue-mid); }
-    .filter-btn.active { background: var(--blue); border-color: var(--blue); color: var(--white); }
+	--font-titulo: 'Outfit', 'Inter', sans-serif;
 
-    /* EXPERIÊNCIAS */
-    .experiences { padding: 100px 0; background: var(--white); }
-    .exp-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; }
-    .exp-card { background: var(--white); border-radius: var(--radius); overflow: hidden; box-shadow: var(--shadow-sm); transition: transform 0.3s ease, opacity 0.3s ease; border: 1px solid rgba(27,54,93,0.05); }
-    .exp-card:hover { transform: translateY(-5px); box-shadow: var(--shadow-lg); }
-    .exp-img { height: 220px; background-size: cover; background-position: center; position: relative; }
-    .exp-img::after { content: ''; position: absolute; inset: 0; background: linear-gradient(to top, rgba(0,0,0,0.5), transparent); }
-    .exp-status { position: absolute; bottom: 16px; left: 16px; z-index: 1; padding: 4px 12px; border-radius: 20px; font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; background: var(--terra); color: var(--white); }
-    .exp-terr { position: absolute; top: 16px; right: 16px; z-index: 1; padding: 4px 10px; border-radius: 4px; font-size: 0.7rem; font-weight: 600; background: rgba(0,0,0,0.6); color: var(--white); backdrop-filter: blur(4px); }
-    .exp-content { padding: 24px; }
-    .exp-title { font-size: 1.25rem; font-weight: 700; color: var(--blue); margin-bottom: 8px; }
-    .exp-desc { font-size: 0.9375rem; color: var(--text-lt); margin-bottom: 20px; }
-    .exp-link { font-size: 0.875rem; font-weight: 600; color: var(--terra); display: inline-flex; align-items: center; gap: 4px; cursor: pointer; }
-    .exp-link:hover { gap: 8px; }
-    
-    .hidden { display: none !important; }
+	/* Cor do território. Padrão = azul; as classes .cor-* abaixo trocam. */
+	--c: var(--casa-azul);        /* cor viva: fundos, faixas, detalhes */
+	--c-ink: #0062B3;             /* para texto sobre fundo claro */
+	--c-lite: #33AAFF;            /* para texto sobre fundo escuro */
+	--c-on: var(--ink);           /* texto sobre a cor viva */
+}
 
-    /* BIBLIOTECA */
-    .library { padding: 100px 0; background: var(--blue); color: var(--white); }
-    .library .section-title { color: var(--white); }
-    .library .section-sub { color: rgba(255,255,255,0.7); }
-    
-    .lib-filter-btn { background: rgba(255,255,255,0.1); border-color: rgba(255,255,255,0.2); color: rgba(255,255,255,0.8); }
-    .lib-filter-btn:hover { background: rgba(255,255,255,0.2); border-color: rgba(255,255,255,0.3); color: var(--white); }
-    .lib-filter-btn.active { background: var(--terra); border-color: var(--terra); color: var(--white); }
-
-    .lib-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; }
-    .lib-card { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: var(--radius-sm); padding: 24px; transition: background 0.2s ease; position: relative; }
-    .lib-card:hover { background: rgba(255,255,255,0.1); }
-    .lib-card-terr { font-size: 0.65rem; padding: 2px 6px; background: rgba(255,255,255,0.1); border-radius: 4px; display: inline-block; margin-bottom: 8px; color: rgba(255,255,255,0.7); }
-    .lib-card-type { font-size: 0.75rem; color: var(--terra); font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 12px; }
-    .lib-card h4 { font-size: 1.125rem; font-weight: 600; margin-bottom: 8px; line-height: 1.3; }
-    .lib-card p { font-size: 0.875rem; color: rgba(255,255,255,0.6); margin-bottom: 20px; }
-    .lib-download { display: inline-flex; align-items: center; gap: 8px; font-size: 0.875rem; font-weight: 500; color: var(--white); cursor: pointer; }
-    .lib-download:hover { color: var(--terra); }
-
-    /* FOOTER */
-    .footer { background: #0A192F; color: rgba(255,255,255,0.7); padding: 80px 0 40px; }
-    .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 48px; margin-bottom: 60px; }
-    .footer-logo { font-size: 1.5rem; font-weight: 800; color: var(--white); margin-bottom: 16px; display: flex; align-items: center; gap: 8px; }
-    .footer-logo span { color: var(--terra); }
-    .footer h5 { font-size: 1rem; font-weight: 700; color: var(--white); margin-bottom: 24px; }
-    .footer-links { display: flex; flex-direction: column; gap: 12px; }
-    .footer-links a:hover { color: var(--white); }
-    .footer-bottom { padding-top: 32px; border-top: 1px solid rgba(255,255,255,0.1); display: flex; justify-content: space-between; align-items: center; font-size: 0.875rem; }
-    .footer-partners { display: flex; gap: 24px; align-items: center; flex-wrap: wrap; }
-    .partner-ph { padding: 8px 16px; background: rgba(255,255,255,0.05); border-radius: 4px; font-weight: 600; font-size: 0.75rem; letter-spacing: 0.05em; }
-
-    @media (max-width: 1024px) {
-      .about-grid, .exp-grid, .lib-grid, .atlas-grid { grid-template-columns: repeat(2, 1fr); gap: 24px; }
-      .footer-grid { grid-template-columns: 1fr 1fr; }
-      .hero h1 { font-size: 3rem; }
-      .tree-level-1 { flex-direction: column; gap: 40px; align-items: center; margin-top: 20px; }
-      .tree-level-1::before, .tree-level-1::after { display: none; }
-      .tree-node::before { display: none; }
-    }
-    @media (max-width: 768px) {
-      .nav-links { display: none; }
-      .about-grid, .exp-grid, .lib-grid, .atlas-grid, .footer-grid { grid-template-columns: 1fr; }
-      .atlas-expansion { grid-column: span 1; }
-      .hero h1 { font-size: 2.5rem; }
-      .atlas-content { padding: 24px; }
-      .footer-bottom { flex-direction: column; gap: 24px; text-align: center; }
-      .tree-node { width: 100%; max-width: 350px; }
-    }
-  
+.cor-vermelho { --c: var(--casa-vermelho); --c-ink: #C40000; --c-lite: #FF6B6B; --c-on: #FFFFFF; }
+.cor-azul     { --c: var(--casa-azul);     --c-ink: #0062B3; --c-lite: #33AAFF; --c-on: var(--ink); }
+.cor-verde    { --c: var(--casa-verde);    --c-ink: #00761A; --c-lite: #2BDB2B; --c-on: var(--ink); }
+.cor-amarelo  { --c: var(--casa-amarelo);  --c-ink: #8A6A00; --c-lite: #F5C800; --c-on: var(--ink); }
 
 /* ==========================================================
-   Acréscimos do tema WordPress
+   Base
    ========================================================== */
+html { scroll-behavior: smooth; }
+body { font-family: 'Inter', sans-serif; color: var(--text); background: var(--paper); line-height: 1.6; }
+a { text-decoration: none; color: inherit; transition: all 0.2s ease; }
+ul { list-style: none; }
+img { max-width: 100%; display: block; }
+::selection { background: var(--casa-amarelo); color: var(--ink); }
 
-/* Barra de admin do WordPress empurra a navbar fixa */
-body.admin-bar .navbar { top: 32px; }
-@media (max-width: 782px) { body.admin-bar .navbar { top: 46px; } }
+h1, h2, h3, h4, .section-title, .btn, .filter-btn, .tag { font-family: var(--font-titulo); }
 
-/* Links do atlas e dos cards */
-.atlas-card .atlas-content a.btn { margin-top: auto; align-self: flex-start; }
-.atlas-content .btn-outline { color: var(--white); border-color: rgba(255,255,255,0.3); }
-.atlas-card.is-alt { background: #2D3748; }
-.atlas-card.is-alt .atlas-img::after { background: linear-gradient(to top, #2D3748, transparent); }
+.container { width: 100%; max-width: 1280px; margin: 0 auto; padding: 0 24px; }
+.section-title { font-size: 2.5rem; font-weight: 700; color: var(--ink); margin-bottom: 1rem; line-height: 1.15; letter-spacing: -0.01em; }
+.section-sub { font-size: 1.125rem; color: var(--text-lt); max-width: 700px; margin-bottom: 3rem; }
+.hidden { display: none !important; }
 
-/* Cards sem imagem: fundo em degradê no lugar da foto */
-.atlas-img.no-img, .exp-img.no-img { background-image: linear-gradient(135deg, var(--blue) 0%, var(--blue-mid) 100%); }
+/* Foco visível para quem navega pelo teclado */
+a:focus-visible, button:focus-visible { outline: 3px solid var(--focus); outline-offset: 3px; border-radius: 4px; }
+.navbar, .hero, .library, .footer, .terr-hero, .atlas-card { --focus: var(--casa-amarelo); }
 
-/* Selo do território com cor alternativa */
-.exp-terr.is-alt { background: #2D3748; }
-.exp-status.is-info { background: var(--blue-mid); }
+/* Link "pular para o conteúdo" (leitores de tela e teclado) */
+.skip-link { position: absolute; left: -9999px; top: 8px; z-index: 2000; padding: 10px 18px; background: var(--casa-amarelo); color: var(--ink); font-weight: 700; border-radius: var(--radius-sm); }
+.skip-link:focus { left: 16px; }
 
-/* Card de projeto é um <a>: garante o bloco e a cor do texto */
+/* ==========================================================
+   Botões e etiquetas
+   ========================================================== */
+.btn { display: inline-flex; align-items: center; justify-content: center; padding: 12px 24px; border-radius: 6px; font-weight: 600; font-size: 0.9375rem; cursor: pointer; transition: all 0.2s ease; }
+.btn-primary { background: var(--casa-amarelo); color: var(--ink); border: 2px solid var(--casa-amarelo); }
+.btn-primary:hover { background: #FFD83A; border-color: #FFD83A; transform: translateY(-2px); box-shadow: var(--shadow-md); }
+.btn-outline { background: transparent; border: 2px solid rgba(255,255,255,0.7); color: var(--white); }
+.btn-outline:hover { background: rgba(255,255,255,0.12); border-color: var(--white); }
+
+/* Etiqueta de seção: barrinha de quatro cores + texto */
+.tag { display: inline-flex; align-items: center; gap: 12px; margin-bottom: 1rem; font-size: 0.8125rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: var(--ink); }
+.tag::before { content: ''; width: 36px; height: 10px; background: var(--faixa); flex: none; }
+.library .tag, .hero .tag { color: var(--white); }
+
+/* ==========================================================
+   Navbar (escura, como o logo)
+   ========================================================== */
+.navbar { position: fixed; top: 0; left: 0; width: 100%; background: rgba(11, 31, 58, 0.96); backdrop-filter: blur(10px); z-index: 1000; }
+.navbar::after { content: ''; position: absolute; left: 0; right: 0; bottom: 0; height: 4px; background: var(--faixa); }
+.navbar .container { display: flex; align-items: center; justify-content: space-between; height: 84px; }
+.logo { display: flex; align-items: center; }
+.logo img { height: 52px; width: auto; }
+.nav-links { display: flex; gap: 32px; align-items: center; }
+.nav-links a { font-weight: 500; font-size: 0.9375rem; color: rgba(255,255,255,0.88); }
+.nav-links a:hover { color: var(--white); }
+/* Cada link do menu sublinha numa cor da marca */
+.nav-links a:nth-child(1) { --hv: var(--casa-vermelho); }
+.nav-links a:nth-child(2) { --hv: var(--casa-azul); }
+.nav-links a:nth-child(3) { --hv: var(--casa-verde); }
+.nav-links a:nth-child(4) { --hv: var(--casa-amarelo); }
+.nav-links a:not(.btn):hover { text-decoration: underline; text-decoration-color: var(--hv); text-decoration-thickness: 3px; text-underline-offset: 8px; }
+.nav-links a.btn-primary { color: var(--ink); }
+
+/* ==========================================================
+   Hero da Home
+   ========================================================== */
+.hero { position: relative; padding: 184px 0 120px; background: var(--ink); overflow: hidden; }
+.hero::before {
+	content: ''; position: absolute; inset: 0; z-index: 0;
+	background:
+		radial-gradient(55% 80% at 88% 25%, rgba(0, 150, 255, 0.22), transparent 62%),
+		radial-gradient(45% 60% at 8% 105%, rgba(245, 200, 0, 0.12), transparent 60%);
+}
+.hero .container { position: relative; z-index: 1; display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr); gap: 56px; align-items: center; }
+.hero-content { max-width: 720px; }
+.hero-tag { display: inline-flex; align-items: center; gap: 8px; padding: 6px 16px; background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.22); border-radius: 30px; color: var(--white); font-size: 0.875rem; font-weight: 500; margin-bottom: 24px; }
+.hero h1 { font-size: 4rem; font-weight: 700; color: var(--white); line-height: 1.08; margin-bottom: 24px; letter-spacing: -0.02em; }
+.hero h1 span { color: var(--casa-amarelo); }
+.hero p { font-size: 1.1875rem; color: rgba(255,255,255,0.88); margin-bottom: 40px; font-weight: 400; line-height: 1.55; }
+.hero-btns { display: flex; gap: 16px; flex-wrap: wrap; }
+
+/* Casas do logo desenhadas em SVG (cada casa é uma peça independente) */
+.hero-art { width: 100%; max-width: 480px; justify-self: end; }
+.athis-casas { display: block; width: 100%; height: auto; overflow: visible; }
+.athis-casas .casa { transform-box: fill-box; transform-origin: 50% 100%; animation: casa-sobe 0.7s cubic-bezier(0.2, 0.8, 0.2, 1) both; }
+.athis-casas .casa-vermelho { fill: var(--casa-vermelho); }
+.athis-casas .casa-azul { fill: var(--casa-azul); }
+.athis-casas .casa-verde { fill: var(--casa-verde); }
+.athis-casas .casa-amarelo { fill: var(--casa-amarelo); }
+/* As casas "sobem" de baixo para cima, como numa construção em comunidade */
+.athis-casas .c4 { animation-delay: 0.10s; }
+.athis-casas .c5 { animation-delay: 0.20s; }
+.athis-casas .c6 { animation-delay: 0.30s; }
+.athis-casas .c2 { animation-delay: 0.45s; }
+.athis-casas .c3 { animation-delay: 0.55s; }
+.athis-casas .c1 { animation-delay: 0.70s; }
+@keyframes casa-sobe { from { opacity: 0; transform: translateY(28px); } to { opacity: 1; transform: none; } }
+
+/* ==========================================================
+   O que é ATHIS
+   ========================================================== */
+.about { padding: 100px 0; background: var(--paper); }
+.about-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; margin-top: 40px; }
+.about-card { background: var(--white); padding: 40px 32px; border-radius: var(--radius); box-shadow: var(--shadow-sm); transition: transform 0.3s ease, box-shadow 0.3s ease; border: 1px solid var(--line, rgba(11,31,58,0.08)); border-top: 8px solid var(--c); }
+.about-card:nth-child(1) { --c: var(--casa-vermelho); --c-on: #FFFFFF; }
+.about-card:nth-child(2) { --c: var(--casa-azul); }
+.about-card:nth-child(3) { --c: var(--casa-verde); }
+.about-card:hover { transform: translateY(-5px) rotate(-0.4deg); box-shadow: var(--shadow-lg); }
+/* Ícone dentro de uma casinha de telhado inclinado */
+.about-card-icon { width: 60px; height: 60px; background: var(--c); color: var(--c-on); display: flex; align-items: center; justify-content: center; margin-bottom: 24px; clip-path: polygon(0 14%, 100% 0, 100% 100%, 0 100%); padding-top: 6px; }
+.about-card h3 { font-size: 1.375rem; font-weight: 700; color: var(--ink); margin-bottom: 12px; }
+.about-card p { font-size: 0.9375rem; color: var(--text-lt); }
+
+/* ==========================================================
+   Atlas de territórios
+   ========================================================== */
+.atlas { padding: 100px 0; background: var(--white); }
+.atlas-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; align-items: stretch; }
+
+.atlas-card { background: var(--ink); border-radius: var(--radius); overflow: hidden; box-shadow: var(--shadow-md); color: var(--white); display: flex; flex-direction: column; transition: transform 0.3s ease, box-shadow 0.3s ease; border-top: 10px solid var(--c); }
+.atlas-card:hover { transform: translateY(-4px) rotate(-0.3deg); box-shadow: var(--shadow-lg); }
+
+.atlas-img { height: 240px; background-size: cover; background-position: center; position: relative; }
+.atlas-img::after { content: ''; position: absolute; inset: 0; background: linear-gradient(to top, var(--ink), transparent); }
+
+.atlas-content { padding: 32px; display: flex; flex-direction: column; flex: 1; }
+.atlas-tag { font-size: 0.8125rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--c-lite); margin-bottom: 8px; }
+.atlas-content h3 { font-size: 1.75rem; font-weight: 700; margin-bottom: 16px; line-height: 1.2; }
+.atlas-content p { font-size: 0.9375rem; color: rgba(255,255,255,0.8); margin-bottom: 24px; line-height: 1.55; }
+.atlas-meta { display: flex; gap: 12px; margin-bottom: 32px; flex-wrap: wrap; }
+.atlas-meta span { display: flex; align-items: center; gap: 6px; font-size: 0.875rem; font-weight: 600; color: rgba(255,255,255,0.92); background: rgba(255,255,255,0.1); padding: 4px 12px; border-radius: 20px; }
+.atlas-content .btn { margin-top: auto; align-self: flex-start; }
+.atlas-content .btn-outline:hover { background: var(--c); border-color: var(--c); color: var(--c-on); }
+
+.atlas-expansion { grid-column: span 2; background: rgba(11, 31, 58, 0.03); border: 2px dashed rgba(11, 31, 58, 0.2); border-radius: var(--radius); padding: 40px; text-align: center; color: var(--text-lt); display: flex; flex-direction: column; align-items: center; justify-content: center; transition: background 0.3s ease; }
+.atlas-expansion:hover { background: rgba(11, 31, 58, 0.06); }
+.atlas-expansion h4 { font-size: 1.25rem; font-weight: 700; color: var(--ink); margin-bottom: 8px; }
+.atlas-expansion p { font-size: 0.9375rem; max-width: 500px; }
+
+/* ==========================================================
+   Ecossistema (árvore território > projetos)
+   ========================================================== */
+.tree-section { padding: 100px 0; background: var(--paper); }
+.tree-container { background: var(--white); border-radius: var(--radius); box-shadow: var(--shadow-sm); padding: 60px 40px; overflow-x: auto; }
+
+.tree { display: flex; flex-direction: column; align-items: center; }
+.tree-root { background: var(--ink); color: var(--white); padding: 16px 32px 20px; border-radius: var(--radius-sm); font-family: var(--font-titulo); font-weight: 700; font-size: 1.25rem; z-index: 2; position: relative; box-shadow: var(--shadow-md); text-align: center; overflow: hidden; }
+.tree-root::after { content: ''; position: absolute; left: 0; right: 0; bottom: 0; height: 6px; background: var(--faixa); }
+
+.tree-level-1 { display: flex; justify-content: center; gap: 80px; margin-top: 40px; position: relative; width: 100%; }
+/* Linhas de ligação */
+.tree-level-1::before { content: ''; position: absolute; top: -40px; left: calc(50% - 1px); width: 2px; height: 40px; background: var(--gray-md); }
+.tree-level-1::after { content: ''; position: absolute; top: 0; left: 25%; width: 50%; height: 2px; background: var(--gray-md); }
+
+.tree-node { display: flex; flex-direction: column; align-items: center; position: relative; width: 350px; }
+.tree-node::before { content: ''; position: absolute; top: 0; left: calc(50% - 1px); width: 2px; height: 20px; background: var(--gray-md); }
+
+.tree-territory { background: var(--white); border: 2px solid var(--c); border-top-width: 8px; color: var(--ink); padding: 12px 24px; border-radius: var(--radius-sm); font-family: var(--font-titulo); font-weight: 700; font-size: 1.125rem; margin-top: 20px; z-index: 2; box-shadow: var(--shadow-sm); text-align: center; width: 100%; }
+
+.tree-projects { margin-top: 20px; display: flex; flex-direction: column; gap: 8px; width: 100%; position: relative; padding-left: 20px; }
+.tree-projects::before { content: ''; position: absolute; top: 0; left: 20px; width: 2px; height: calc(100% - 20px); background: var(--gray-md); }
+
+.tree-project { background: var(--gray-bg); padding: 10px 16px; border-radius: 6px; font-size: 0.875rem; font-weight: 600; color: var(--text); border: 1px solid var(--gray-lt); border-left: 5px solid var(--c); position: relative; margin-left: 20px; }
+.tree-project:hover { background: var(--white); }
+.tree-project::before { content: ''; position: absolute; top: 50%; left: -25px; width: 20px; height: 2px; background: var(--gray-md); }
+.tree-project a { text-decoration: underline; text-decoration-color: var(--c); text-decoration-thickness: 2px; text-underline-offset: 3px; }
+.tree-project span { display: inline-block; padding: 2px 6px; border-radius: 4px; background: var(--gray-lt); font-size: 0.6875rem; color: var(--text-lt); margin-left: 8px; text-transform: uppercase; }
+
+/* ==========================================================
+   Filtros por território
+   ========================================================== */
+.filter-bar { display: flex; gap: 12px; margin-bottom: 40px; flex-wrap: wrap; }
+.filter-btn { padding: 8px 16px 8px 14px; border-radius: 20px; font-size: 0.875rem; font-weight: 600; border: 1px solid var(--gray-md); background: var(--white); color: var(--text); cursor: pointer; transition: all 0.2s ease; display: inline-flex; align-items: center; gap: 8px; }
+/* "Janela" na cor do território */
+.filter-btn[data-filter]:not([data-filter="all"])::before { content: ''; width: 10px; height: 10px; background: var(--c); flex: none; }
+.filter-btn:hover { border-color: var(--c-ink); }
+.filter-btn.active { background: var(--ink); border-color: var(--ink); color: var(--white); }
+.filter-btn[data-filter]:not([data-filter="all"]).active { background: var(--c); border-color: var(--c); color: var(--c-on); }
+.filter-btn[data-filter]:not([data-filter="all"]).active::before { background: var(--c-on); }
+
+/* ==========================================================
+   Vitrine de projetos
+   ========================================================== */
+.experiences { padding: 100px 0; background: var(--white); }
+.exp-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; }
+.exp-card { background: var(--white); border-radius: var(--radius); overflow: hidden; box-shadow: var(--shadow-sm); transition: transform 0.3s ease, box-shadow 0.3s ease; border: 1px solid rgba(11,31,58,0.08); border-top: 8px solid var(--c); }
+.exp-card:hover { transform: translateY(-5px) rotate(-0.4deg); box-shadow: var(--shadow-lg); }
 a.exp-card { display: block; color: inherit; }
+.exp-img { height: 220px; background-size: cover; background-position: center; position: relative; }
+.exp-img::after { content: ''; position: absolute; inset: 0; background: linear-gradient(to top, rgba(7,20,40,0.55), transparent); }
+.exp-status { position: absolute; bottom: 16px; left: 16px; z-index: 1; display: inline-flex; align-items: center; gap: 8px; padding: 4px 12px 4px 10px; border-radius: 20px; font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; background: var(--white); color: var(--ink); }
+.exp-status::before { content: ''; width: 9px; height: 9px; background: var(--c); flex: none; }
+.exp-terr { position: absolute; top: 16px; right: 16px; z-index: 1; padding: 4px 10px; border-radius: 4px; font-size: 0.75rem; font-weight: 600; background: rgba(7,20,40,0.78); color: var(--white); backdrop-filter: blur(4px); border-left: 4px solid var(--c); }
+.exp-content { padding: 24px; }
+.exp-title { font-size: 1.25rem; font-weight: 700; color: var(--ink); margin-bottom: 8px; }
+.exp-desc { font-size: 0.9375rem; color: var(--text-lt); margin-bottom: 20px; }
+.exp-link { font-size: 0.9375rem; font-weight: 700; color: var(--c-ink); display: inline-flex; align-items: center; gap: 4px; cursor: pointer; }
+.exp-link:hover { gap: 8px; }
 
-/* Download de acervo sem PDF cadastrado */
-.lib-download.is-disabled { opacity: .5; cursor: default; pointer-events: none; }
+/* ==========================================================
+   Biblioteca / acervo (fundo escuro)
+   ========================================================== */
+.library { padding: 100px 0; background: var(--ink); color: var(--white); }
+.library .section-title { color: var(--white); }
+.library .section-sub { color: rgba(255,255,255,0.8); }
+
+.library .filter-btn { background: rgba(255,255,255,0.08); border-color: rgba(255,255,255,0.25); color: rgba(255,255,255,0.9); }
+.library .filter-btn:hover { background: rgba(255,255,255,0.16); border-color: rgba(255,255,255,0.45); color: var(--white); }
+.library .filter-btn.active { background: var(--white); border-color: var(--white); color: var(--ink); }
+.library .filter-btn[data-filter]:not([data-filter="all"])::before { background: var(--c-lite); }
+.library .filter-btn[data-filter]:not([data-filter="all"]).active { background: var(--c); border-color: var(--c); color: var(--c-on); }
+.library .filter-btn[data-filter]:not([data-filter="all"]).active::before { background: var(--c-on); }
+
+.lib-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; }
+.lib-card { background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.12); border-left: 6px solid var(--c); border-radius: var(--radius-sm); padding: 24px; transition: background 0.2s ease, transform 0.2s ease; position: relative; }
+.lib-card:hover { background: rgba(255,255,255,0.12); transform: translateY(-3px); }
+.lib-card-terr { font-size: 0.75rem; padding: 2px 8px; background: rgba(255,255,255,0.1); border-radius: 4px; display: inline-block; margin-bottom: 8px; color: rgba(255,255,255,0.85); }
+.lib-card-type { font-size: 0.75rem; color: var(--c-lite); font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 12px; }
+.lib-card h4 { font-size: 1.125rem; font-weight: 600; margin-bottom: 8px; line-height: 1.3; }
+.lib-card p { font-size: 0.875rem; color: rgba(255,255,255,0.78); margin-bottom: 20px; }
+.lib-download { display: inline-flex; align-items: center; gap: 8px; font-size: 0.875rem; font-weight: 600; color: var(--white); cursor: pointer; text-decoration: underline; text-decoration-color: var(--c); text-decoration-thickness: 2px; text-underline-offset: 4px; }
+.lib-download:hover { color: var(--c-lite); }
+.lib-download.is-disabled { opacity: 0.6; cursor: default; pointer-events: none; text-decoration: none; }
 
 /* Aviso para administradores quando ainda não há conteúdo */
-.empty-note { padding: 24px; border: 2px dashed rgba(27,54,93,.2); border-radius: var(--radius); color: var(--text-lt); background: rgba(27,54,93,.03); grid-column: 1 / -1; }
-.library .empty-note { color: rgba(255,255,255,.7); border-color: rgba(255,255,255,.25); background: rgba(255,255,255,.05); }
+.empty-note { padding: 24px; border: 2px dashed rgba(11,31,58,0.25); border-radius: var(--radius); color: var(--text-lt); background: rgba(11,31,58,0.03); grid-column: 1 / -1; }
+.empty-note a { color: var(--link); text-decoration: underline; }
+.library .empty-note { color: rgba(255,255,255,0.85); border-color: rgba(255,255,255,0.3); background: rgba(255,255,255,0.06); }
 
-/* Páginas internas (index.php) */
+/* ==========================================================
+   Rodapé
+   ========================================================== */
+.footer { position: relative; background: var(--ink-deep); color: rgba(255,255,255,0.78); padding: 88px 0 40px; }
+.footer::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 8px; background: var(--faixa); }
+.footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 48px; margin-bottom: 60px; }
+.footer-logo { display: inline-block; margin-bottom: 20px; }
+.footer-logo img { height: 76px; width: auto; }
+.footer h5 { font-family: var(--font-titulo); font-size: 1rem; font-weight: 700; color: var(--white); margin-bottom: 24px; }
+.footer-links { display: flex; flex-direction: column; gap: 12px; }
+.footer-links a:hover { color: var(--white); text-decoration: underline; text-decoration-color: var(--casa-amarelo); text-decoration-thickness: 2px; text-underline-offset: 4px; }
+.footer-bottom { padding-top: 32px; border-top: 1px solid rgba(255,255,255,0.12); display: flex; justify-content: space-between; align-items: center; font-size: 0.875rem; }
+.footer-partners { display: flex; gap: 24px; align-items: center; flex-wrap: wrap; }
+.partner-ph { padding: 8px 16px; background: rgba(255,255,255,0.06); border-radius: 4px; font-weight: 600; font-size: 0.75rem; letter-spacing: 0.05em; }
+
+/* ==========================================================
+   Páginas internas: território, projeto, texto do editor
+   ========================================================== */
+.terr-hero { position: relative; padding: 156px 0 72px; background: var(--ink); color: var(--white); overflow: hidden; border-bottom: 10px solid var(--c); }
+.terr-hero-bg { position: absolute; inset: 0; z-index: 0; background-size: cover; background-position: center; opacity: 0.4; }
+.terr-hero-bg.no-img { display: none; }
+.terr-hero::after { content: ''; position: absolute; inset: 0; z-index: 0; background: linear-gradient(90deg, var(--ink) 20%, rgba(11,31,58,0) 100%); }
+/* A "casa" do território, na cor dele (telhado inclinado + janela vazada) */
+.terr-hero::before { content: ''; position: absolute; z-index: 1; right: 7%; bottom: 0; width: clamp(120px, 16vw, 210px); aspect-ratio: 1 / 1.15; background: linear-gradient(var(--ink), var(--ink)) 62% 26% / 26% 22% no-repeat, var(--c); clip-path: polygon(0 12%, 100% 0, 100% 100%, 0 100%); }
+.terr-hero .container { position: relative; z-index: 2; }
+.terr-back { display: inline-block; margin-bottom: 24px; font-size: 0.875rem; font-weight: 600; color: rgba(255,255,255,0.88); }
+.terr-back:hover { color: var(--white); text-decoration: underline; }
+.terr-hero .atlas-tag { margin-bottom: 12px; }
+.terr-hero h1 { max-width: 820px; margin-bottom: 16px; font-size: clamp(2rem, 6vw, 3.5rem); font-weight: 700; line-height: 1.1; letter-spacing: -0.02em; }
+.terr-lead { max-width: 720px; margin-bottom: 24px; font-size: 1.125rem; font-weight: 400; line-height: 1.55; color: rgba(255,255,255,0.9); }
+.terr-hero .atlas-meta { margin-bottom: 0; }
+.terr-contagem { margin-top: 24px; font-size: 0.875rem; font-weight: 600; color: rgba(255,255,255,0.8); }
+
+.terr-sobre { padding: 72px 0; background: var(--paper); }
+
+/* Texto escrito no editor do WordPress */
+.entry-content h2, .entry-content h3 { margin: 2rem 0 0.75rem; font-weight: 700; line-height: 1.25; color: var(--ink); font-family: var(--font-titulo); }
+.entry-content ul, .entry-content ol { margin: 0 0 1.25rem 1.5rem; }
+.entry-content ul { list-style: disc; }
+.entry-content ol { list-style: decimal; }
+.entry-content a { color: var(--link); text-decoration: underline; }
+.entry-content img { border-radius: var(--radius-sm); }
+.terr-sobre .entry-content { max-width: 760px; }
+.terr-sobre .entry-content p { margin-bottom: 1.25rem; }
+
+/* Páginas genéricas (index.php) */
 .page-wrap { padding: 140px 0 80px; min-height: 60vh; }
-.page-wrap h1 { font-size: 2.5rem; font-weight: 800; color: var(--blue); line-height: 1.2; margin-bottom: 1rem; letter-spacing: -0.02em; }
+.page-wrap h1 { font-size: 2.5rem; font-weight: 700; color: var(--ink); line-height: 1.2; margin-bottom: 1rem; letter-spacing: -0.01em; }
 .page-wrap .entry-meta { margin-bottom: 1.5rem; display: flex; gap: 8px; flex-wrap: wrap; }
-.page-wrap .entry-meta span { padding: 4px 10px; border-radius: 20px; background: rgba(217,92,55,.1); color: var(--terra); font-size: .75rem; font-weight: 700; text-transform: uppercase; letter-spacing: .05em; }
+.page-wrap .entry-meta span { display: inline-flex; align-items: center; gap: 8px; padding: 4px 12px 4px 10px; border-radius: 20px; background: rgba(11,31,58,0.07); color: var(--ink); font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; }
+.page-wrap .entry-meta span::before { content: ''; width: 9px; height: 9px; background: var(--c); }
 .page-wrap .entry-thumb img { width: 100%; max-height: 420px; object-fit: cover; border-radius: var(--radius); margin-bottom: 2rem; }
 .page-wrap .entry-content { max-width: 800px; }
 .page-wrap .entry-content p { margin-bottom: 1.25rem; }
-.page-wrap .entry-content a { color: var(--terra); text-decoration: underline; }
-.nav-links a.btn-primary { color: var(--white); }
+.page-wrap .terr-back { margin-bottom: 16px; color: var(--link); }
+.page-wrap .terr-back:hover { color: var(--ink); }
+
+/* ==========================================================
+   Barra de admin do WordPress empurra a navbar fixa
+   ========================================================== */
+body.admin-bar .navbar { top: 32px; }
+@media (max-width: 782px) { body.admin-bar .navbar { top: 46px; } }
 
 /* ==========================================================
    Celular e tablet
@@ -250,96 +357,87 @@ a.exp-card { display: block; color: inherit; }
 
 /* Botão do menu (só aparece em telas pequenas) */
 .nav-toggle { display: none; background: none; border: 0; padding: 10px; margin-right: -10px; cursor: pointer; }
-.nav-toggle span { display: block; width: 24px; height: 2px; margin: 5px 0; background: var(--blue); border-radius: 2px; transition: transform .2s ease, opacity .2s ease; }
+.nav-toggle span { display: block; width: 24px; height: 2px; margin: 5px 0; background: var(--white); border-radius: 2px; transition: transform 0.2s ease, opacity 0.2s ease; }
 .navbar.open .nav-toggle span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
 .navbar.open .nav-toggle span:nth-child(2) { opacity: 0; }
 .navbar.open .nav-toggle span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
 
+@media (max-width: 1024px) {
+	.about-grid, .exp-grid, .lib-grid, .atlas-grid { grid-template-columns: repeat(2, 1fr); gap: 24px; }
+	.footer-grid { grid-template-columns: 1fr 1fr; }
+	.hero h1 { font-size: 3rem; }
+	.hero .container { grid-template-columns: 1fr; }
+	/* Casas viram uma marca-d'água atrás do texto */
+	.hero-art { position: absolute; right: -4%; bottom: -6%; width: 58%; max-width: 440px; opacity: 0.2; z-index: 0; pointer-events: none; }
+	.hero-content { position: relative; z-index: 1; }
+	.tree-level-1 { flex-direction: column; gap: 40px; align-items: center; margin-top: 20px; }
+	.tree-level-1::before, .tree-level-1::after { display: none; }
+	.tree-node::before { display: none; }
+}
+
 @media (max-width: 768px) {
-  /* Menu em painel que abre sob a barra */
-  .navbar .container { height: 64px; }
-  .nav-toggle { display: block; }
-  .nav-links { position: absolute; top: 100%; left: 0; right: 0; flex-direction: column; align-items: stretch; gap: 0; padding: 8px 24px 20px; background: var(--white); border-bottom: 1px solid rgba(27,54,93,.08); box-shadow: var(--shadow-md); }
-  .navbar.open .nav-links { display: flex; }
-  .nav-links a { padding: 14px 0; border-bottom: 1px solid rgba(27,54,93,.06); }
-  .nav-links a.btn { margin-top: 12px; padding: 12px 24px; border-bottom: 0; text-align: center; }
+	.about-grid, .exp-grid, .lib-grid, .atlas-grid, .footer-grid { grid-template-columns: 1fr; }
+	.atlas-expansion { grid-column: span 1; }
+	.atlas-content { padding: 24px; }
+	.footer-bottom { flex-direction: column; gap: 24px; text-align: center; }
+	.tree-node { width: 100%; max-width: 350px; }
 
-  /* Espaçamentos e títulos menores */
-  .hero { padding: 120px 0 72px; }
-  .hero h1 { font-size: clamp(1.75rem, 9vw, 2.5rem); overflow-wrap: break-word; }
-  .hero p { font-size: 1.0625rem; }
-  .about, .atlas, .tree-section, .experiences, .library { padding: 64px 0; }
-  .section-title { font-size: 2rem; }
-  .page-wrap { padding: 110px 0 56px; }
-  .page-wrap h1 { font-size: 2rem; }
+	/* Menu em painel que abre sob a barra */
+	.navbar .container { height: 68px; }
+	.logo img { height: 42px; }
+	.nav-toggle { display: block; }
+	.nav-links { display: none; position: absolute; top: 100%; left: 0; right: 0; flex-direction: column; align-items: stretch; gap: 0; padding: 8px 24px 24px; background: var(--ink-soft); border-bottom: 4px solid var(--casa-amarelo); box-shadow: var(--shadow-md); }
+	.navbar.open .nav-links { display: flex; }
+	.nav-links a { padding: 14px 0; border-bottom: 1px solid rgba(255,255,255,0.1); }
+	.nav-links a.btn { margin-top: 16px; padding: 12px 24px; border-bottom: 0; text-align: center; }
 
-  /* Ecossistema: árvore compacta, territórios empilhados */
-  .tree-container { padding: 28px 16px; }
-  .tree-root { width: 100%; padding: 12px 16px; font-size: 1rem; }
-  .tree-level-1 { margin-top: 28px; gap: 32px; }
-  .tree-node { width: 100%; max-width: none; }
-  .tree-territory { margin-top: 0; padding: 10px 14px; font-size: 1rem; }
-  .tree-projects { padding-left: 0; margin-top: 12px; gap: 8px; }
-  .tree-projects::before { display: none; }
-  .tree-project { margin-left: 24px; padding: 8px 12px; }
-  .tree-project a { display: block; }
-  .tree-project span { display: block; width: fit-content; margin: 4px 0 0; }
-  /* Conector em "L" de cada projeto, que também continua até o próximo */
-  .tree-project::before { top: -8px; left: -12px; width: 12px; height: calc(50% + 8px); background: none; border-left: 2px solid var(--gray-md); border-bottom: 2px solid var(--gray-md); border-bottom-left-radius: 6px; }
-  .tree-project:first-child::before { top: -12px; height: calc(50% + 12px); }
-  .tree-project:not(:last-child)::after { content: ''; position: absolute; left: -12px; top: 50%; bottom: -8px; border-left: 2px solid var(--gray-md); }
+	/* Espaçamentos e títulos menores */
+	.hero { padding: 124px 0 72px; }
+	.hero h1 { font-size: clamp(1.75rem, 9vw, 2.5rem); overflow-wrap: break-word; }
+	.hero p { font-size: 1.0625rem; }
+	.about, .atlas, .tree-section, .experiences, .library { padding: 64px 0; }
+	.section-title { font-size: 2rem; }
+	.page-wrap { padding: 110px 0 56px; }
+	.page-wrap h1 { font-size: 2rem; }
+	.footer-logo img { height: 64px; }
+
+	.terr-hero { padding: 124px 0 56px; }
+	.terr-hero::after { background: linear-gradient(180deg, var(--ink) 30%, rgba(11,31,58,0) 140%); }
+	.terr-hero::before { width: 90px; opacity: 0.5; right: 4%; }
+	.terr-sobre { padding: 56px 0; }
+
+	/* Ecossistema: árvore compacta, territórios empilhados */
+	.tree-container { padding: 28px 16px; }
+	.tree-root { width: 100%; padding: 12px 16px 16px; font-size: 1rem; }
+	.tree-level-1 { margin-top: 28px; gap: 32px; }
+	.tree-node { width: 100%; max-width: none; }
+	.tree-territory { margin-top: 0; padding: 10px 14px; font-size: 1rem; }
+	.tree-projects { padding-left: 0; margin-top: 12px; gap: 8px; }
+	.tree-projects::before { display: none; }
+	.tree-project { margin-left: 24px; padding: 8px 12px; }
+	.tree-project a { display: block; }
+	.tree-project span { display: block; width: fit-content; margin: 4px 0 0; }
+	/* Conector em "L" de cada projeto, que também continua até o próximo */
+	.tree-project::before { top: -8px; left: -17px; width: 12px; height: calc(50% + 8px); background: none; border-left: 2px solid var(--gray-md); border-bottom: 2px solid var(--gray-md); border-bottom-left-radius: 6px; }
+	.tree-project:first-child::before { top: -12px; height: calc(50% + 12px); }
+	.tree-project:not(:last-child)::after { content: ''; position: absolute; left: -17px; top: 50%; bottom: -8px; border-left: 2px solid var(--gray-md); }
 }
 
 @media (max-width: 600px) {
-  /* Em telas pequenas a barra do WordPress rola junto com a página.
-     Para quem está logado, o cabeçalho também rola, em vez de ficar fixo
-     (visitantes comuns continuam com o cabeçalho fixo). */
-  body.admin-bar .navbar { position: absolute; top: 46px; }
+	/* Em telas pequenas a barra do WordPress rola junto com a página.
+	   Para quem está logado, o cabeçalho também rola, em vez de ficar fixo
+	   (visitantes comuns continuam com o cabeçalho fixo). */
+	body.admin-bar .navbar { position: absolute; top: 46px; }
 }
 
 @media (max-width: 480px) {
-  .hero-btns { flex-direction: column; }
-  .hero-btns .btn { width: 100%; }
-  .about-card { padding: 28px 24px; }
-  .atlas-content .btn, .atlas-content a.btn { align-self: stretch; text-align: center; }
+	.hero-btns { flex-direction: column; }
+	.hero-btns .btn { width: 100%; }
+	.about-card { padding: 28px 24px; }
+	.atlas-content .btn, .atlas-content a.btn { align-self: stretch; text-align: center; }
 }
 
-
-/* ==========================================================
-   Página do território
-   ========================================================== */
-.terr-hero { --terr-cor: var(--blue); position: relative; padding: 150px 0 72px; background: var(--terr-cor); color: var(--white); overflow: hidden; }
-.terr-hero.is-alt { --terr-cor: #2D3748; }
-.terr-hero-bg { position: absolute; inset: 0; background-size: cover; background-position: center; opacity: .45; }
-.terr-hero-bg.no-img { display: none; }
-.terr-hero::after { content: ''; position: absolute; inset: 0; background: linear-gradient(90deg, var(--terr-cor) 18%, rgba(0,0,0,0) 100%); }
-.terr-hero .container { position: relative; z-index: 1; }
-.terr-back { display: inline-block; margin-bottom: 24px; font-size: .875rem; font-weight: 600; color: rgba(255,255,255,.8); }
-.terr-back:hover { color: var(--white); }
-.terr-hero .atlas-tag { margin-bottom: 12px; }
-.terr-hero h1 { max-width: 820px; margin-bottom: 16px; font-size: clamp(2rem, 6vw, 3.5rem); font-weight: 800; line-height: 1.1; letter-spacing: -0.02em; }
-.terr-lead { max-width: 720px; margin-bottom: 24px; font-size: 1.125rem; font-weight: 300; line-height: 1.5; color: rgba(255,255,255,.85); }
-.terr-hero .atlas-meta { margin-bottom: 0; }
-.terr-contagem { margin-top: 24px; font-size: .875rem; font-weight: 600; color: rgba(255,255,255,.7); }
-
-.terr-sobre { padding: 72px 0; background: var(--bg); }
-
-/* Texto escrito no editor do WordPress (listas e títulos que o reset do protótipo zerou) */
-.entry-content h2, .entry-content h3 { margin: 2rem 0 .75rem; font-weight: 700; line-height: 1.25; color: var(--blue); }
-.entry-content ul, .entry-content ol { margin: 0 0 1.25rem 1.5rem; }
-.entry-content ul { list-style: disc; }
-.entry-content ol { list-style: decimal; }
-.entry-content a { color: var(--terra); text-decoration: underline; }
-.entry-content img { border-radius: var(--radius-sm); }
-.terr-sobre .entry-content { max-width: 760px; }
-.terr-sobre .entry-content p { margin-bottom: 1.25rem; }
-
-/* Link de volta ao território, nas páginas de projeto e acervo */
-.page-wrap .terr-back { margin-bottom: 16px; color: var(--terra); }
-.page-wrap .terr-back:hover { color: var(--terra-hover); }
-
-@media (max-width: 768px) {
-  .terr-hero { padding: 120px 0 56px; }
-  .terr-hero::after { background: linear-gradient(180deg, var(--terr-cor) 30%, rgba(0,0,0,0) 140%); }
-  .terr-sobre { padding: 56px 0; }
+/* Quem prefere menos movimento não vê animações */
+@media (prefers-reduced-motion: reduce) {
+	*, *::before, *::after { animation: none !important; transition: none !important; scroll-behavior: auto !important; }
 }

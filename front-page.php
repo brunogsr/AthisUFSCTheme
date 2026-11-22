@@ -52,6 +52,7 @@ $demo_url = admin_url( 'tools.php?page=athis-demo' );
           <a href="#sobre" class="btn btn-outline">Nossa Missão</a>
         </div>
       </div>
+      <div class="hero-art"><?php echo athis_casas_svg(); // phpcs:ignore WordPress.Security.EscapeOutput ?></div>
     </div>
   </header>
 
@@ -99,10 +100,10 @@ $demo_url = admin_url( 'tools.php?page=athis-demo' );
         <?php if ( $territorios ) : ?>
           <?php foreach ( $territorios as $t ) :
             $img   = athis_imagem_url( $t->ID, 'large' );
-            $alt   = ( 'cinza' === athis_meta( $t->ID, 'visual', 'azul' ) );
+            $cor   = athis_cor_classe( $t );
             $botao = athis_meta( $t->ID, 'texto_botao', 'Explorar território' );
             ?>
-            <div class="atlas-card<?php echo $alt ? ' is-alt' : ''; ?>">
+            <div class="atlas-card <?php echo esc_attr( $cor ); ?>">
               <div class="atlas-img<?php echo $img ? '' : ' no-img'; ?>"<?php echo athis_bg_style( $img ); // phpcs:ignore WordPress.Security.EscapeOutput ?>></div>
               <div class="atlas-content">
                 <div class="atlas-tag"><?php echo esc_html( athis_meta( $t->ID, 'localidade' ) ); ?></div>
@@ -146,7 +147,7 @@ $demo_url = admin_url( 'tools.php?page=athis-demo' );
 
           <div class="tree-level-1">
             <?php foreach ( $territorios as $t ) : ?>
-              <div class="tree-node">
+              <div class="tree-node <?php echo esc_attr( athis_cor_classe( $t ) ); ?>">
                 <div class="tree-territory">📍 <?php echo esc_html( get_the_title( $t ) ); ?></div>
                 <div class="tree-projects">
                   <?php foreach ( $projetos as $p ) :
@@ -177,7 +178,7 @@ $demo_url = admin_url( 'tools.php?page=athis-demo' );
       <div class="filter-bar" id="exp-filters">
         <button class="filter-btn active" data-filter="all">Todos os Territórios</button>
         <?php foreach ( $territorios as $t ) : ?>
-          <button class="filter-btn" data-filter="<?php echo esc_attr( $t->post_name ); ?>"><?php echo esc_html( get_the_title( $t ) ); ?></button>
+          <button class="filter-btn <?php echo esc_attr( athis_cor_classe( $t ) ); ?>" data-filter="<?php echo esc_attr( $t->post_name ); ?>"><?php echo esc_html( get_the_title( $t ) ); ?></button>
         <?php endforeach; ?>
       </div>
 
@@ -199,14 +200,14 @@ $demo_url = admin_url( 'tools.php?page=athis-demo' );
   <!-- BIBLIOTECA (vem do tipo "Acervo") -->
   <section id="conhecimento" class="library">
     <div class="container">
-      <span class="tag" style="background:rgba(255,255,255,0.1); color:var(--white); border:1px solid rgba(255,255,255,0.3);">Hub de Documentos</span>
+      <span class="tag">Hub de Documentos</span>
       <h2 class="section-title">Biblioteca Integrada</h2>
       <p class="section-sub">Acesse a produção acadêmica, diagnósticos e relatórios estruturados por território.</p>
 
       <div class="filter-bar" id="lib-filters">
         <button class="filter-btn lib-filter-btn active" data-filter="all">Todos</button>
         <?php foreach ( $territorios as $t ) : ?>
-          <button class="filter-btn lib-filter-btn" data-filter="<?php echo esc_attr( $t->post_name ); ?>"><?php echo esc_html( get_the_title( $t ) ); ?></button>
+          <button class="filter-btn lib-filter-btn <?php echo esc_attr( athis_cor_classe( $t ) ); ?>" data-filter="<?php echo esc_attr( $t->post_name ); ?>"><?php echo esc_html( get_the_title( $t ) ); ?></button>
         <?php endforeach; ?>
       </div>
 

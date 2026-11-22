@@ -11,7 +11,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define( 'ATHIS_VERSION', '0.4' );
+define( 'ATHIS_VERSION', '0.5' );
 define( 'ATHIS_LIMITE_PDF_MB', 50 );
 
 /* ------------------------------------------------------------------
@@ -28,7 +28,7 @@ add_action( 'after_setup_theme', function () {
 add_action( 'wp_enqueue_scripts', function () {
 	wp_enqueue_style(
 		'athis-fonte-inter',
-		'https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap',
+		'https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@500;600;700&display=swap',
 		array(),
 		null
 	);
@@ -102,7 +102,7 @@ function athis_campos() {
 				'destaque_1'  => array( 'label' => 'Destaque 1', 'type' => 'text', 'maxlength' => 30, 'help' => 'Ex.: 12 mil habitantes' ),
 				'destaque_2'  => array( 'label' => 'Destaque 2', 'type' => 'text', 'maxlength' => 30, 'help' => 'Ex.: 75 hectares' ),
 				'texto_botao' => array( 'label' => 'Texto do botão', 'type' => 'text', 'maxlength' => 50, 'help' => 'Ex.: Explorar território' ),
-				'visual'      => array( 'label' => 'Cor do card', 'type' => 'select', 'options' => array( 'azul' => 'Azul', 'cinza' => 'Cinza escuro' ) ),
+				'visual'      => array( 'label' => 'Cor do território', 'type' => 'select', 'options' => array( 'azul' => 'Azul', 'vermelho' => 'Vermelho', 'verde' => 'Verde', 'amarelo' => 'Amarelo' ), 'help' => 'É a cor da "casa" deste território no site (como no logo): aparece nos cards, na página do território, nos projetos e nos filtros dele.' ),
 				'titulo_texto' => array( 'label' => 'Título do texto', 'type' => 'text', 'maxlength' => 40, 'help' => 'Título acima do texto do território (ex.: Sobre o território). Deixe em branco para não mostrar título.' ),
 			),
 		),
@@ -349,6 +349,32 @@ function athis_imagem_url( $post_id, $tamanho = 'large' ) {
 		$url = get_post_meta( $post_id, '_athis_img_exemplo', true );
 	}
 	return $url ? $url : '';
+}
+
+/* Classe de cor do território (cor-vermelho, cor-azul, cor-verde ou cor-amarelo).
+   Aceita o território (WP_Post ou ID); sem território ou com valor antigo/inválido, usa azul. */
+function athis_cor_classe( $terr ) {
+	$id  = is_object( $terr ) ? (int) $terr->ID : absint( $terr );
+	$cor = $id ? athis_meta( $id, 'visual', 'azul' ) : 'azul';
+	return 'cor-' . ( in_array( $cor, array( 'vermelho', 'azul', 'verde', 'amarelo' ), true ) ? $cor : 'azul' );
+}
+
+/* As casas do logo, em SVG (cada casa é uma peça; janelas e portas são vazadas).
+   c1..c6 permitem animar uma a uma pelo CSS. */
+function athis_casas_svg( $classe = '' ) {
+	$casas = array(
+		array( 'c1 casa-vermelho', 'M251 0 L481 2 L481 216 L250 214 Z M390 65 L445 66 L445 117 L390 115 Z' ),
+		array( 'c2 casa-azul',     'M0 237 L231 202 L231 432 L0 432 Z M119 276 L174 275 L174 326 L119 326 Z' ),
+		array( 'c3 casa-verde',    'M299 222 L527 221 L529 435 L300 436 Z M335 281 L390 280 L390 331 L335 331 Z' ),
+		array( 'c4 casa-vermelho', 'M22 442 L253 438 L253 653 L204 653 L204 537 L149 536 L149 653 L23 653 Z' ),
+		array( 'c5 casa-amarelo',  'M278 438 L510 440 L508 654 L364 653 L364 537 L309 536 L309 653 L278 653 Z' ),
+		array( 'c6 casa-azul',     'M542 424 L773 459 L773 655 L542 655 Z M599 504 L654 504 L654 555 L599 555 Z' ),
+	);
+	$svg = '<svg class="athis-casas ' . esc_attr( $classe ) . '" viewBox="0 0 773 655" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg">';
+	foreach ( $casas as $c ) {
+		$svg .= '<path class="casa ' . esc_attr( $c[0] ) . '" fill-rule="evenodd" d="' . esc_attr( $c[1] ) . '"/>';
+	}
+	return $svg . '</svg>';
 }
 
 /* Atributo style com a imagem de fundo (vazio se não houver imagem) */

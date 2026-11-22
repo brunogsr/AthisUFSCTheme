@@ -23,7 +23,7 @@ while ( have_posts() ) :
 	if ( $tid && 'territorio' === get_post_type( $tid ) && ( 'publish' === get_post_status( $tid ) || current_user_can( 'edit_post', $tid ) ) ) {
 		$terr = get_post( $tid );
 	}
-	$alt = $terr && ( 'cinza' === athis_meta( $terr->ID, 'visual', 'azul' ) );
+	$cor = athis_cor_classe( $terr );
 
 	$acervo = athis_posts_do_projeto( $p->ID );
 
@@ -39,7 +39,7 @@ while ( have_posts() ) :
 	?>
 
   <!-- APRESENTAÇÃO DO PROJETO -->
-  <header class="terr-hero<?php echo $alt ? ' is-alt' : ''; ?>">
+  <header class="terr-hero <?php echo esc_attr( $cor ); ?>">
     <div class="terr-hero-bg<?php echo $img ? '' : ' no-img'; ?>"<?php echo athis_bg_style( $img ); // phpcs:ignore WordPress.Security.EscapeOutput ?>></div>
     <div class="container">
       <?php if ( $terr ) : ?>
@@ -73,7 +73,7 @@ while ( have_posts() ) :
   <!-- ACERVO DO PROJETO -->
   <section id="acervo" class="library">
     <div class="container">
-      <span class="tag" style="background:rgba(255,255,255,0.1); color:var(--white); border:1px solid rgba(255,255,255,0.3);">Hub de Documentos</span>
+      <span class="tag">Hub de Documentos</span>
       <h2 class="section-title">Documentos deste projeto</h2>
 
       <div class="lib-grid">

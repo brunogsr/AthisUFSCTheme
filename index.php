@@ -10,7 +10,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 get_header();
 ?>
 
-<main class="page-wrap">
+<div class="page-wrap">
   <div class="container">
     <?php if ( have_posts() ) : ?>
       <?php while ( have_posts() ) : the_post(); ?>
@@ -67,6 +67,6 @@ get_header();
       <p>Não encontramos conteúdo para esta página.</p>
     <?php endif; ?>
   </div>
-</main>
+</div>
 
 <?php get_footer(); ?>
