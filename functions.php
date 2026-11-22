@@ -11,7 +11,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define( 'ATHIS_VERSION', '0.6' );
+define( 'ATHIS_VERSION', '0.7' );
 define( 'ATHIS_LIMITE_PDF_MB', 50 );
 
 /* ------------------------------------------------------------------
@@ -36,6 +36,7 @@ add_action( 'wp_enqueue_scripts', function () {
 	wp_enqueue_script( 'athis-filtros', get_template_directory_uri() . '/assets/js/filters.js', array(), ATHIS_VERSION, true );
 	wp_enqueue_script( 'athis-acessibilidade', get_template_directory_uri() . '/assets/js/acessibilidade.js', array(), ATHIS_VERSION, true );
 	wp_enqueue_script( 'athis-carrossel', get_template_directory_uri() . '/assets/js/carrossel.js', array(), ATHIS_VERSION, true );
+	wp_enqueue_script( 'athis-construcao', get_template_directory_uri() . '/assets/js/construcao.js', array(), ATHIS_VERSION, true );
 } );
 
 /* ------------------------------------------------------------------
@@ -104,7 +105,7 @@ function athis_campos() {
 				'destaque_1'  => array( 'label' => 'Destaque 1', 'type' => 'text', 'maxlength' => 30, 'help' => 'Ex.: 12 mil habitantes' ),
 				'destaque_2'  => array( 'label' => 'Destaque 2', 'type' => 'text', 'maxlength' => 30, 'help' => 'Ex.: 75 hectares' ),
 				'texto_botao' => array( 'label' => 'Texto do botão', 'type' => 'text', 'maxlength' => 50, 'help' => 'Ex.: Explorar território' ),
-				'visual'      => array( 'label' => 'Cor do território', 'type' => 'select', 'options' => array( 'azul' => 'Azul', 'vermelho' => 'Vermelho', 'verde' => 'Verde', 'amarelo' => 'Amarelo' ), 'help' => 'É a cor da "casa" deste território no site (como no logo): aparece nos cards, na página do território, nos projetos e nos filtros dele.' ),
+				'visual'      => array( 'label' => 'Cor do território', 'type' => 'select', 'options' => array( '' => 'Automática (segue as cores do logo)', 'azul' => 'Azul', 'amarelo' => 'Amarelo', 'vermelho' => 'Vermelho', 'verde' => 'Verde' ), 'help' => 'É a cor da "casa" deste território no site (como no logo). Em "Automática", cada território novo recebe a próxima cor da sequência (azul, amarelo, vermelho, verde) e as cores não se repetem. Escolha uma cor só se quiser fixá-la.' ),
 				'titulo_texto' => array( 'label' => 'Título do texto', 'type' => 'text', 'maxlength' => 40, 'help' => 'Título acima do texto do território (ex.: Sobre o território). Deixe em branco para não mostrar título.' ),
 			),
 		),
@@ -353,12 +354,43 @@ function athis_imagem_url( $post_id, $tamanho = 'large' ) {
 	return $url ? $url : '';
 }
 
+/* Sequência automática de cores dos territórios, na ordem de cadastro. Segue as cores do logo:
+   o primeiro é azul, o segundo amarelo, o terceiro vermelho, o quarto verde, e a sequência recomeça. */
+function athis_cores_sequencia() {
+	return array( 'azul', 'amarelo', 'vermelho', 'verde' );
+}
+
+/* Posição (0, 1, 2...) do território entre os territórios publicados, na mesma ordem usada na Home. */
+function athis_posicao_territorio( $id ) {
+	static $ordem = null;
+	if ( null === $ordem ) {
+		$ordem = array_map( 'intval', get_posts( array(
+			'post_type'      => 'territorio',
+			'posts_per_page' => -1,
+			'orderby'        => 'date',
+			'order'          => 'ASC',
+			'fields'         => 'ids',
+		) ) );
+	}
+	$pos = array_search( (int) $id, $ordem, true );
+	return ( false === $pos ) ? 0 : (int) $pos;
+}
+
 /* Classe de cor do território (cor-vermelho, cor-azul, cor-verde ou cor-amarelo).
-   Aceita o território (WP_Post ou ID); sem território ou com valor antigo/inválido, usa azul. */
+   Se o campo "Cor do território" foi escolhido, vale a escolha. Se estiver em "Automática"
+   (ou com um valor antigo/inválido), usa a sequência do logo, para as cores não se repetirem.
+   Sem território, usa azul. */
 function athis_cor_classe( $terr ) {
-	$id  = is_object( $terr ) ? (int) $terr->ID : absint( $terr );
-	$cor = $id ? athis_meta( $id, 'visual', 'azul' ) : 'azul';
-	return 'cor-' . ( in_array( $cor, array( 'vermelho', 'azul', 'verde', 'amarelo' ), true ) ? $cor : 'azul' );
+	$id = is_object( $terr ) ? (int) $terr->ID : absint( $terr );
+	if ( ! $id ) {
+		return 'cor-azul';
+	}
+	$cores = athis_cores_sequencia();
+	$cor   = get_post_meta( $id, '_athis_visual', true );
+	if ( ! in_array( $cor, $cores, true ) ) {
+		$cor = $cores[ athis_posicao_territorio( $id ) % count( $cores ) ];
+	}
+	return 'cor-' . $cor;
 }
 
 /* As casas do logo, em SVG (cada casa é uma peça; janelas e portas são vazadas).
@@ -377,6 +409,49 @@ function athis_casas_svg( $classe = '' ) {
 		$svg .= '<path class="casa ' . esc_attr( $c[0] ) . '" fill-rule="evenodd" d="' . esc_attr( $c[1] ) . '"/>';
 	}
 	return $svg . '</svg>';
+}
+
+/* Uma única casa do logo (n = 1 a 6), para "atravessar" a divisa entre duas seções.
+   As casas são as mesmas de athis_casas_svg(); aqui cada uma tem o seu próprio recorte (viewBox). */
+function athis_casa_peca( $n, $classe = '', $estilo = '' ) {
+	$pecas = array(
+		1 => array( '250 0 232 217',   'M251 0 L481 2 L481 216 L250 214 Z M390 65 L445 66 L445 117 L390 115 Z', '#FF0000' ),
+		2 => array( '0 200 232 234',   'M0 237 L231 202 L231 432 L0 432 Z M119 276 L174 275 L174 326 L119 326 Z', '#0096FF' ),
+		3 => array( '298 220 232 218', 'M299 222 L527 221 L529 435 L300 436 Z M335 281 L390 280 L390 331 L335 331 Z', '#00D200' ),
+		4 => array( '22 436 232 219',  'M22 442 L253 438 L253 653 L204 653 L204 537 L149 536 L149 653 L23 653 Z', '#FF0000' ),
+		5 => array( '277 436 234 220', 'M278 438 L510 440 L508 654 L364 653 L364 537 L309 536 L309 653 L278 653 Z', '#F5C800' ),
+		6 => array( '541 423 233 234', 'M542 424 L773 459 L773 655 L542 655 Z M599 504 L654 504 L654 555 L599 555 Z', '#0096FF' ),
+	);
+	if ( ! isset( $pecas[ $n ] ) ) {
+		return '';
+	}
+	list( $caixa, $d, $cor ) = $pecas[ $n ];
+	return '<svg class="atravessa ' . esc_attr( $classe ) . '"' . ( $estilo ? ' style="' . esc_attr( $estilo ) . '"' : '' ) . ' viewBox="' . esc_attr( $caixa ) . '" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg"><path fill="' . esc_attr( $cor ) . '" fill-rule="evenodd" d="' . esc_attr( $d ) . '"/></svg>';
+}
+
+/* A "vila" sobre o telhado da Biblioteca: casas do logo de tamanhos diferentes, apoiadas na linha do telhado.
+   Cada casa: peça do logo (1 a 6), posição (x, em % da largura da tela), largura (em % da largura) e se é "extra"
+   (as extras somem no celular, onde só a casa vermelha fica). A altura vem da proporção de cada peça. */
+function athis_casas_telhado() {
+	$razao = array( 1 => 0.935, 2 => 1.009, 3 => 0.94, 4 => 0.944, 5 => 0.94, 6 => 1.004 );
+	$vila  = array(
+		array( 2, 1.4, 4.4, true ),    // azul, pequena
+		array( 5, 5.4, 7.6, true ),    // amarela, grande
+		array( 4, 14.2, 6.2, false ),  // vermelha (a casa original), média
+		array( 3, 21.0, 4.2, true ),   // verde, pequena
+		array( 6, 25.0, 8.2, true ),   // azul, grande
+		array( 5, 82.5, 5.6, true ),   // amarela, na parte direita
+		array( 1, 88.4, 7.4, true ),   // vermelha, na parte direita
+	);
+	$html = '';
+	foreach ( $vila as $c ) {
+		$html .= athis_casa_peca(
+			$c[0],
+			'teto' . ( $c[3] ? ' teto-extra' : '' ),
+			sprintf( '--x:%s;--pw:%s;--r:%s', $c[1], $c[2], $razao[ $c[0] ] )
+		);
+	}
+	return $html;
 }
 
 /* A casa do território, na cor dele. O formato muda conforme a cor, como as casas do logo:

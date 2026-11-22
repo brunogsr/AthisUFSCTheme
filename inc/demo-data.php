@@ -44,7 +44,21 @@ function athis_demo_dados() {
 					'destaque_1'  => '👥 31 famílias',
 					'destaque_2'  => '🌳 Proteção Ambiental',
 					'texto_botao' => 'Explorar território e projetos',
-					'visual'      => 'verde',
+					'visual'      => 'amarelo',
+				),
+			),
+			// Território FICTÍCIO, só para dar forma ao Atlas (não existe de verdade).
+			array(
+				'slug'    => 'territorio-exemplo',
+				'titulo'  => 'Território Exemplo (fictício)',
+				'resumo'  => 'Território fictício, criado apenas para mostrar como um novo card aparece no Atlas. Pode ser apagado em Ferramentas > Dados de exemplo ATHIS.',
+				'img'     => athis_unsplash( 'photo-1513694203232-719a280e022f' ),
+				'meta'    => array(
+					'localidade'  => 'Cidade / SC (fictício)',
+					'destaque_1'  => 'Dado ilustrativo',
+					'destaque_2'  => 'Apenas exemplo',
+					'texto_botao' => 'Explorar território',
+					'visual'      => 'vermelho',
 				),
 			),
 		),
@@ -77,17 +91,63 @@ function athis_demo_pagina() {
 	} elseif ( 'apagado' === $feito ) {
 		echo '<div class="notice notice-success"><p>Dados de exemplo removidos.</p></div>';
 	}
-	echo '<p>Cria 2 territórios, 5 projetos e 4 itens de acervo baseados no protótipo, para apresentar o esboço. Nomes, números e imagens são ilustrativos.</p>';
+	echo '<p>Cria 3 territórios (o último é fictício), 5 projetos e 4 itens de acervo baseados no protótipo, para apresentar o esboço. Nomes, números e imagens são ilustrativos.</p>';
+	echo '<p><strong>Atenção:</strong> "Carregar" apaga e recria tudo o que foi criado por este botão, inclusive textos que você tenha editado nesses itens. Para só acrescentar o território fictício, use "Adicionar só o território fictício extra".</p>';
 
-	foreach ( array( 'carregar' => 'Carregar dados de exemplo', 'apagar' => 'Apagar dados de exemplo' ) as $acao => $rotulo ) {
+	foreach ( array( 'extra' => 'Adicionar só o território fictício extra', 'carregar' => 'Carregar dados de exemplo', 'apagar' => 'Apagar dados de exemplo' ) as $acao => $rotulo ) {
 		echo '<form method="post" action="' . esc_url( admin_url( 'admin-post.php' ) ) . '" style="display:inline-block;margin-right:12px;">';
 		echo '<input type="hidden" name="action" value="athis_demo_' . esc_attr( $acao ) . '">';
 		wp_nonce_field( 'athis_demo_' . $acao );
-		submit_button( $rotulo, 'carregar' === $acao ? 'primary' : 'secondary', 'submit', false );
+		submit_button( $rotulo, 'extra' === $acao ? 'primary' : 'secondary', 'submit', false );
 		echo '</form>';
 	}
 	echo '</div>';
 }
+
+/* Cria UM território de exemplo (marcado como demonstração, para poder ser apagado). Devolve o ID ou 0. */
+function athis_demo_criar_territorio( $t ) {
+	$id = wp_insert_post( array(
+		'post_type'    => 'territorio',
+		'post_status'  => 'publish',
+		'post_title'   => $t['titulo'],
+		'post_name'    => $t['slug'],
+		'post_excerpt' => $t['resumo'],
+	) );
+	if ( is_wp_error( $id ) || ! $id ) {
+		return 0;
+	}
+	update_post_meta( $id, '_athis_demo', '1' );
+	update_post_meta( $id, '_athis_img_exemplo', $t['img'] );
+	foreach ( $t['meta'] as $chave => $valor ) {
+		update_post_meta( $id, '_athis_' . $chave, $valor );
+	}
+	return $id;
+}
+
+/* Adiciona só o território fictício extra, sem apagar nem mexer em nada que já existe.
+   Não duplica: se ele já existir, não faz nada. */
+function athis_demo_adicionar_extra() {
+	$dados = athis_demo_dados();
+	$extra = end( $dados['territorios'] );
+	$ja    = get_posts( array(
+		'post_type'      => 'territorio',
+		'name'           => $extra['slug'],
+		'post_status'    => 'any',
+		'posts_per_page' => 1,
+		'fields'         => 'ids',
+	) );
+	return $ja ? 0 : athis_demo_criar_territorio( $extra );
+}
+
+add_action( 'admin_post_athis_demo_extra', function () {
+	if ( ! current_user_can( 'manage_options' ) ) {
+		wp_die( 'Sem permissão.' );
+	}
+	check_admin_referer( 'athis_demo_extra' );
+	athis_demo_adicionar_extra();
+	wp_safe_redirect( admin_url( 'tools.php?page=athis-demo&feito=extra' ) );
+	exit;
+} );
 
 function athis_demo_apagar_tudo() {
 	$ids = get_posts( array(
@@ -125,24 +185,12 @@ add_action( 'admin_post_athis_demo_carregar', function () {
 	$dados     = athis_demo_dados();
 	$terr_ids  = array();
 
-	foreach ( $dados['territorios'] as $t ) {
-		$id = wp_insert_post( array(
-			'post_type'    => 'territorio',
-			'post_status'  => 'publish',
-			'post_title'   => $t['titulo'],
-			'post_name'    => $t['slug'],
-			'post_excerpt' => $t['resumo'],
-		) );
-		if ( is_wp_error( $id ) ) {
-			continue;
+		foreach ( $dados['territorios'] as $t ) {
+			$id = athis_demo_criar_territorio( $t );
+			if ( $id ) {
+				$terr_ids[ $t['slug'] ] = $id;
+			}
 		}
-		$terr_ids[ $t['slug'] ] = $id;
-		update_post_meta( $id, '_athis_demo', '1' );
-		update_post_meta( $id, '_athis_img_exemplo', $t['img'] );
-		foreach ( $t['meta'] as $chave => $valor ) {
-			update_post_meta( $id, '_athis_' . $chave, $valor );
-		}
-	}
 
 	foreach ( $dados['projetos'] as $p ) {
 		$id = wp_insert_post( array(

@@ -16,8 +16,8 @@ $athis_home = is_front_page() ? '' : home_url( '/' );
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="theme-color" content="#0B1F3A" />
   <script>
-    /* Aplica cedo o tamanho de texto escolhido (evita "piscar"). Veja assets/js/acessibilidade.js */
-    (function(){try{var e=JSON.parse(localStorage.getItem('athis-acess'))||{},p=[100,112.5,125,137.5],d=document.documentElement;if(e.t>0&&p[e.t]){d.style.fontSize=p[e.t]+'%';}}catch(x){}})();
+    /* Aplica cedo o tamanho de texto escolhido (evita "piscar"). Veja assets/js/acessibilidade.js (o zoom multiplica a escala automática do CSS) */
+    (function(){try{var e={},p=[100,112.5,125,137.5],d=document.documentElement;d.classList.add('js');e=JSON.parse(localStorage.getItem('athis-acess'))||{};if(e.t>0&&p[e.t]){d.style.setProperty('--zoom',p[e.t]/100);}}catch(x){}})();
   </script>
   <?php wp_head(); ?>
 </head>

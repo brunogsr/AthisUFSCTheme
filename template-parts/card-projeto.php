@@ -22,7 +22,8 @@ $img        = athis_imagem_url( $p->ID, 'large' );
 $status     = athis_meta( $p->ID, 'status' );
 $cor        = athis_cor_classe( $terr );
 ?>
-<a class="exp-card <?php echo esc_attr( $cor ); ?>" href="<?php echo esc_url( get_permalink( $p ) ); ?>" data-terr="<?php echo esc_attr( $terr ? $terr->post_name : '' ); ?>">
+<div class="exp-slot sobe" data-terr="<?php echo esc_attr( $terr ? $terr->post_name : '' ); ?>">
+<a class="exp-card <?php echo esc_attr( $cor ); ?>" href="<?php echo esc_url( get_permalink( $p ) ); ?>">
   <div class="exp-img<?php echo $img ? '' : ' no-img'; ?>"<?php echo athis_bg_style( $img ); // phpcs:ignore WordPress.Security.EscapeOutput ?>>
     <?php if ( $terr && $mostra_ter ) : ?>
       <div class="exp-terr"><?php echo esc_html( get_the_title( $terr ) ); ?></div>
@@ -46,3 +47,4 @@ $cor        = athis_cor_classe( $terr );
     <span class="exp-link"><?php echo esc_html( athis_meta( $p->ID, 'texto_link', 'Ver projeto' ) ); ?> →</span>
   </div>
 </a>
+</div>

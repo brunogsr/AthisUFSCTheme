@@ -29,8 +29,8 @@
     });
   }
 
-  setupFilters('#exp-filters .filter-btn', '#exp-grid .exp-card');
-  setupFilters('#lib-filters .filter-btn', '#lib-grid .lib-card');
+  setupFilters('#exp-filters .filter-btn', '#exp-grid .exp-slot');
+  setupFilters('#lib-filters .filter-btn', '#lib-grid .lib-slot');
 })();
 
 /**

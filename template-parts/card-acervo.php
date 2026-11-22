@@ -30,7 +30,8 @@ if ( $autoria ) {
 	$resumo = get_the_excerpt( $a );
 }
 ?>
-<div class="lib-card <?php echo esc_attr( athis_cor_classe( $terr ) ); ?>" data-terr="<?php echo esc_attr( $terr ? $terr->post_name : '' ); ?>">
+<div class="lib-slot sobe" data-terr="<?php echo esc_attr( $terr ? $terr->post_name : '' ); ?>">
+<div class="lib-card <?php echo esc_attr( athis_cor_classe( $terr ) ); ?>">
   <?php if ( $terr && $mostra_ter ) : ?>
     <div class="lib-card-terr">📍 <?php echo esc_html( get_the_title( $terr ) ); ?></div>
   <?php endif; ?>
@@ -42,4 +43,5 @@ if ( $autoria ) {
   <?php else : ?>
     <span class="lib-download is-disabled"><?php echo athis_icone_download(); // phpcs:ignore WordPress.Security.EscapeOutput ?> PDF indisponível</span>
   <?php endif; ?>
+</div>
 </div>

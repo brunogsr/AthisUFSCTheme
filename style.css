@@ -1,23 +1,29 @@
 /*
 Theme Name: ATHIS UFSC
 Description: Tema da plataforma ATHIS UFSC
-Version: 0.5
+Version: 0.7
 Text Domain: athis-ufsc
 */
 
 /* ==========================================================
-   IDENTIDADE VISUAL
-   Vem do logo: casas empilhadas e levemente tortas, cada uma de uma
-   cor (vermelho, azul, verde, amarelo), com janelas e portas vazadas.
+   IDENTIDADE VISUAL: "casas empilhadas"
+   Vem do logo: casas de cores e formas diferentes, empilhadas, apoiadas
+   umas nas outras, levemente tortas, com janelas e portas vazadas.
    Regras do design:
-   - Nenhuma das quatro cores domina: juntas representam a comunidade.
-   - Cada território é uma "casa" com a sua cor (campo "Cor do território").
-     Cards, hero, filtros e árvore daquele território herdam essa cor.
-   - Elementos institucionais (menu, rodapé, títulos de seção) usam as
-     quatro cores juntas (variável --faixa).
-   - Cor viva só em fundos e detalhes. Texto usa as versões escuras
-     (--c-ink, sobre fundo claro) ou claras (--c-lite, sobre fundo escuro)
-     para manter o contraste legível.
+   - O fundo da página é UM só (--paper). Quem dá ritmo são os blocos de
+     cor, desencontrados como as casas do logo, e não faixas alternadas.
+   - As divisas são "telhados" inclinados (variável --corte).
+   - Cada território é uma casa com a sua cor ("Cor do território"). O
+     formato muda com a cor: azul = telhado de uma água, vermelho =
+     empena, verde = arco, amarelo = escada.
+   - Janelas e porta são recortes de verdade (máscara): o fundo aparece
+     por dentro. Fica tudo decorativo; o conteúdo nunca depende deles.
+   - Casas do logo "atravessam" as divisas (classe .atravessa).
+   - Cards de Vitrine e Biblioteca ficam "no chão": alturas diferentes
+     apoiadas numa linha (o "slot" de cada card).
+   - Blocos aparecem ao rolar (classe .sobe, assets/js/construcao.js).
+   - Cor viva só em fundos e detalhes. Texto usa --ink ou as versões
+     escuras de cada cor (--c-ink) para manter o contraste.
    ========================================================== */
 
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -30,11 +36,17 @@ Text Domain: athis-ufsc
 	--casa-amarelo: #F5C800;
 	--faixa: linear-gradient(90deg, var(--casa-vermelho) 0 25%, var(--casa-azul) 25% 50%, var(--casa-verde) 50% 75%, var(--casa-amarelo) 75% 100%);
 
-	/* Base neutra (o logo foi feito para fundo escuro) */
+	/* Versões suaves das cores do logo (blocos grandes de fundo) */
+	--t-vermelho: #FFD3CC;
+	--t-azul: #CBE8FF;
+	--t-verde: #C6F2BE;
+	--t-amarelo: #FFEDAA;
+
+	/* Base neutra */
 	--ink: #0B1F3A;
 	--ink-soft: #14305A;
 	--ink-deep: #071428;
-	--paper: #FBFAF6;
+	--paper: #FBF7EE;          /* ÚNICO fundo neutro da página */
 	--white: #FFFFFF;
 	--text: #1F2A40;
 	--text-lt: #4A5568;
@@ -52,23 +64,33 @@ Text Domain: athis-ufsc
 
 	--font-titulo: 'Outfit', 'Inter', sans-serif;
 
+	/* Geometria da página */
+	--corte: 5.625rem;                                               /* altura dos "telhados" (escala com o monitor) */
+	--margem: max(24px, 7vw);                                        /* recuo lateral: proporcional à tela, igual em todas as seções */
+
 	/* Cor do território. Padrão = azul; as classes .cor-* abaixo trocam. */
-	--c: var(--casa-azul);        /* cor viva: fundos, faixas, detalhes */
+	--c: var(--casa-azul);        /* cor viva: detalhes */
 	--c-ink: #0062B3;             /* para texto sobre fundo claro */
 	--c-lite: #33AAFF;            /* para texto sobre fundo escuro */
 	--c-on: var(--ink);           /* texto sobre a cor viva */
+	--c-casa: var(--casa-azul);   /* fundo da "casa" do território */
+	--c-txt: var(--ink);          /* texto sobre a casa */
+	--c-claro: var(--t-azul);     /* fundo suave */
+	--c-tom: #7CC4FF;             /* tom médio: tinge as fotos */
 }
 
-.cor-vermelho { --c: var(--casa-vermelho); --c-ink: #C40000; --c-lite: #FF6B6B; --c-on: #FFFFFF; }
-.cor-azul     { --c: var(--casa-azul);     --c-ink: #0062B3; --c-lite: #33AAFF; --c-on: var(--ink); }
-.cor-verde    { --c: var(--casa-verde);    --c-ink: #00761A; --c-lite: #2BDB2B; --c-on: var(--ink); }
-.cor-amarelo  { --c: var(--casa-amarelo);  --c-ink: #8A6A00; --c-lite: #F5C800; --c-on: var(--ink); }
+/* No vermelho, a casa usa um vermelho um pouco mais escuro e texto branco (contraste de leitura) */
+.cor-vermelho { --c: var(--casa-vermelho); --c-ink: #C40000; --c-lite: #FF6B6B; --c-on: #FFFFFF; --c-casa: #D90000; --c-txt: #FFFFFF; --c-claro: var(--t-vermelho); --c-tom: #FF8E86; }
+.cor-azul     { --c: var(--casa-azul);     --c-ink: #0062B3; --c-lite: #33AAFF; --c-on: var(--ink); --c-casa: var(--casa-azul);   --c-txt: var(--ink); --c-claro: var(--t-azul);    --c-tom: #7CC4FF; }
+.cor-verde    { --c: var(--casa-verde);    --c-ink: #00761A; --c-lite: #2BDB2B; --c-on: var(--ink); --c-casa: var(--casa-verde);   --c-txt: var(--ink); --c-claro: var(--t-verde);   --c-tom: #8BE67F; }
+.cor-amarelo  { --c: var(--casa-amarelo);  --c-ink: #8A6A00; --c-lite: #F5C800; --c-on: var(--ink); --c-casa: var(--casa-amarelo); --c-txt: var(--ink); --c-claro: var(--t-amarelo);  --c-tom: #FFD95C; }
 
 /* ==========================================================
    Base
    ========================================================== */
-html { scroll-behavior: smooth; }
-body { font-family: 'Inter', sans-serif; color: var(--text); background: var(--paper); line-height: 1.6; }
+/* Tamanho do texto: cresce de leve com o monitor (16 a 18 px) e o botão A+/A- multiplica esse valor pela variável --zoom */
+html { scroll-behavior: smooth; font-size: calc(clamp(16px, calc(0.35vw + 10px), 18px) * var(--zoom, 1)); }
+body { font-family: 'Inter', sans-serif; color: var(--text); background: var(--paper); line-height: 1.6; overflow-x: hidden; }
 a { text-decoration: none; color: inherit; transition: all 0.2s ease; }
 ul { list-style: none; }
 img { max-width: 100%; display: block; }
@@ -76,18 +98,34 @@ img { max-width: 100%; display: block; }
 
 h1, h2, h3, h4, .section-title, .btn, .filter-btn, .tag { font-family: var(--font-titulo); }
 
-.container { width: 100%; max-width: 1280px; margin: 0 auto; padding: 0 24px; }
+.container { width: 100%; max-width: none; margin: 0; padding: 0 var(--margem); }
 .section-title { font-size: 2.5rem; font-weight: 700; color: var(--ink); margin-bottom: 1rem; line-height: 1.15; letter-spacing: -0.01em; }
 .section-sub { font-size: 1.125rem; color: var(--text-lt); max-width: 700px; margin-bottom: 3rem; }
 .hidden { display: none !important; }
 
 /* Foco visível para quem navega pelo teclado */
 a:focus-visible, button:focus-visible { outline: 3px solid var(--focus); outline-offset: 3px; border-radius: 4px; }
-.navbar, .hero, .library, .footer, .terr-hero, .atlas-card { --focus: var(--casa-amarelo); }
+.navbar, .hero, .library, .footer, .terr-hero { --focus: var(--casa-amarelo); }
 
 /* Link "pular para o conteúdo" (leitores de tela e teclado) */
 .skip-link { position: absolute; left: -9999px; top: 8px; z-index: 2000; padding: 10px 18px; background: var(--casa-amarelo); color: var(--ink); font-weight: 700; border-radius: var(--radius-sm); }
 .skip-link:focus { left: 16px; }
+
+/* "Construção" ao rolar: os blocos sobem e se encaixam (só com JavaScript ativo; ver assets/js/construcao.js) */
+.js .sobe { opacity: 0; transform: translateY(46px); transition: opacity 0.7s ease var(--d, 0s), transform 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) var(--d, 0s); }
+.js .sobe.dentro { opacity: 1; transform: none; }
+.sobe:nth-child(3n+2) { --d: 0.12s; }
+.sobe:nth-child(3n) { --d: 0.24s; }
+
+/* Janelas e porta VAZADAS: três camadas de máscara (a forma inteira, a janela e a porta).
+   Cada componente define o tamanho e a posição da janela e da porta. */
+.vaza {
+	-webkit-mask-image: linear-gradient(#000, #000), linear-gradient(#000, #000), linear-gradient(#000, #000);
+	mask-image: linear-gradient(#000, #000), linear-gradient(#000, #000), linear-gradient(#000, #000);
+	-webkit-mask-repeat: no-repeat; mask-repeat: no-repeat;
+	-webkit-mask-composite: xor; mask-composite: exclude;
+	-webkit-mask-size: 100% 100%, 0 0, 0 0; mask-size: 100% 100%, 0 0, 0 0;
+}
 
 /* ==========================================================
    Botões e etiquetas
@@ -108,9 +146,9 @@ a:focus-visible, button:focus-visible { outline: 3px solid var(--focus); outline
    ========================================================== */
 .navbar { position: fixed; top: 0; left: 0; width: 100%; background: rgba(11, 31, 58, 0.96); backdrop-filter: blur(10px); z-index: 1000; }
 .navbar::after { content: ''; position: absolute; left: 0; right: 0; bottom: 0; height: 4px; background: var(--faixa); }
-.navbar .container { display: flex; align-items: center; justify-content: space-between; height: 84px; }
+.navbar .container { display: flex; align-items: center; justify-content: space-between; height: 88px; padding: 0 calc(var(--margem) + 2.5vw); }
 .logo { display: flex; align-items: center; }
-.logo img { height: 52px; width: auto; }
+.logo img { height: 64px; width: auto; }
 .nav-links { display: flex; gap: 32px; align-items: center; }
 .nav-links a { font-weight: 500; font-size: 0.9375rem; color: rgba(255,255,255,0.88); }
 .nav-links a:hover { color: var(--white); }
@@ -125,8 +163,7 @@ a:focus-visible, button:focus-visible { outline: 3px solid var(--focus); outline
 /* ==========================================================
    Hero da Home
    ========================================================== */
-/* Base inclinada, como um telhado de uma água (mesma ideia da casa azul do logo) */
-.hero { position: relative; padding: 184px 0 168px; background: var(--ink); overflow: hidden; clip-path: polygon(0 0, 100% 0, 100% calc(100% - 48px), 0 100%); }
+.hero { position: relative; padding: 176px 0 calc(var(--corte) + 110px); background: var(--ink); }
 .hero::before {
 	content: ''; position: absolute; inset: 0; z-index: 1; pointer-events: none;
 	background:
@@ -138,20 +175,22 @@ a:focus-visible, button:focus-visible { outline: 3px solid var(--focus); outline
 }
 /* Geometria do hero em telas largas: [recuo vazio] [texto] [espaço livre até a borda da tela].
    O logo fica centralizado nesse espaço livre, então acompanha qualquer largura de monitor. */
-.hero .container { --hero-recuo: 34vw; --hero-texto: clamp(400px, 34vw, 720px); position: relative; z-index: 1; max-width: none; padding: 0; display: grid; grid-template-columns: var(--hero-recuo) var(--hero-texto) minmax(0, 1fr); column-gap: 40px; align-items: center; }
-.hero-content { grid-column: 2; max-width: 720px; text-shadow: 0 2px 16px rgba(11, 31, 58, 0.55); }
+.hero .container { --hero-recuo: 30vw; --hero-texto: clamp(440px, 42vw, 860px); position: relative; z-index: 1; max-width: none; padding: 0; display: grid; grid-template-columns: var(--hero-recuo) var(--hero-texto) minmax(0, 1fr); column-gap: 40px; align-items: center; }
+.hero-content { grid-column: 2; max-width: none; text-shadow: 0 2px 16px rgba(11, 31, 58, 0.55); }
 .hero-tag { display: inline-flex; align-items: center; gap: 8px; padding: 6px 16px; background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.22); border-radius: 30px; color: var(--white); font-size: 0.875rem; font-weight: 500; margin-bottom: 24px; }
-.hero h1 { font-size: clamp(2.5rem, 4.4vw, 4rem); font-weight: 700; color: var(--white); line-height: 1.08; margin-bottom: 24px; letter-spacing: -0.02em; }
+.hero h1 { font-size: clamp(2rem, calc(var(--hero-texto) / 10.9), 4.5rem); font-weight: 700; color: var(--white); line-height: 1.08; margin-bottom: 24px; letter-spacing: -0.02em; }
 .hero h1 span { color: var(--casa-amarelo); }
+.hero h1 .linha { color: var(--white); white-space: nowrap; }   /* primeira frase sempre em uma linha */
 .hero p { font-size: 1.1875rem; color: rgba(255,255,255,0.88); margin-bottom: 40px; font-weight: 400; line-height: 1.55; }
 .hero-btns { display: flex; gap: 16px; flex-wrap: wrap; }
 
-/* Casas do logo desenhadas em SVG (cada casa é uma peça independente) */
 /* Fundo da seção: ilustração dos moradores caminhando. Ela fica atrás de tudo e um degradê escuro
    (.hero::after) cobre o lado do texto (direita), então o texto nunca fica sobre a parte clara da imagem. */
 .hero-bg { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 60% 100%; transform: scaleX(-1); z-index: 0; opacity: 0.9; }
 .hero::after { content: ''; position: absolute; inset: 0; z-index: 0; background: linear-gradient(90deg, rgba(11, 31, 58, 0.08) 0%, rgba(11, 31, 58, 0.30) 16%, rgba(11, 31, 58, 0.74) 28%, rgba(11, 31, 58, 0.80) 55%, var(--ink) 72%, var(--ink) 100%); }
 .hero-art { grid-column: 3; justify-self: center; align-self: center; width: clamp(240px, 75%, 440px); }
+
+/* Casas do logo desenhadas em SVG (cada casa é uma peça independente) */
 .athis-casas { display: block; width: 100%; height: auto; overflow: visible; }
 .athis-casas .casa { transform-box: fill-box; transform-origin: 50% 100%; animation: casa-sobe 0.7s cubic-bezier(0.2, 0.8, 0.2, 1) both; }
 .athis-casas .casa-vermelho { fill: var(--casa-vermelho); }
@@ -167,84 +206,117 @@ a:focus-visible, button:focus-visible { outline: 3px solid var(--focus); outline
 .athis-casas .c1 { animation-delay: 0.70s; }
 @keyframes casa-sobe { from { opacity: 0; transform: translateY(28px); } to { opacity: 1; transform: none; } }
 
-/* ==========================================================
-   O que é ATHIS
-   ========================================================== */
-.about { padding: 100px 0; background: var(--paper); }
-.about-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; margin-top: 40px; }
-.about-card { background: var(--white); padding: 40px 32px; border-radius: var(--radius); box-shadow: var(--shadow-sm); transition: transform 0.3s ease, box-shadow 0.3s ease; border: 1px solid var(--line, rgba(11,31,58,0.08)); border-top: 8px solid var(--c); }
-.about-card:nth-child(1) { --c: var(--casa-vermelho); --c-on: #FFFFFF; }
-.about-card:nth-child(2) { --c: var(--casa-azul); }
-.about-card:nth-child(3) { --c: var(--casa-verde); }
-.about-card:hover { transform: translateY(-5px) rotate(-0.4deg); box-shadow: var(--shadow-lg); }
-/* Ícone dentro de uma casinha de telhado inclinado */
-.about-card-icon { width: 60px; height: 60px; background: var(--c); color: var(--c-on); display: flex; align-items: center; justify-content: center; margin-bottom: 24px; clip-path: polygon(0 14%, 100% 0, 100% 100%, 0 100%); padding-top: 6px; }
-/* Cada ícone tem um formato de casa diferente: telhado inclinado, arco e empena */
-.about-card:nth-child(2) .about-card-icon { clip-path: none; border-radius: 30px 30px 0 0; padding-top: 0; }
-.about-card:nth-child(3) .about-card-icon { clip-path: polygon(50% 0, 100% 26%, 100% 100%, 0 100%, 0 26%); }
-.about-card h3 { font-size: 1.375rem; font-weight: 700; color: var(--ink); margin-bottom: 12px; }
-.about-card p { font-size: 0.9375rem; color: var(--text-lt); }
+/* Telhado do hero: o fundo claro "morde" o canto inferior direito (a divisa fica inclinada, como um telhado de uma água) */
+.hero-telhado { position: absolute; left: 0; right: 0; bottom: -1px; height: var(--corte); background: var(--paper); clip-path: polygon(0 100%, 100% 100%, 100% 0); z-index: 3; }
 
 /* ==========================================================
-   Atlas de territórios
+   Blocos de cor (casas empilhadas, desencontradas)
    ========================================================== */
-.atlas { padding: 100px 0; background: var(--white); }
-.atlas-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; align-items: stretch; }
+.bloco, .library { position: relative; }
+.bloco::before, .library::before { content: ''; position: absolute; inset: 0; z-index: 0; background: var(--bg); }
+.bloco > *, .library > * { position: relative; z-index: 1; }
 
-.atlas-card { background: var(--ink); border-radius: var(--radius); overflow: hidden; box-shadow: var(--shadow-md); color: var(--white); display: flex; flex-direction: column; transition: transform 0.3s ease, box-shadow 0.3s ease; border-top: 10px solid var(--c); }
-.atlas-card:hover { transform: translateY(-4px) rotate(-0.3deg); box-shadow: var(--shadow-lg); }
-
-.atlas-img { height: 240px; background-size: cover; background-position: center; position: relative; }
-.atlas-img::after { content: ''; position: absolute; inset: 0; background: linear-gradient(to top, var(--ink), transparent); }
-
-.atlas-content { padding: 32px; display: flex; flex-direction: column; flex: 1; }
-.atlas-tag { font-size: 0.8125rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--c-lite); margin-bottom: 8px; }
-.atlas-content h3 { font-size: 1.75rem; font-weight: 700; margin-bottom: 16px; line-height: 1.2; }
-.atlas-content p { font-size: 0.9375rem; color: rgba(255,255,255,0.8); margin-bottom: 24px; line-height: 1.55; }
-.atlas-meta { display: flex; gap: 12px; margin-bottom: 32px; flex-wrap: wrap; }
-.atlas-meta span { display: flex; align-items: center; gap: 6px; font-size: 0.875rem; font-weight: 600; color: rgba(255,255,255,0.92); background: rgba(255,255,255,0.1); padding: 4px 12px; border-radius: 20px; }
-.atlas-content .btn { margin-top: auto; align-self: flex-start; }
-.atlas-content .btn-outline:hover { background: var(--c); border-color: var(--c); color: var(--c-on); }
-
-.atlas-expansion { grid-column: span 2; background: rgba(11, 31, 58, 0.03); border: 2px dashed rgba(11, 31, 58, 0.2); border-radius: var(--radius); padding: 40px; text-align: center; color: var(--text-lt); display: flex; flex-direction: column; align-items: center; justify-content: center; transition: background 0.3s ease; }
-.atlas-expansion:hover { background: rgba(11, 31, 58, 0.06); }
-.atlas-expansion h4 { font-size: 1.25rem; font-weight: 700; color: var(--ink); margin-bottom: 8px; }
-.atlas-expansion p { font-size: 0.9375rem; max-width: 500px; }
+/* Casas do logo que ATRAVESSAM as divisas entre seções (decorativas) */
+.atravessa, .bloco > .atravessa, .library > .atravessa { position: absolute; z-index: 6; height: auto; pointer-events: none; }
+.a1 { right: 22vw; bottom: calc(var(--corte) * -0.78); width: clamp(5.625rem, 8vw, 8.75rem); }   /* pisa no telhado do bloco seguinte */
+.a2 { left: calc(var(--margem) - 1.875rem); top: -3.875rem; width: clamp(5rem, 7vw, 7.5rem); }
+/* Vila sobre o telhado da Biblioteca: o telhado sobe para a direita (y = corte x (1 - x/100)); a base de cada casa fica na altura do ponto mais baixo do telhado sob ela, então nunca flutua */
+.teto { --w: clamp(calc(var(--pw) * 0.71rem), calc(var(--pw) * 1vw), calc(var(--pw) * 1.07rem)); left: calc(var(--x) * 1vw); width: var(--w); top: calc(var(--corte) * (1 - var(--x) / 100) - var(--w) * var(--r) + 2px); }
 
 /* ==========================================================
-   Ecossistema (árvore território > projetos)
+   Conceito (O que é ATHIS): bloco amarelo recuado à direita
    ========================================================== */
-.tree-section { padding: 100px 0; background: var(--paper); }
-.tree-container { position: relative; background: var(--white); border-radius: var(--radius); box-shadow: var(--shadow-sm); padding: 60px 40px; overflow-x: auto; }
+.conceito { --bg: var(--t-amarelo); margin-left: var(--margem); padding: calc(var(--corte) + 4.375rem) 6vw 0 5vw; }
+.conceito::before { clip-path: polygon(0 0, 100% var(--corte), 100% 100%, 0 100%); }
+.conceito-grid { display: grid; grid-template-columns: 4fr 7fr; gap: 2.75rem; align-items: end; }
+.conceito-txt { align-self: start; padding-bottom: 5.625rem; }
+.conceito-txt .section-sub { margin-bottom: 0; }
+.about-grid { display: flex; gap: 1.125rem; align-items: flex-end; }
+/* Cada card é uma casa de formato diferente e alturas diferentes, apoiadas no mesmo chão */
+.about-card { flex: 1; min-width: 0; position: relative; padding: 4.375rem 1.5rem 1.875rem; }
+.about-card h3 { font-size: 1.375rem; font-weight: 700; color: var(--ink); margin-bottom: 8px; padding-right: 3.75rem; }
+.about-card p { font-size: 0.9375rem; color: var(--ink); }
+.about-card.vaza { -webkit-mask-size: 100% 100%, 2.75rem 2.75rem, 0 0; mask-size: 100% 100%, 2.75rem 2.75rem, 0 0; -webkit-mask-position: 0 0, calc(100% - 1.625rem) 3.5rem, 0 0; mask-position: 0 0, calc(100% - 1.625rem) 3.5rem, 0 0; }
+.k1 { background: var(--casa-azul); min-height: 18.75rem; clip-path: polygon(0 12%, 100% 0, 100% 100%, 0 100%); }
+.k2 { background: var(--white); min-height: 21.88rem; border-radius: 8.125rem 8.125rem 0 0; }
+.k3 { background: var(--casa-verde); min-height: 16.38rem; padding-top: 4.875rem; clip-path: polygon(50% 0, 100% 18%, 100% 100%, 0 100%, 0 18%); }
+.about-marca { display: block; width: 2.125rem; height: 2.125rem; background: var(--casa-vermelho); margin-bottom: 0.75rem; }
 
-.tree { display: flex; flex-direction: column; align-items: center; }
-.tree-root { background: var(--ink); color: var(--white); padding: 16px 32px 20px; border-radius: var(--radius-sm); font-family: var(--font-titulo); font-weight: 700; font-size: 1.25rem; z-index: 2; position: relative; box-shadow: var(--shadow-md); text-align: center; overflow: hidden; }
-.tree-root::after { content: ''; position: absolute; left: 0; right: 0; bottom: 0; height: 6px; background: var(--faixa); }
+/* ==========================================================
+   Atlas de territórios: cada território é uma casa no chão
+   ========================================================== */
+.atlas { position: relative; padding: 9.375rem 0 7.5rem; }
+.atlas-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(14.5rem, 1fr)); row-gap: 3.5rem; margin: 3rem -0.875rem 0; align-items: stretch; }
 
-.tree-level-1 { display: flex; justify-content: center; gap: 80px; margin-top: 40px; position: relative; width: 100%; }
-/* Linhas de ligação */
-.tree-level-1::before { content: ''; position: absolute; top: -40px; left: calc(50% - 1px); width: 2px; height: 40px; background: var(--gray-md); }
-.tree-level-1::after { content: ''; position: absolute; top: 0; left: 25%; width: 50%; height: 2px; background: var(--gray-md); }
+/* O "espaço" de cada casa: leva a linha do chão e o botão-porta */
+.casa-w { position: relative; display: flex; align-items: flex-end; padding: 0 0.875rem; border-bottom: 8px solid var(--ink); }
 
-.tree-node { display: flex; flex-direction: column; align-items: center; position: relative; width: 350px; }
-.tree-node::before { content: ''; position: absolute; top: 0; left: calc(50% - 1px); width: 2px; height: 20px; background: var(--gray-md); }
+.atlas-card { flex: 1; min-width: 0; position: relative; background: var(--c-casa); color: var(--c-txt); overflow: hidden; }
+/* Formato da casa conforme a cor do território */
+.atlas-card.cor-azul     { clip-path: polygon(0 6%, 100% 0, 100% 100%, 0 100%); }                                                  /* telhado de uma água */
+.atlas-card.cor-verde    { border-radius: 14.38rem 14.38rem 0 0; }                                                                        /* arco */
+.atlas-card.cor-vermelho { clip-path: polygon(50% 0, 100% 10%, 100% 100%, 0 100%, 0 10%); }                                       /* empena */
+.atlas-card.cor-amarelo  { clip-path: polygon(0 0, 38% 0, 38% 8%, 70% 8%, 70% 16%, 100% 16%, 100% 100%, 0 100%); }               /* escada */
+/* Janela (ao lado da etiqueta e do título) e porta (embaixo, onde fica o botão) */
+.atlas-card.vaza { -webkit-mask-size: 100% 100%, 2.875rem 2.875rem, 11.88rem 4rem; mask-size: 100% 100%, 2.875rem 2.875rem, 11.88rem 4rem; -webkit-mask-position: 0 0, calc(100% - 1.875rem) 14.38rem, 50% 100%; mask-position: 0 0, calc(100% - 1.875rem) 14.38rem, 50% 100%; }
 
-.tree-territory { background: var(--white); border: 2px solid var(--c); border-top-width: 8px; color: var(--ink); padding: 12px 24px; border-radius: var(--radius-sm); font-family: var(--font-titulo); font-weight: 700; font-size: 1.125rem; margin-top: 20px; z-index: 2; box-shadow: var(--shadow-sm); text-align: center; width: 100%; }
+/* Foto com o tom do território */
+.atlas-img { height: 13.12rem; background-size: cover; background-position: center; background-color: var(--c-tom); background-blend-mode: multiply; }
+.atlas-img.no-img { background-image: linear-gradient(135deg, var(--c-claro), var(--c-tom)); }
+.atlas-card.cor-azul .atlas-img { margin-top: 6.5%; }                                   /* deixa aparecer o telhado de uma água acima da foto */
 
-.tree-projects { margin-top: 20px; display: flex; flex-direction: column; gap: 8px; width: 100%; position: relative; padding-left: 20px; }
-.tree-projects::before { content: ''; position: absolute; top: 0; left: 20px; width: 2px; height: calc(100% - 20px); background: var(--gray-md); }
+.atlas-content { padding: 1.375rem 1.625rem 6.25rem; }
+.atlas-tag { font-size: 0.78rem; font-weight: 700; letter-spacing: 0.07em; text-transform: uppercase; margin-bottom: 6px; padding-right: 3.875rem; }
+.atlas-content h3 { font-size: 1.55rem; font-weight: 700; margin-bottom: 10px; line-height: 1.15; padding-right: 3.875rem; }
+.atlas-content p { font-size: 0.93rem; margin-bottom: 0.75rem; line-height: 1.5; }
+.atlas-meta { display: flex; gap: 8px; flex-wrap: wrap; }
+.atlas-meta span { display: flex; align-items: center; gap: 6px; font-size: 0.82rem; font-weight: 600; color: var(--ink); background: rgba(255,255,255,0.7); padding: 3px 0.75rem; border-radius: 1.25rem; }
 
-.tree-project { background: var(--gray-bg); padding: 10px 16px; border-radius: 6px; font-size: 0.875rem; font-weight: 600; color: var(--text); border: 1px solid var(--gray-lt); border-left: 5px solid var(--c); position: relative; margin-left: 20px; }
-.tree-project:hover { background: var(--white); }
-.tree-project::before { content: ''; position: absolute; top: 50%; left: -25px; width: 20px; height: 2px; background: var(--gray-md); }
-.tree-project a { text-decoration: underline; text-decoration-color: var(--c); text-decoration-thickness: 2px; text-underline-offset: 3px; }
-.tree-project span { display: inline-block; padding: 2px 6px; border-radius: 4px; background: var(--gray-lt); font-size: 0.6875rem; color: var(--text-lt); margin-left: 8px; text-transform: uppercase; }
+/* Botão na "porta": fica FORA da casa recortada, no vão da porta */
+.porta-cta { position: absolute; left: 50%; bottom: 0; transform: translateX(-50%); width: 11.88rem; height: 4rem; display: flex; align-items: center; justify-content: center; text-align: center; padding: 0 0.875rem; font-family: var(--font-titulo); font-weight: 700; font-size: 0.86rem; line-height: 1.2; color: var(--ink); z-index: 3; }
+.porta-cta:hover { text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: 4px; }
+
+/* "Casa aberta": sempre cabe mais um território */
+.atlas-expansion { color: var(--ink); text-align: center; display: flex; flex-direction: column; align-items: center; justify-content: flex-end; padding: 0 0.875rem; border-bottom: 8px solid var(--ink); }
+.atlas-expansion svg { width: 100%; max-width: 14.38rem; height: auto; display: block; }
+.atlas-expansion h4 { font-size: 1.1rem; font-weight: 700; margin: 10px 0 4px; }
+.atlas-expansion p { font-size: 0.85rem; color: var(--text-lt); padding-bottom: 1.125rem; }
+
+/* ==========================================================
+   Ecossistema: a "rua do bairro". A altura da casa = número de projetos do território
+   ========================================================== */
+.eco { position: relative; padding: 1.875rem 0; }
+.eco-legenda { font-size: 0.9rem; color: var(--text-lt); max-width: 35rem; margin-top: -2rem; }
+.rua-eco { --larg-casa: 14.38rem; display: grid; grid-template-columns: repeat(var(--cols), var(--larg-casa)) 1fr; grid-template-rows: auto 8px auto; column-gap: 4.375rem; align-items: end; margin-top: 2.75rem; overflow-x: auto; padding-bottom: 6px; }
+.eco-chao { grid-row: 2; grid-column: 1 / -1; align-self: stretch; height: 0.5rem; background: var(--ink); }
+.casa-e { grid-row: 1; position: relative; width: var(--larg-casa); height: calc(var(--n) * 4.625rem + 6rem); padding: 4.375rem 1.625rem 0; background: var(--c-casa); }
+.casa-e.cor-azul     { clip-path: polygon(0 6%, 100% 0, 100% 100%, 0 100%); }
+.casa-e.cor-verde    { border-radius: 7.188rem 7.188rem 0 0; }
+.casa-e.cor-vermelho { clip-path: polygon(50% 0, 100% 12%, 100% 100%, 0 100%, 0 12%); }
+.casa-e.cor-amarelo  { clip-path: polygon(0 0, 38% 0, 38% 8%, 70% 8%, 70% 16%, 100% 16%, 100% 100%, 0 100%); }
+.casa-e.vaza { -webkit-mask-size: 100% 100%, 0 0, 3.75rem 5.25rem; mask-size: 100% 100%, 0 0, 3.75rem 5.25rem; -webkit-mask-position: 0 0, 0 0, 50% 100%; mask-position: 0 0, 0 0, 50% 100%; }
+.janelas { display: grid; grid-template-columns: repeat(2, 2.875rem); gap: 1.125rem; justify-content: center; }
+.janelas i { display: block; width: 2.875rem; height: 2.875rem; background: var(--paper); }
+.casa-e-aberta { grid-row: 1; width: var(--larg-casa); color: var(--ink); align-self: end; }
+.casa-e-aberta svg { width: 100%; height: auto; display: block; }
+/* Legenda de cada casa: título do território no topo (todos na mesma altura) e uma lista organizada de projetos.
+   Cada projeto ocupa um bloco: o nome em cima e a etiqueta de status embaixo, sempre alinhados à esquerda. */
+.eco-rotulo { grid-row: 3; align-self: start; padding-top: 1rem; width: var(--larg-casa); min-width: 0; }
+.eco-rotulo h3 { font-size: 1.05rem; line-height: 1.25; color: var(--ink); margin-bottom: 0.75rem; padding-bottom: 0.5rem; border-bottom: 2px solid var(--c); overflow-wrap: anywhere; }
+.eco-rotulo h3 a:hover { text-decoration: underline; text-decoration-color: var(--c); text-decoration-thickness: 3px; text-underline-offset: 4px; }
+.eco-rotulo ul { display: flex; flex-direction: column; gap: 0.7rem; font-size: 0.86rem; color: var(--text-lt); }
+.eco-rotulo li { display: flex; flex-direction: column; align-items: flex-start; gap: 0.25rem; padding: 0; }
+.eco-rotulo li a { line-height: 1.3; overflow-wrap: anywhere; text-decoration: underline; text-decoration-color: var(--c); text-decoration-thickness: 2px; text-underline-offset: 3px; color: var(--text); font-weight: 600; }
+/* Etiqueta de status: pílula pequena com uma "janela" na cor do território */
+.eco-rotulo li span { display: inline-flex; align-items: center; gap: 0.4rem; margin: 0; padding: 0.15rem 0.6rem 0.15rem 0.45rem; border-radius: 999px; background: var(--c-claro); color: var(--ink); font-size: 0.66rem; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; white-space: nowrap; }
+.eco-rotulo li span::before { content: ''; width: 0.45rem; height: 0.45rem; background: var(--c); flex: none; }
+.eco-vazio { font-size: 0.86rem; color: var(--text-lt); }
 
 /* ==========================================================
    Filtros por território
    ========================================================== */
-.filter-bar { display: flex; gap: 12px; margin-bottom: 40px; flex-wrap: wrap; }
-.filter-btn { padding: 8px 16px 8px 14px; border-radius: 20px; font-size: 0.875rem; font-weight: 600; border: 1px solid var(--gray-md); background: var(--white); color: var(--text); cursor: pointer; transition: all 0.2s ease; display: inline-flex; align-items: center; gap: 8px; }
+.filter-bar { display: flex; gap: 0.75rem; margin-bottom: 2.5rem; flex-wrap: wrap; }
+.filter-btn { padding: 8px 1rem 8px 0.875rem; border-radius: 1.25rem; font-size: 0.875rem; font-weight: 600; border: 1px solid var(--gray-md); background: var(--white); color: var(--text); cursor: pointer; transition: all 0.2s ease; display: inline-flex; align-items: center; gap: 8px; }
 /* "Janela" na cor do território */
 .filter-btn[data-filter]:not([data-filter="all"])::before { content: ''; width: 10px; height: 10px; background: var(--c); flex: none; }
 .filter-btn:hover { border-color: var(--c-ink); }
@@ -253,34 +325,44 @@ a:focus-visible, button:focus-visible { outline: 3px solid var(--focus); outline
 .filter-btn[data-filter]:not([data-filter="all"]).active::before { background: var(--c-on); }
 
 /* ==========================================================
-   Vitrine de projetos
+   Vitrine de projetos: cards de alturas diferentes, apoiados no chão
    ========================================================== */
-.experiences { padding: 100px 0; background: var(--white); }
-.exp-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; }
-.exp-card { background: var(--white); border-radius: var(--radius); overflow: hidden; box-shadow: var(--shadow-sm); transition: transform 0.3s ease, box-shadow 0.3s ease; border: 1px solid rgba(11,31,58,0.08); border-top: 8px solid var(--c); }
-.exp-card:hover { transform: translateY(-5px) rotate(-0.4deg); box-shadow: var(--shadow-lg); }
-a.exp-card { display: block; color: inherit; }
-/* A base da foto muda de forma de card em card: telhado, arco, telhado invertido */
-.exp-card:nth-child(3n+1) .exp-img { clip-path: polygon(0 0, 100% 0, 100% 90%, 0 100%); }
-.exp-card:nth-child(3n+2) .exp-img { border-bottom-right-radius: 72px; }
-.exp-card:nth-child(3n) .exp-img { clip-path: polygon(0 0, 100% 0, 100% 100%, 0 90%); }
-.exp-status { position: absolute; top: 16px; left: 16px; z-index: 1; padding: 5px 14px 5px 12px; border-radius: 0 14px 0 14px; border-left: 4px solid var(--c); font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; background: var(--white); color: var(--ink); }
+.experiences { padding: 6.25rem 0 9.375rem; }
+.exp-grid { display: grid; grid-template-columns: repeat(3, 1fr); row-gap: 3.375rem; margin: 0 -0.9375rem; }
+/* O "slot" do card: leva a linha do chão e o filtro por território */
+.exp-slot { display: flex; align-items: flex-end; padding: 0 0.9375rem; border-bottom: 8px solid var(--ink); }
+.exp-slot > .exp-card { flex: 1; min-width: 0; }
+/* Alturas das fotos em ciclo: cada card tem a sua altura, e todos se apoiam no mesmo chão */
+.exp-slot:nth-child(6n+1) .exp-img { height: 15rem; }
+.exp-slot:nth-child(6n+2) .exp-img { height: 10.62rem; }
+.exp-slot:nth-child(6n+3) .exp-img { height: 18.75rem; }
+.exp-slot:nth-child(6n+4) .exp-img { height: 13.12rem; }
+.exp-slot:nth-child(6n+5) .exp-img { height: 16.88rem; }
+.exp-slot:nth-child(6n) .exp-img { height: 11.88rem; }
 
-.exp-img { height: 220px; background-size: cover; background-position: center; position: relative; }
-.exp-img::after { content: ''; position: absolute; inset: 0; background: linear-gradient(to top, rgba(7,20,40,0.55), transparent); }
-.exp-terr { position: absolute; top: 16px; right: 16px; z-index: 1; padding: 4px 10px; border-radius: 4px; font-size: 0.75rem; font-weight: 600; background: rgba(7,20,40,0.78); color: var(--white); backdrop-filter: blur(4px); border-left: 4px solid var(--c); }
-.exp-content { padding: 24px; }
+.exp-card { background: var(--white); border-radius: 6px 1.625rem 6px 1.625rem; overflow: hidden; box-shadow: 0 8px 1.25rem -8px rgba(11, 31, 58, 0.25); transition: transform 0.3s ease, box-shadow 0.3s ease; border-left: 8px solid var(--c); }
+.exp-card:hover { transform: translateY(-5px); box-shadow: var(--shadow-lg); }
+a.exp-card { display: block; color: inherit; }
+.exp-status { position: absolute; top: 1rem; left: 1rem; z-index: 1; padding: 5px 0.875rem 5px 0.75rem; border-radius: 0 0.875rem 0 0.875rem; border-left: 4px solid var(--c); font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; background: var(--white); color: var(--ink); }
+
+/* Foto com o tom do território (volta à cor original ao passar o mouse) */
+.exp-img { height: 13.75rem; background-size: cover; background-position: center; background-color: var(--c-tom); background-blend-mode: multiply; position: relative; transition: background-blend-mode 0.3s ease; }
+.exp-card:hover .exp-img { background-blend-mode: normal; }
+.exp-img.no-img { background-image: linear-gradient(135deg, var(--c-claro), var(--c-tom)); }
+.exp-terr { position: absolute; bottom: 0.875rem; left: 1rem; z-index: 1; padding: 4px 0.75rem; border-radius: 0.875rem 0 0.875rem 0; font-size: 0.75rem; font-weight: 700; background: var(--c); color: var(--c-on); }
+.exp-content { padding: 1.5rem; }
 .exp-title { font-size: 1.25rem; font-weight: 700; color: var(--ink); margin-bottom: 8px; }
-.exp-desc { font-size: 0.9375rem; color: var(--text-lt); margin-bottom: 20px; }
+.exp-desc { font-size: 0.9375rem; color: var(--text-lt); margin-bottom: 1.25rem; }
 .exp-link { font-size: 0.9375rem; font-weight: 700; color: var(--c-ink); display: inline-flex; align-items: center; gap: 4px; cursor: pointer; }
 .exp-link:hover { gap: 8px; }
+.exp-meta { display: none; }
 
 /* ==========================================================
-   Biblioteca / acervo (fundo escuro)
+   Biblioteca / acervo: bloco escuro recuado à esquerda, com telhado inclinado
    ========================================================== */
-.library { padding: 100px 0; background: radial-gradient(circle at 0 0, rgba(0, 150, 255, 0.10) 0 240px, transparent 241px), var(--ink); color: var(--white); }
-/* Quando vem logo após a Vitrine de projetos, o topo é inclinado como um telhado */
-.experiences + .library { margin-top: -48px; padding-top: 148px; clip-path: polygon(0 48px, 100% 0, 100% 100%, 0 100%); }
+.library { --bg: var(--ink); margin: 0; padding: calc(var(--corte) + 3.75rem) var(--margem) 6.875rem; color: var(--white); }
+.library::before { clip-path: polygon(0 var(--corte), 100% 0, 100% 100%, 0 100%); }
+.library > .container { max-width: none; padding: 0; }
 .library .section-title { color: var(--white); }
 .library .section-sub { color: rgba(255,255,255,0.8); }
 
@@ -291,13 +373,14 @@ a.exp-card { display: block; color: inherit; }
 .library .filter-btn[data-filter]:not([data-filter="all"]).active { background: var(--c); border-color: var(--c); color: var(--c-on); }
 .library .filter-btn[data-filter]:not([data-filter="all"]).active::before { background: var(--c-on); }
 
-.lib-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; }
-.lib-card { background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.12); border-left: 6px solid var(--c); border-radius: var(--radius-sm); padding: 24px; transition: background 0.2s ease, transform 0.2s ease; position: relative; clip-path: polygon(0 0, calc(100% - 26px) 0, 100% 26px, 100% 100%, 0 100%); }
-.lib-card-type { font-size: 0.75rem; color: var(--c-lite); font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 12px; }
+.lib-grid { display: grid; grid-template-columns: repeat(4, 1fr); row-gap: 2.75rem; margin: 0 -11px; }
+.lib-slot { display: flex; align-items: flex-end; padding: 0 11px; border-bottom: 8px solid rgba(255,255,255,0.35); }
+.lib-card { flex: 1; min-width: 0; background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.14); border-left: 6px solid var(--c); border-radius: 6px 1.5rem 6px 1.5rem; padding: 1.375rem; transition: background 0.2s ease, transform 0.2s ease; position: relative; }
 .lib-card:hover { background: rgba(255,255,255,0.12); transform: translateY(-3px); }
+.lib-card-type { font-size: 0.75rem; color: var(--c-lite); font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 10px; }
 .lib-card-terr { font-size: 0.75rem; padding: 2px 8px; background: rgba(255,255,255,0.1); border-radius: 4px; display: inline-block; margin-bottom: 8px; color: rgba(255,255,255,0.85); }
 .lib-card h4 { font-size: 1.125rem; font-weight: 600; margin-bottom: 8px; line-height: 1.3; }
-.lib-card p { font-size: 0.875rem; color: rgba(255,255,255,0.78); margin-bottom: 20px; }
+.lib-card p { font-size: 0.875rem; color: rgba(255,255,255,0.78); margin-bottom: 1.125rem; }
 .lib-download { display: inline-flex; align-items: center; gap: 8px; font-size: 0.875rem; font-weight: 600; color: var(--white); cursor: pointer; text-decoration: underline; text-decoration-color: var(--c); text-decoration-thickness: 2px; text-underline-offset: 4px; }
 .lib-download:hover { color: var(--c-lite); }
 .lib-download.is-disabled { opacity: 0.6; cursor: default; pointer-events: none; text-decoration: none; }
@@ -310,7 +393,7 @@ a.exp-card { display: block; color: inherit; }
 /* ==========================================================
    Rodapé
    ========================================================== */
-.footer { position: relative; background: var(--ink-deep); color: rgba(255,255,255,0.78); padding: 88px 0 40px; }
+.footer { position: relative; margin-top: -1px; background: var(--ink-deep); color: rgba(255,255,255,0.78); padding: 88px 0 40px; }
 .footer::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 8px; background: var(--faixa); }
 .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 48px; margin-bottom: 60px; }
 .footer-logo { display: inline-block; margin-bottom: 20px; }
@@ -336,13 +419,14 @@ a.exp-card { display: block; color: inherit; }
 .terr-hero .container { position: relative; z-index: 2; }
 .terr-back { display: inline-block; margin-bottom: 24px; font-size: 0.875rem; font-weight: 600; color: rgba(255,255,255,0.88); }
 .terr-back:hover { color: var(--white); text-decoration: underline; }
-.terr-hero .atlas-tag { margin-bottom: 12px; }
+.terr-hero .atlas-tag { margin-bottom: 12px; padding-right: 0; color: var(--c-lite); }
 .terr-hero h1 { max-width: 820px; margin-bottom: 16px; font-size: clamp(2rem, 6vw, 3.5rem); font-weight: 700; line-height: 1.1; letter-spacing: -0.02em; }
 .terr-lead { max-width: 720px; margin-bottom: 24px; font-size: 1.125rem; font-weight: 400; line-height: 1.55; color: rgba(255,255,255,0.9); }
 .terr-hero .atlas-meta { margin-bottom: 0; }
+.terr-hero .atlas-meta span { color: rgba(255,255,255,0.92); background: rgba(255,255,255,0.1); }
 .terr-contagem { margin-top: 24px; font-size: 0.875rem; font-weight: 600; color: rgba(255,255,255,0.8); }
 
-.terr-sobre { padding: 72px 0; background: var(--paper); }
+.terr-sobre { padding: 72px 0; }
 
 /* Texto escrito no editor do WordPress */
 .entry-content h2, .entry-content h3 { margin: 2rem 0 0.75rem; font-weight: 700; line-height: 1.25; color: var(--ink); font-family: var(--font-titulo); }
@@ -373,95 +457,6 @@ body.admin-bar .navbar { top: 32px; }
 @media (max-width: 782px) { body.admin-bar .navbar { top: 46px; } }
 
 /* ==========================================================
-   Celular e tablet
-   ========================================================== */
-
-/* Botão do menu (só aparece em telas pequenas) */
-.nav-toggle { display: none; background: none; border: 0; padding: 10px; margin-right: -10px; cursor: pointer; }
-.nav-toggle span { display: block; width: 24px; height: 2px; margin: 5px 0; background: var(--white); border-radius: 2px; transition: transform 0.2s ease, opacity 0.2s ease; }
-.navbar.open .nav-toggle span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
-.navbar.open .nav-toggle span:nth-child(2) { opacity: 0; }
-.navbar.open .nav-toggle span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
-
-@media (max-width: 1024px) {
-	.about-grid, .exp-grid, .lib-grid, .atlas-grid { grid-template-columns: repeat(2, 1fr); gap: 24px; }
-	.footer-grid { grid-template-columns: 1fr 1fr; }
-	.hero h1 { font-size: 3rem; }
-	.hero .container { grid-template-columns: 1fr; padding: 0 clamp(24px, 5vw, 48px); }
-	.hero-content, .hero-art { grid-column: auto; }
-	/* Casas viram uma marca-d'água atrás do texto */
-	.hero-art { position: absolute; right: -4%; bottom: -6%; width: 58%; max-width: 440px; opacity: 0.2; z-index: 0; pointer-events: none; }
-	.hero::after { background: linear-gradient(180deg, var(--ink) 38%, rgba(11, 31, 58, 0.6) 70%, rgba(11, 31, 58, 0.25) 100%); }
-	.hero-content { position: relative; z-index: 1; }
-	.tree-level-1 { flex-direction: column; gap: 40px; align-items: center; margin-top: 20px; }
-	.tree-level-1::before, .tree-level-1::after { display: none; }
-	.tree-node::before { display: none; }
-}
-
-@media (max-width: 768px) {
-	.about-grid, .exp-grid, .lib-grid, .atlas-grid, .footer-grid { grid-template-columns: 1fr; }
-	.atlas-expansion { grid-column: span 1; }
-	.atlas-content { padding: 24px; }
-	.footer-bottom { flex-direction: column; gap: 24px; text-align: center; }
-	.tree-node { width: 100%; max-width: 350px; }
-
-	/* Menu em painel que abre sob a barra */
-	.navbar .container { height: 68px; }
-	.logo img { height: 42px; }
-	.nav-toggle { display: block; }
-	.nav-links { display: none; position: absolute; top: 100%; left: 0; right: 0; flex-direction: column; align-items: stretch; gap: 0; padding: 8px 24px 24px; background: var(--ink-soft); border-bottom: 4px solid var(--casa-amarelo); box-shadow: var(--shadow-md); }
-	.navbar.open .nav-links { display: flex; }
-	.nav-links a { padding: 14px 0; border-bottom: 1px solid rgba(255,255,255,0.1); }
-	.nav-links a.btn { margin-top: 16px; padding: 12px 24px; border-bottom: 0; text-align: center; }
-
-	/* Espaçamentos e títulos menores */
-	.hero { padding: 124px 0 100px; clip-path: polygon(0 0, 100% 0, 100% calc(100% - 28px), 0 100%); }
-	.experiences + .library { margin-top: -28px; padding-top: 92px; clip-path: polygon(0 28px, 100% 0, 100% 100%, 0 100%); }
-	.hero h1 { font-size: clamp(1.75rem, 9vw, 2.5rem); overflow-wrap: break-word; }
-	.hero p { font-size: 1.0625rem; }
-	.about, .atlas, .tree-section, .experiences, .library { padding: 64px 0; }
-	.section-title { font-size: 2rem; }
-	.page-wrap { padding: 110px 0 56px; }
-	.page-wrap h1 { font-size: 2rem; }
-	.footer-logo img { height: 64px; }
-
-	.terr-hero { padding: 124px 0 56px; }
-	.terr-hero::after { background: linear-gradient(180deg, var(--ink) 30%, rgba(11,31,58,0) 140%); }
-	.terr-casa { width: 100px; opacity: 0.45; right: 4%; }
-	.terr-sobre { padding: 56px 0; }
-
-	/* Ecossistema: árvore compacta, territórios empilhados */
-	.tree-container { padding: 28px 16px; }
-	.tree-root { width: 100%; padding: 12px 16px 16px; font-size: 1rem; }
-	.tree-level-1 { margin-top: 28px; gap: 32px; }
-	.tree-node { width: 100%; max-width: none; }
-	.tree-territory { margin-top: 0; padding: 10px 14px; font-size: 1rem; }
-	.tree-projects { padding-left: 0; margin-top: 12px; gap: 8px; }
-	.tree-projects::before { display: none; }
-	.tree-project { margin-left: 24px; padding: 8px 12px; }
-	.tree-project a { display: block; }
-	.tree-project span { display: block; width: fit-content; margin: 4px 0 0; }
-	/* Conector em "L" de cada projeto, que também continua até o próximo */
-	.tree-project::before { top: -8px; left: -17px; width: 12px; height: calc(50% + 8px); background: none; border-left: 2px solid var(--gray-md); border-bottom: 2px solid var(--gray-md); border-bottom-left-radius: 6px; }
-	.tree-project:first-child::before { top: -12px; height: calc(50% + 12px); }
-	.tree-project:not(:last-child)::after { content: ''; position: absolute; left: -17px; top: 50%; bottom: -8px; border-left: 2px solid var(--gray-md); }
-}
-
-@media (max-width: 600px) {
-	/* Em telas pequenas a barra do WordPress rola junto com a página.
-	   Para quem está logado, o cabeçalho também rola, em vez de ficar fixo
-	   (visitantes comuns continuam com o cabeçalho fixo). */
-	body.admin-bar .navbar { position: absolute; top: 46px; }
-}
-
-@media (max-width: 480px) {
-	.hero-btns { flex-direction: column; }
-	.hero-btns .btn { width: 100%; }
-	.about-card { padding: 28px 24px; }
-	.atlas-content .btn, .atlas-content a.btn { align-self: stretch; text-align: center; }
-}
-
-/* ==========================================================
    Acessibilidade: botões do menu (tamanho do texto)
    O script fica em assets/js/acessibilidade.js
    ========================================================== */
@@ -470,14 +465,45 @@ body.admin-bar .navbar { top: 32px; }
 .acess button:hover { background: rgba(255,255,255,0.16); }
 .acess button:disabled { opacity: 0.4; cursor: default; }
 
+/* Botão do menu (só aparece em telas pequenas) */
+.nav-toggle { display: none; background: none; border: 0; padding: 10px; margin-right: -10px; cursor: pointer; }
+.nav-toggle span { display: block; width: 24px; height: 2px; margin: 5px 0; background: var(--white); border-radius: 2px; transition: transform 0.2s ease, opacity 0.2s ease; }
+.navbar.open .nav-toggle span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+.navbar.open .nav-toggle span:nth-child(2) { opacity: 0; }
+.navbar.open .nav-toggle span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+/* Controles do carrossel (criados por assets/js/carrossel.js); só aparecem no celular */
+.carrossel-controles { display: none; }
+
+/* ==========================================================
+   Telas médias
+   ========================================================== */
+@media (max-width: 1399px) and (min-width: 1025px) {
+	/* o texto fica menos deslocado para a direita, para sobrar espaço ao logo */
+	.hero .container { --hero-recuo: 22vw; }
+}
 @media (max-width: 1180px) and (min-width: 769px) {
 	.nav-links { gap: 20px; }
 }
-@media (max-width: 768px) {
-	.acess { margin: 16px 0 0; padding: 16px 0 0; border-left: 0; border-top: 1px solid rgba(255,255,255,0.15); }
-	.acess button { flex: 1; height: 44px; }
-}
 @media (max-width: 1100px) { .terr-casa { opacity: 0.4; } }
+
+/* ==========================================================
+   Tablet
+   ========================================================== */
+@media (max-width: 1024px) {
+	.footer-grid { grid-template-columns: 1fr 1fr; }
+	.hero h1 { font-size: 3rem; }
+	.hero .container { grid-template-columns: 1fr; padding: 0 clamp(24px, 5vw, 48px); }
+	.hero-content, .hero-art { grid-column: auto; }
+	/* Casas viram uma marca-d'água atrás do texto */
+	.hero-art { position: absolute; right: -4%; bottom: -6%; width: 58%; max-width: 440px; opacity: 0.2; z-index: 0; pointer-events: none; }
+	.hero::after { background: linear-gradient(180deg, var(--ink) 38%, rgba(11, 31, 58, 0.6) 70%, rgba(11, 31, 58, 0.25) 100%); }
+	.hero-content { position: relative; z-index: 1; }
+	.a1 { right: 12vw; }
+	.conceito-grid { grid-template-columns: 1fr; gap: 20px; }
+	.conceito-txt { padding-bottom: 20px; }
+	.exp-grid, .lib-grid { grid-template-columns: repeat(2, 1fr); }
+}
 
 /* ==========================================================
    Celular: layout próprio (não é o desktop espremido)
@@ -485,47 +511,80 @@ body.admin-bar .navbar { top: 32px; }
    - Conteúdo que cresce (projetos, acervo) vira lista compacta.
    - Filtros em uma linha que rola para o lado; rodapé em duas colunas.
    ========================================================== */
-.exp-meta { display: none; }
-
 @media (max-width: 768px) {
+	:root { --corte: 50px; --margem: 20px; }
 	.container { padding: 0 20px; }
-	.about, .atlas, .tree-section, .experiences, .library { padding: 48px 0; }
-	.experiences + .library { padding-top: 76px; }
 	.section-title { font-size: 1.75rem; }
 	.section-sub { font-size: 1rem; margin-bottom: 1.5rem; }
 	.tag { margin-bottom: 0.75rem; }
+	.page-wrap { padding: 110px 0 56px; }
+	.page-wrap h1 { font-size: 2rem; }
 
-	/* Menu: links maiores para o dedo */
+	/* Menu em painel que abre sob a barra; links maiores para o dedo */
+	.navbar .container { height: 68px; padding: 0 20px; }
+	.logo img { height: 46px; }
+	.nav-toggle { display: block; }
+	.nav-links { display: none; position: absolute; top: 100%; left: 0; right: 0; flex-direction: column; align-items: stretch; gap: 0; padding: 8px 24px 24px; background: var(--ink-soft); border-bottom: 4px solid var(--casa-amarelo); box-shadow: var(--shadow-md); }
+	.navbar.open .nav-links { display: flex; }
+	.nav-links a { padding: 14px 0; border-bottom: 1px solid rgba(255,255,255,0.1); }
 	.nav-links a:not(.btn) { padding: 16px 0; font-size: 1.0625rem; }
+	.nav-links a.btn { margin-top: 16px; padding: 12px 24px; border-bottom: 0; text-align: center; }
+	.acess { margin: 16px 0 0; padding: 16px 0 0; border-left: 0; border-top: 1px solid rgba(255,255,255,0.15); }
+	.acess button { flex: 1; height: 44px; }
 
 	/* Hero: as casas do logo aparecem abaixo do texto, em vez de sumirem ao fundo */
-	.hero { padding: 116px 0 84px; }
+	.hero { padding: 116px 0 calc(var(--corte) + 40px); }
 	.hero .container { gap: 36px; padding: 0 20px; }
+	.hero h1 { font-size: clamp(1.5rem, calc((100vw - 40px) / 10.9), 2.5rem); overflow-wrap: break-word; }
+	.hero p { font-size: 1.0625rem; }
 	.hero-art { position: static; width: 70%; max-width: 270px; margin: 0 auto; opacity: 1; justify-self: center; pointer-events: auto; }
 	.hero-bg { object-position: 68% 100%; }
+	.a1 { right: 8vw; width: 80px; }
+	.a2 { left: 6px; width: 70px; top: -44px; }
+	.teto-extra { display: none; }   /* no celular fica só a casa vermelha */
+
+	/* Blocos de cor menores, com recuo curto */
+	.conceito { margin-left: 20px; padding: calc(var(--corte) + 50px) 20px 0 20px; }
+	.conceito-txt { padding-bottom: 6px; }
+	.atlas { padding: 90px 0 60px; }
+	.eco { padding: 10px 0; }
+	.experiences { padding: 64px 0 90px; }
+	.library { margin: 0; padding: calc(var(--corte) + 40px) 20px 80px 20px; }
 
 	/* Carrossel: cada card ocupa ~84% da tela e o próximo aparece um pouco ("convite" para deslizar) */
-	.about-grid, .atlas-grid { display: grid; grid-auto-flow: column; grid-template-columns: none; grid-auto-columns: 84%; gap: 14px; margin: 24px -20px 0; padding: 6px 20px 18px; overflow-x: auto; scroll-snap-type: x mandatory; scroll-padding: 0 20px; scrollbar-width: none; -webkit-overflow-scrolling: touch; }
+	.about-grid, .atlas-grid { display: grid; grid-auto-flow: column; grid-template-columns: none; grid-auto-columns: 84%; gap: 14px; margin: 24px -20px 0; padding: 6px 20px 18px; overflow-x: auto; scroll-snap-type: x mandatory; scroll-padding: 0 20px; scrollbar-width: none; -webkit-overflow-scrolling: touch; align-items: end; }
 	.about-grid::-webkit-scrollbar, .atlas-grid::-webkit-scrollbar { display: none; }
-	.about-card, .atlas-card, .atlas-expansion { scroll-snap-align: start; }
-	.about-card { padding: 24px 22px; }
+	.about-card, .casa-w, .atlas-expansion { scroll-snap-align: start; }
+	.about-card { min-height: 0; }
+	.k1 { min-height: 270px; } .k2 { min-height: 310px; } .k3 { min-height: 240px; }
+	.casa-w { padding: 0; }
 	.atlas-img { height: 170px; }
-	.atlas-content { padding: 20px; }
-	.atlas-content h3 { font-size: 1.5rem; margin-bottom: 10px; }
-	.atlas-meta { margin-bottom: 20px; gap: 8px; }
-	.atlas-content .btn { padding: 12px 14px; font-size: 0.875rem; }
-	.atlas-expansion { padding: 24px; }
+	.atlas-card.vaza { -webkit-mask-position: 0 0, calc(100% - 22px) 190px, 50% 100%; mask-position: 0 0, calc(100% - 22px) 190px, 50% 100%; }
+	.atlas-content { padding: 18px 20px 90px; }
+	.atlas-content h3 { font-size: 1.4rem; }
+	.atlas-expansion { padding: 0 10px; }
+	/* No carrossel os itens não esperam a rolagem vertical para aparecer */
+	.about-grid .sobe, .atlas-grid .sobe { opacity: 1 !important; transform: none !important; }
+
+	/* Ecossistema: casas menores; a rua rola para o lado */
+	.rua-eco { --larg-casa: 168px; column-gap: 34px; margin: 28px -20px 0; padding: 0 20px 6px; }
+	.casa-e { padding: 60px 20px 0; }
+	.janelas { grid-template-columns: repeat(2, 40px); gap: 14px; }
+	.janelas i { width: 40px; height: 40px; }
+	.casa-e { height: calc(var(--n) * 62px + 86px); }
+	.eco-legenda { margin-top: -1rem; }
 
 	/* Filtros: uma linha que desliza */
 	.filter-bar { flex-wrap: nowrap; gap: 8px; margin: 0 -20px 20px; padding: 2px 20px 10px; overflow-x: auto; scrollbar-width: none; scroll-snap-type: x proximity; }
 	.filter-bar::-webkit-scrollbar { display: none; }
 	.filter-btn { flex: none; min-height: 44px; scroll-snap-align: start; }
 
-	/* Projetos: lista compacta (miniatura + texto) */
-	.exp-grid { grid-template-columns: 1fr; gap: 12px; }
-	a.exp-card { display: grid; grid-template-columns: 112px 1fr; border-top: 1px solid rgba(11, 31, 58, 0.08); border-left: 6px solid var(--c); border-radius: var(--radius-sm); }
+	/* Projetos: lista compacta (miniatura + texto), sem chão */
+	.exp-grid { grid-template-columns: 1fr; row-gap: 12px; margin: 0; }
+	.exp-slot { padding: 0; border-bottom: 0; }
+	a.exp-card { display: grid; grid-template-columns: 112px 1fr; border-radius: 4px 24px 4px 24px; }
 	a.exp-card:hover { transform: none; }
-	.exp-img { height: auto; min-height: 132px; clip-path: none !important; border-radius: 0 !important; }
+	.exp-slot:nth-child(n) .exp-img { height: auto; min-height: 132px; }
 	.exp-terr, .exp-status { display: none; }
 	.exp-content { display: flex; flex-direction: column; justify-content: center; padding: 12px 14px; }
 	.exp-meta { display: flex; flex-wrap: wrap; align-items: center; gap: 2px 8px; margin-bottom: 4px; font-size: 0.75rem; font-weight: 600; color: var(--text-lt); }
@@ -535,29 +594,32 @@ body.admin-bar .navbar { top: 32px; }
 	.exp-link { font-size: 0.875rem; }
 
 	/* Acervo: lista compacta */
-	.lib-grid { gap: 12px; }
+	.lib-grid { grid-template-columns: 1fr; row-gap: 12px; margin: 0; }
+	.lib-slot { padding: 0; border-bottom: 0; }
 	.lib-card { padding: 18px 18px 16px 20px; }
 	.lib-card p { margin-bottom: 12px; }
 	.lib-download { min-height: 44px; }
 
 	/* Páginas de território e projeto */
 	.terr-hero { padding: 108px 0 44px; }
+	.terr-hero::after { background: linear-gradient(180deg, var(--ink) 30%, rgba(11,31,58,0) 140%); }
+	.terr-casa { width: 100px; opacity: 0.45; right: 4%; }
 	.terr-lead { font-size: 1rem; margin-bottom: 18px; }
 	.terr-contagem { margin-top: 16px; }
+	.terr-sobre { padding: 56px 0; }
 
 	/* Rodapé em duas colunas, marca e último grupo ocupando a largura toda */
 	.footer { padding: 56px 0 calc(28px + env(safe-area-inset-bottom, 0px)); }
+	.footer-logo img { height: 64px; }
 	.footer-grid { grid-template-columns: 1fr 1fr; gap: 28px 20px; margin-bottom: 32px; }
 	.footer-grid > div:first-child, .footer-grid > div:last-child { grid-column: 1 / -1; }
 	.footer-links { gap: 4px; }
 	.footer-links a { display: block; padding: 6px 0; }
 	.footer h5 { margin-bottom: 12px; }
+	.footer-bottom { flex-direction: column; gap: 24px; text-align: center; }
 	.footer-partners { justify-content: center; gap: 8px; }
-}
 
-/* Controles do carrossel (criados por assets/js/carrossel.js); só aparecem no celular */
-.carrossel-controles { display: none; }
-@media (max-width: 768px) {
+	/* Setas e pontos do carrossel */
 	.carrossel-controles { display: flex; align-items: center; justify-content: center; gap: 14px; margin-top: 2px; }
 	.carrossel-seta { width: 44px; height: 44px; border-radius: 50%; border: 1.5px solid var(--ink); background: var(--white); color: var(--ink); font-size: 1.5rem; line-height: 1; padding-bottom: 3px; cursor: pointer; transition: background 0.2s ease, color 0.2s ease; }
 	.carrossel-seta:active { background: var(--ink); color: var(--white); }
@@ -573,13 +635,26 @@ body.admin-bar .navbar { top: 32px; }
 	.carrossel-ponto:nth-child(4n+4)[aria-current="true"] { background: var(--casa-amarelo); }
 }
 
+@media (max-width: 600px) {
+	/* Em telas pequenas a barra do WordPress rola junto com a página.
+	   Para quem está logado, o cabeçalho também rola, em vez de ficar fixo
+	   (visitantes comuns continuam com o cabeçalho fixo). */
+	body.admin-bar .navbar { position: absolute; top: 46px; }
+}
 
-/* Telas médias: o texto fica menos deslocado para a direita, para sobrar espaço ao logo */
-@media (min-width: 1025px) and (max-width: 1399px) {
-	.hero .container { --hero-recuo: 24vw; }
+@media (max-width: 480px) {
+	.hero-btns { flex-direction: column; }
+	.hero-btns .btn { width: 100%; }
+}
+
+/* Telas médias: o título do Conceito vai para cima dos cards (evita coluna estreita) */
+@media (max-width: 1180px) {
+	.conceito-grid { grid-template-columns: 1fr; gap: 1.25rem; }
+	.conceito-txt { padding-bottom: 1.25rem; }
 }
 
 /* Quem prefere menos movimento não vê animações */
 @media (prefers-reduced-motion: reduce) {
 	*, *::before, *::after { animation: none !important; transition: none !important; scroll-behavior: auto !important; }
+	.js .sobe { opacity: 1; transform: none; }
 }

@@ -6,7 +6,7 @@
  */
 (function () {
   var CHAVE = 'athis-acess';
-  var PASSOS = [100, 112.5, 125, 137.5]; // % do tamanho de letra do navegador
+  var PASSOS = [100, 112.5, 125, 137.5]; // % do tamanho-padrão do site (cada clique em A+ aumenta, em A- diminui)
   var raiz = document.documentElement;
 
   function ler() {
@@ -23,7 +23,8 @@
   var btnMais = document.querySelector('[data-acess="mais"]');
 
   function aplicar() {
-    raiz.style.fontSize = estado.t > 0 ? PASSOS[estado.t] + '%' : '';
+    // O zoom multiplica a escala automática do CSS (variável --zoom); no passo 0 volta ao padrão
+    if (estado.t > 0) { raiz.style.setProperty('--zoom', PASSOS[estado.t] / 100); } else { raiz.style.removeProperty('--zoom'); }
     if (btnMenos) { btnMenos.disabled = estado.t === 0; }
     if (btnMais) { btnMais.disabled = estado.t === PASSOS.length - 1; }
   }
