@@ -537,4 +537,5 @@ add_action( 'init', function () {
 require_once get_template_directory() . '/inc/demo-data.php';
 
 /* Página de inscrições (links para formulários do Google) */
+require_once get_template_directory() . '/inc/textos.php';
 require_once get_template_directory() . '/inc/inscricoes.php';

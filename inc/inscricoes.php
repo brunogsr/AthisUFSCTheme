@@ -14,27 +14,27 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 /* As opções da página. Para criar mais uma, basta acrescentar uma linha aqui
    (o campo para colar o link aparece sozinho no painel).
-   ATENÇÃO: os títulos e textos abaixo são provisórios, a confirmar com a faculdade. */
+   Os títulos e textos são editados em Configurações > Textos do site (provisórios, a confirmar com a faculdade). */
 function athis_inscricoes_opcoes() {
 	return array(
 		'voluntario' => array(
-			'titulo' => 'Seja um voluntário',
-			'texto'  => 'Quero colaborar com as ações do programa nos territórios.',
+			'titulo' => athis_texto( 'insc_voluntario_titulo' ),
+			'texto'  => athis_texto( 'insc_voluntario_texto' ),
 			'cor'    => 'cor-azul',
 		),
 		'bolsas'     => array(
-			'titulo' => 'Edital de bolsas',
-			'texto'  => 'Inscrição para as bolsas do programa ATHIS UFSC.',
+			'titulo' => athis_texto( 'insc_bolsas_titulo' ),
+			'texto'  => athis_texto( 'insc_bolsas_texto' ),
 			'cor'    => 'cor-amarelo',
 		),
 		'apoio'      => array(
-			'titulo' => 'Apoie um projeto',
-			'texto'  => 'Quero apoiar um projeto em andamento em um território.',
+			'titulo' => athis_texto( 'insc_apoio_titulo' ),
+			'texto'  => athis_texto( 'insc_apoio_texto' ),
 			'cor'    => 'cor-vermelho',
 		),
 		'comunidade' => array(
-			'titulo' => 'Indique uma comunidade',
-			'texto'  => 'Conheço uma comunidade que pode integrar a rede ATHIS UFSC.',
+			'titulo' => athis_texto( 'insc_comunidade_titulo' ),
+			'texto'  => athis_texto( 'insc_comunidade_texto' ),
 			'cor'    => 'cor-verde',
 		),
 	);

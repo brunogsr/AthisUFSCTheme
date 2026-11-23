@@ -50,12 +50,12 @@ $demo_url = admin_url( 'tools.php?page=athis-demo' );
     <img class="hero-bg" src="<?php echo esc_url( get_template_directory_uri() . '/assets/img/capa-inicio.jpg' ); ?>" width="1800" height="1058" alt="" fetchpriority="high">
     <div class="container">
       <div class="hero-content">
-        <div class="hero-tag">Laboratório / Guarda-Chuva Institucional ATHIS UFSC</div>
-        <h1><span class="linha">Arquitetura que escuta.</span><br>Territórios que <span>transformam.</span></h1>
-        <p>O <strong>Programa ATHIS UFSC</strong> é o guarda-chuva institucional que abriga e articula diferentes frentes e territórios populares em Santa Catarina, unindo pesquisa, extensão e impacto social real.</p>
+        <div class="hero-tag"><?php echo esc_html( athis_texto( 'hero_tag' ) ); ?></div>
+        <h1><span class="linha"><?php echo esc_html( athis_texto( 'hero_l1' ) ); ?></span><br><?php echo esc_html( athis_texto( 'hero_l2a' ) ); ?> <span><?php echo esc_html( athis_texto( 'hero_l2b' ) ); ?></span></h1>
+        <p><?php echo athis_texto_html( 'hero_texto' ); ?></p>
         <div class="hero-btns">
-          <a href="#territorios" class="btn btn-primary">Explorar Territórios</a>
-          <a href="#sobre" class="btn btn-outline">Nossa Missão</a>
+          <a href="#territorios" class="btn btn-primary"><?php echo esc_html( athis_texto( 'hero_btn1' ) ); ?></a>
+          <a href="#sobre" class="btn btn-outline"><?php echo esc_html( athis_texto( 'hero_btn2' ) ); ?></a>
         </div>
       </div>
       <div class="hero-art"><?php echo athis_casas_svg(); // phpcs:ignore WordPress.Security.EscapeOutput ?></div>
@@ -69,24 +69,24 @@ $demo_url = admin_url( 'tools.php?page=athis-demo' );
   <section id="sobre" class="bloco conceito">
     <div class="conceito-grid">
       <div class="conceito-txt sobe">
-        <span class="tag">Conceito</span>
-        <h2 class="section-title">Muito além da construção</h2>
-        <p class="section-sub">A Assessoria Técnica em Habitação de Interesse Social (ATHIS) é um direito e uma ferramenta de transformação socioespacial gerida pela UFSC.</p>
+        <span class="tag"><?php echo esc_html( athis_texto( 'con_tag' ) ); ?></span>
+        <h2 class="section-title"><?php echo esc_html( athis_texto( 'con_titulo' ) ); ?></h2>
+        <p class="section-sub"><?php echo esc_html( athis_texto( 'con_sub' ) ); ?></p>
       </div>
 
       <div class="about-grid">
         <div class="about-card k1 vaza sobe">
-          <h3>Escuta Ativa</h3>
-          <p>Processos participativos onde a comunidade é a protagonista das decisões sobre o seu próprio território.</p>
+          <h3><?php echo esc_html( athis_texto( 'k1_titulo' ) ); ?></h3>
+          <p><?php echo esc_html( athis_texto( 'k1_texto' ) ); ?></p>
         </div>
         <div class="about-card k2 vaza sobe">
           <span class="about-marca" aria-hidden="true"></span>
-          <h3>Projetos Integrados</h3>
-          <p>Da regularização fundiária ao projeto arquitetônico, atuamos de forma multidisciplinar sob um mesmo programa guarda-chuva.</p>
+          <h3><?php echo esc_html( athis_texto( 'k2_titulo' ) ); ?></h3>
+          <p><?php echo esc_html( athis_texto( 'k2_texto' ) ); ?></p>
         </div>
         <div class="about-card k3 vaza sobe">
-          <h3>Impacto Escalonável</h3>
-          <p>Uma plataforma modular que permite integrar novos territórios e comunidades parceiras à rede ATHIS UFSC.</p>
+          <h3><?php echo esc_html( athis_texto( 'k3_titulo' ) ); ?></h3>
+          <p><?php echo esc_html( athis_texto( 'k3_texto' ) ); ?></p>
         </div>
       </div>
     </div>
@@ -97,9 +97,9 @@ $demo_url = admin_url( 'tools.php?page=athis-demo' );
     <?php echo athis_casa_peca( 3, 'a2' ); // phpcs:ignore WordPress.Security.EscapeOutput ?>
     <div class="container">
       <div class="sobe">
-        <span class="tag tag-blue">O Guarda-Chuva ATHIS</span>
-        <h2 class="section-title">Atlas de Territórios</h2>
-        <p class="section-sub">Comunidades parceiras onde a UFSC desenvolve frentes de atuação e projetos integrados de longo prazo.</p>
+        <span class="tag tag-blue"><?php echo esc_html( athis_texto( 'atlas_tag' ) ); ?></span>
+        <h2 class="section-title"><?php echo esc_html( athis_texto( 'atlas_titulo' ) ); ?></h2>
+        <p class="section-sub"><?php echo esc_html( athis_texto( 'atlas_sub' ) ); ?></p>
       </div>
 
       <div class="atlas-grid">
@@ -137,8 +137,8 @@ $demo_url = admin_url( 'tools.php?page=athis-demo' );
         <!-- NOVOS TERRITÓRIOS (EXPANSÃO): a "casa aberta" -->
         <div class="atlas-expansion casa-aberta sobe">
           <svg viewBox="0 0 200 190" aria-hidden="true" focusable="false"><path d="M10 186 V66 L100 12 L190 66 V186 Z" fill="none" stroke="currentColor" stroke-width="5" stroke-dasharray="14 10" stroke-linejoin="round"/><path d="M100 80 V132 M74 106 H126" stroke="currentColor" stroke-width="9"/></svg>
-          <h4>Estrutura Escalável</h4>
-          <p>O hub ATHIS UFSC foi desenhado para abraçar novas comunidades parceiras. Nossa rede está pronta para integrar, diagnosticar e atuar em futuros territórios catarinenses.</p>
+          <h4><?php echo esc_html( athis_texto( 'atlas_exp_t' ) ); ?></h4>
+          <p><?php echo esc_html( athis_texto( 'atlas_exp_p' ) ); ?></p>
         </div>
       </div>
     </div>
@@ -148,9 +148,9 @@ $demo_url = admin_url( 'tools.php?page=athis-demo' );
   <section class="eco">
     <div class="container">
       <div class="eco-cab sobe">
-        <h2 class="section-title">Ecossistema ATHIS UFSC</h2>
-        <p class="section-sub">Visualização do hub de projetos estruturados sob seus respectivos territórios.</p>
-        <p class="eco-legenda">Cada casa é um território e cada janela é um projeto: quanto mais projetos, mais alta a casa.</p>
+        <h2 class="section-title"><?php echo esc_html( athis_texto( 'eco_titulo' ) ); ?></h2>
+        <p class="section-sub"><?php echo esc_html( athis_texto( 'eco_sub' ) ); ?></p>
+        <p class="eco-legenda"><?php echo esc_html( athis_texto( 'eco_legenda' ) ); ?></p>
       </div>
 
       <?php $colunas = count( $territorios ) + 1; ?>
@@ -197,9 +197,9 @@ $demo_url = admin_url( 'tools.php?page=athis-demo' );
   <section id="experiencias" class="experiences">
     <div class="container">
       <div class="sobe">
-        <span class="tag">Portfólio Ativo</span>
-        <h2 class="section-title">Vitrine de Experiências</h2>
-        <p class="section-sub">Filtre as obras, diagnósticos e projetos por território de atuação.</p>
+        <span class="tag"><?php echo esc_html( athis_texto( 'vit_tag' ) ); ?></span>
+        <h2 class="section-title"><?php echo esc_html( athis_texto( 'vit_titulo' ) ); ?></h2>
+        <p class="section-sub"><?php echo esc_html( athis_texto( 'vit_sub' ) ); ?></p>
       </div>
 
       <div class="filter-bar" id="exp-filters">
@@ -229,9 +229,9 @@ $demo_url = admin_url( 'tools.php?page=athis-demo' );
     <?php echo athis_casas_telhado(); // phpcs:ignore WordPress.Security.EscapeOutput ?>
     <div class="container">
       <div class="sobe">
-        <span class="tag">Hub de Documentos</span>
-        <h2 class="section-title">Biblioteca Integrada</h2>
-        <p class="section-sub">Acesse a produção acadêmica, diagnósticos e relatórios estruturados por território.</p>
+        <span class="tag"><?php echo esc_html( athis_texto( 'lib_tag' ) ); ?></span>
+        <h2 class="section-title"><?php echo esc_html( athis_texto( 'lib_titulo' ) ); ?></h2>
+        <p class="section-sub"><?php echo esc_html( athis_texto( 'lib_sub' ) ); ?></p>
       </div>
 
       <div class="filter-bar" id="lib-filters">

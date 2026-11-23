@@ -18,8 +18,8 @@ $athis_home = is_front_page() ? '' : home_url( '/' );
           <a class="footer-logo" href="<?php echo esc_url( home_url( '/' ) ); ?>">
             <img src="<?php echo esc_url( get_template_directory_uri() . '/assets/img/logo-athis.png' ); ?>" width="900" height="295" alt="ATHIS UFSC - Residência em Arquitetura e Urbanismo" loading="lazy">
           </a>
-          <p style="font-size:0.875rem; margin-bottom:12px; max-width:300px;">Plataforma Institucional em Arquitetura, Urbanismo e Assessoria Técnica. Universidade Federal de Santa Catarina.</p>
-          <p style="font-size:0.875rem;">Contato: athis@contato.ufsc.br<br>Florianópolis, SC - Brasil</p>
+          <p style="font-size:0.875rem; margin-bottom:12px; max-width:300px;"><?php echo esc_html( athis_texto( 'rod_desc' ) ); ?></p>
+          <p style="font-size:0.875rem;">Contato: <?php echo esc_html( athis_texto( 'rod_email' ) ); ?><br><?php echo esc_html( athis_texto( 'rod_cidade' ) ); ?></p>
         </div>
         <div>
           <h5>Navegação</h5>

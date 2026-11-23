@@ -19,7 +19,7 @@ $opcoes = athis_inscricoes_opcoes();
       <a class="terr-back" href="<?php echo esc_url( home_url( '/' ) ); ?>">← Início</a>
       <span class="tag">Participe</span>
       <h1>Inscrições</h1>
-      <p class="insc-lead">Escolha como quer participar do ATHIS UFSC. Cada opção abre um formulário do Google em uma nova aba.</p>
+      <p class="insc-lead"><?php echo esc_html( athis_texto( 'insc_lead' ) ); ?></p>
     </div>
     <div class="insc-casas" aria-hidden="true"><?php echo athis_casas_svg(); // phpcs:ignore WordPress.Security.EscapeOutput ?></div>
     <div class="hero-telhado" aria-hidden="true"></div>
