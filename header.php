@@ -40,6 +40,7 @@ $athis_home = is_front_page() ? '' : home_url( '/' );
         <a href="<?php echo esc_url( $athis_home . '#territorios' ); ?>">Atlas de Territórios</a>
         <a href="<?php echo esc_url( $athis_home . '#experiencias' ); ?>">Projetos</a>
         <a href="<?php echo esc_url( $athis_home . '#conhecimento' ); ?>">Acervo</a>
+        <a href="<?php echo esc_url( athis_inscricoes_pagina_url() ); ?>" class="btn btn-inscricao">Inscrições</a>
         <a href="<?php echo esc_url( $athis_home . '#conhecimento' ); ?>" class="btn btn-primary">Acessar Hub</a>
         <div class="acess" role="group" aria-label="Tamanho do texto">
           <button type="button" data-acess="menos" aria-label="Diminuir o tamanho do texto">A&minus;</button>

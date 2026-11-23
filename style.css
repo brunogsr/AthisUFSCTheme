@@ -1,7 +1,7 @@
 /*
 Theme Name: ATHIS UFSC
 Description: Tema da plataforma ATHIS UFSC
-Version: 0.7
+Version: 0.8
 Text Domain: athis-ufsc
 */
 
@@ -393,15 +393,15 @@ a.exp-card { display: block; color: inherit; }
 /* ==========================================================
    Rodapé
    ========================================================== */
-.footer { position: relative; margin-top: -1px; background: var(--ink-deep); color: rgba(255,255,255,0.78); padding: 88px 0 40px; }
+.footer { position: relative; margin-top: -1px; background: var(--ink-deep); color: rgba(255,255,255,0.78); padding: 30px 0 16px; }
 .footer::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 8px; background: var(--faixa); }
-.footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 48px; margin-bottom: 60px; }
-.footer-logo { display: inline-block; margin-bottom: 20px; }
-.footer-logo img { height: 76px; width: auto; }
-.footer h5 { font-family: var(--font-titulo); font-size: 1rem; font-weight: 700; color: var(--white); margin-bottom: 24px; }
-.footer-links { display: flex; flex-direction: column; gap: 12px; }
+.footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 24px; margin-bottom: 18px; }
+.footer-logo { display: inline-block; margin-bottom: 8px; }
+.footer-logo img { height: 42px; width: auto; }
+.footer h5 { font-family: var(--font-titulo); font-size: 1rem; font-weight: 700; color: var(--white); margin-bottom: 8px; }
+.footer-links { display: flex; flex-direction: column; gap: 4px; font-size: 0.875rem; }
 .footer-links a:hover { color: var(--white); text-decoration: underline; text-decoration-color: var(--casa-amarelo); text-decoration-thickness: 2px; text-underline-offset: 4px; }
-.footer-bottom { padding-top: 32px; border-top: 1px solid rgba(255,255,255,0.12); display: flex; justify-content: space-between; align-items: center; font-size: 0.875rem; }
+.footer-bottom { padding-top: 12px; border-top: 1px solid rgba(255,255,255,0.12); display: flex; justify-content: space-between; align-items: center; font-size: 0.875rem; }
 .footer-partners { display: flex; gap: 24px; align-items: center; flex-wrap: wrap; }
 .partner-ph { padding: 8px 16px; background: rgba(255,255,255,0.06); border-radius: 4px; font-weight: 600; font-size: 0.75rem; letter-spacing: 0.05em; }
 
@@ -609,14 +609,14 @@ body.admin-bar .navbar { top: 32px; }
 	.terr-sobre { padding: 56px 0; }
 
 	/* Rodapé em duas colunas, marca e último grupo ocupando a largura toda */
-	.footer { padding: 56px 0 calc(28px + env(safe-area-inset-bottom, 0px)); }
-	.footer-logo img { height: 64px; }
-	.footer-grid { grid-template-columns: 1fr 1fr; gap: 28px 20px; margin-bottom: 32px; }
+	.footer { padding: 26px 0 calc(14px + env(safe-area-inset-bottom, 0px)); }
+	.footer-logo img { height: 40px; }
+	.footer-grid { grid-template-columns: 1fr 1fr; gap: 14px 16px; margin-bottom: 14px; }
 	.footer-grid > div:first-child, .footer-grid > div:last-child { grid-column: 1 / -1; }
 	.footer-links { gap: 4px; }
-	.footer-links a { display: block; padding: 6px 0; }
-	.footer h5 { margin-bottom: 12px; }
-	.footer-bottom { flex-direction: column; gap: 24px; text-align: center; }
+	.footer-links a { display: block; padding: 5px 0; }
+	.footer h5 { margin-bottom: 6px; }
+	.footer-bottom { flex-direction: column; gap: 14px; text-align: center; }
 	.footer-partners { justify-content: center; gap: 8px; }
 
 	/* Setas e pontos do carrossel */
@@ -657,4 +657,56 @@ body.admin-bar .navbar { top: 32px; }
 @media (prefers-reduced-motion: reduce) {
 	*, *::before, *::after { animation: none !important; transition: none !important; scroll-behavior: auto !important; }
 	.js .sobe { opacity: 1; transform: none; }
+}
+
+/* ==========================================================
+   Página de inscrições
+   Fundo colorido (blocos suaves e formas nas cores do logo) e cartões brancos simples.
+   ========================================================== */
+.sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0; }
+
+/* Botão "Inscrições" no menu (contorno, para não competir com o "Acessar Hub") */
+.nav-links a.btn-inscricao { padding: 0.55rem 1.15rem; border: 2px solid rgba(255,255,255,0.7); color: var(--white); }
+.nav-links a.btn-inscricao:hover { background: rgba(255,255,255,0.12); border-color: var(--white); }
+
+.insc-hero { position: relative; padding: 7.5rem 0 calc(var(--corte) + 0.5rem); background: var(--ink); color: var(--white); overflow: hidden; }
+.insc-hero::before { content: ''; position: absolute; inset: 0; background: radial-gradient(55% 80% at 85% 20%, rgba(0, 150, 255, 0.22), transparent 62%), radial-gradient(45% 60% at 5% 105%, rgba(245, 200, 0, 0.12), transparent 60%); }
+.insc-hero .container { position: relative; z-index: 2; }
+.insc-hero .tag { color: var(--white); }
+.insc-hero h1 { font-size: clamp(2.2rem, 4vw, 3.5rem); font-weight: 700; line-height: 1.08; letter-spacing: -0.02em; margin-bottom: 1rem; }
+.insc-lead { max-width: 38rem; font-size: 1.1rem; color: rgba(255,255,255,0.88); }
+.insc-casas { position: absolute; z-index: 1; right: var(--margem); bottom: calc(var(--corte) + 1.25rem); width: clamp(7rem, 12vw, 13rem); }
+
+/* Fundo colorido em volta dos cartões */
+.insc-lista { position: relative; z-index: 4; clip-path: inset(-8rem 0 0 0); min-height: 0; padding: 4rem 0 7rem; background: var(--t-amarelo); }   /* recorta as formas do fundo, mas deixa a casa do logo passar por cima do telhado */
+.insc-hero .hero-telhado { background: var(--t-amarelo); }
+.insc-lista::before { content: ''; position: absolute; left: -9rem; bottom: -11rem; width: 30rem; height: 30rem; background: var(--t-verde); border-radius: 0 100% 0 0; }
+.insc-lista::after { content: ''; position: absolute; right: -6rem; top: 4rem; width: 26rem; height: 26rem; background: var(--t-azul); border-radius: 0 0 0 100%; }
+.insc-lista .container { position: relative; z-index: 2; }
+.insc-lista .atravessa { z-index: 3; left: calc(var(--margem) - 1.875rem); top: -4.5rem; width: clamp(5rem, 7vw, 7.5rem); }
+
+.insc-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr)); gap: 2rem; }
+/* Cartão simples: branco, com a cor da opção em um detalhe (barra lateral e ícone) */
+.insc-card { display: flex; flex-direction: column; height: 100%; min-height: 27rem; padding: 2.4rem 2rem 2rem; background: var(--white); border-left: 0.5rem solid var(--c-casa); border-radius: 0.4rem 1.75rem 0.4rem 1.75rem; box-shadow: 0 0.5rem 1.25rem -0.5rem rgba(11, 31, 58, 0.25); transition: transform 0.3s ease, box-shadow 0.3s ease; }
+.insc-card:hover { transform: translateY(-0.3rem); box-shadow: var(--shadow-lg); }
+.insc-icone { display: block; width: 3.6rem; height: 3.6rem; margin-bottom: 1.6rem; background: var(--c-casa); }
+.cor-azul .insc-icone     { clip-path: polygon(0 14%, 100% 0, 100% 100%, 0 100%); }
+.cor-verde .insc-icone    { border-radius: 1.8rem 1.8rem 0 0; }
+.cor-vermelho .insc-icone { clip-path: polygon(50% 0, 100% 26%, 100% 100%, 0 100%, 0 26%); }
+.cor-amarelo .insc-icone  { clip-path: polygon(0 0, 38% 0, 38% 30%, 70% 30%, 70% 60%, 100% 60%, 100% 100%, 0 100%); }
+.insc-card h2 { font-size: 1.7rem; line-height: 1.2; color: var(--ink); margin-bottom: 0.6rem; }
+.insc-card p { font-size: 1.05rem; line-height: 1.55; color: var(--text-lt); margin-bottom: 2rem; }
+.insc-btn { margin-top: auto; align-self: flex-start; display: inline-flex; align-items: center; padding: 0.85rem 1.6rem; font-size: 1rem; border-radius: 0.4rem; background: var(--c-casa); color: var(--c-txt); font-family: var(--font-titulo); font-weight: 700; font-size: 0.92rem; }
+a.insc-btn:hover { transform: translateY(-2px); box-shadow: var(--shadow-md); }
+.insc-btn.is-breve { background: var(--gray-lt); color: var(--text-lt); cursor: default; }
+.insc-aviso { margin-top: 2.5rem; }
+
+@media (max-width: 768px) {
+	.insc-hero { padding: 6.5rem 0 calc(var(--corte) + 1rem); }
+	.insc-casas { display: none; }
+	.insc-lista { min-height: 0; padding: 2.5rem 0 5rem; }
+	.insc-card { min-height: 0; padding: 2rem 1.6rem 1.8rem; }
+	.insc-lista::before { width: 18rem; height: 18rem; left: -6rem; bottom: -7rem; }
+	.insc-lista::after { width: 14rem; height: 14rem; right: -4rem; top: 2rem; }
+	.insc-grid { gap: 1.25rem; }
 }

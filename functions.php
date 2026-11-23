@@ -11,7 +11,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define( 'ATHIS_VERSION', '0.7' );
+define( 'ATHIS_VERSION', '0.8' );
 define( 'ATHIS_LIMITE_PDF_MB', 50 );
 
 /* ------------------------------------------------------------------
@@ -535,3 +535,6 @@ add_action( 'init', function () {
 
 /* Dados de exemplo para a apresentação */
 require_once get_template_directory() . '/inc/demo-data.php';
+
+/* Página de inscrições (links para formulários do Google) */
+require_once get_template_directory() . '/inc/inscricoes.php';

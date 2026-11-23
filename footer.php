@@ -18,7 +18,7 @@ $athis_home = is_front_page() ? '' : home_url( '/' );
           <a class="footer-logo" href="<?php echo esc_url( home_url( '/' ) ); ?>">
             <img src="<?php echo esc_url( get_template_directory_uri() . '/assets/img/logo-athis.png' ); ?>" width="900" height="295" alt="ATHIS UFSC - Residência em Arquitetura e Urbanismo" loading="lazy">
           </a>
-          <p style="font-size:0.875rem; margin-bottom:24px; max-width:300px;">Plataforma Institucional em Arquitetura, Urbanismo e Assessoria Técnica. Universidade Federal de Santa Catarina.</p>
+          <p style="font-size:0.875rem; margin-bottom:12px; max-width:300px;">Plataforma Institucional em Arquitetura, Urbanismo e Assessoria Técnica. Universidade Federal de Santa Catarina.</p>
           <p style="font-size:0.875rem;">Contato: athis@contato.ufsc.br<br>Florianópolis, SC - Brasil</p>
         </div>
         <div>
@@ -42,9 +42,9 @@ $athis_home = is_front_page() ? '' : home_url( '/' );
         <div>
           <h5>Participe</h5>
           <div class="footer-links">
-            <a href="#">Seja um voluntário</a>
-            <a href="#">Edital de Bolsas</a>
-            <a href="#">Apoie um projeto</a>
+            <a href="<?php echo esc_url( athis_inscricoes_pagina_url() ); ?>">Seja um voluntário</a>
+            <a href="<?php echo esc_url( athis_inscricoes_pagina_url() ); ?>">Edital de Bolsas</a>
+            <a href="<?php echo esc_url( athis_inscricoes_pagina_url() ); ?>">Apoie um projeto</a>
           </div>
         </div>
       </div>
